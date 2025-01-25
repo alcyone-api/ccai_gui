@@ -1,0 +1,39 @@
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  @keyframes rotate-clockwise-fast {
+    from { transform: rotate(0deg) rotateX(0deg) rotateY(0deg); }
+    to { transform: rotate(360deg) rotateX(360deg) rotateY(360deg); }
+  }
+  
+  @keyframes rotate-counterclockwise-fast {
+    from { transform: rotate(360deg) rotateX(360deg) rotateY(360deg); }
+    to { transform: rotate(0deg) rotateX(0deg) rotateY(0deg); }
+  }
+  
+  @keyframes particle-trail {
+    from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+  }
+  
+  .animate-pulse {
+    animation: pulse 3s infinite;
+  }
+  
+  .animate-rotate-clockwise-fast {
+    animation: rotate-clockwise-fast 10s linear infinite;
+  }
+  
+  .animate-rotate-counterclockwise-fast {
+    animation: rotate-counterclockwise-fast 15s linear infinite;
+  }
+  
+  .animate-particle-trail {
+    animation: particle-trail 10s linear infinite;
+  }
+  
+  .animate-rotate-slow {
+    animation: rotate-clockwise-fast 30s linear infinite;
+  }
