@@ -1,8 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { FaBars, FaTimes } from 'react-icons/fa'; // Import hamburger and close icons
 import ccaiLogo from '../../assets/ccai_logo.svg'; // Adjust the path to your logo
+import logo1 from '../../assets/logo1.svg'; // Adjust the paths to your logos
+import logo2 from '../../assets/logo2.svg';
+import logo3 from '../../assets/logo3.svg';
+import logo4 from '../../assets/logo4.svg';
+import logo5 from '../../assets/logo5.svg';
 
 const HeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to control menu visibility
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -72,10 +79,22 @@ const HeroSection = () => {
       <nav className="relative z-50 px-6 py-4 backdrop-blur-md border-b border-orange-500/30 bg-gradient-to-r from-orange-500/50 to-[#201f1e]/50">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center">
-            <img src={ccaiLogo} alt="CodeCraft AI Logo" className="h-12 w-auto mr-4" />
-            <div className="text-2xl font-tomorrow font-bold text-gray-100">CodeCraft AI</div>
+            <img src={ccaiLogo} alt="CodeCraft AI Logo" className="h-8 md:h-12 w-auto mr-4" />
+            <div className="text-xl md:text-2xl font-tomorrow font-bold text-gray-100">CodeCraft AI</div>
           </div>
-          <div className="flex space-x-4">
+
+          {/* Hamburger Menu Icon (Mobile) */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-100 focus:outline-none"
+            >
+              {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            </button>
+          </div>
+
+          {/* Menu Items (Desktop) */}
+          <div className="hidden md:flex space-x-4">
             <button className="bg-orange-500 font-tomorrow hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20">
               Connect Wallet
             </button>
@@ -84,22 +103,53 @@ const HeroSection = () => {
             </button>
           </div>
         </div>
+
+        {/* Mobile Menu (Collapsible) */}
+        {isMenuOpen && (
+          <div className="md:hidden mt-4 space-y-2">
+            <button className="w-full bg-orange-500 font-tomorrow hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20">
+              Connect Wallet
+            </button>
+            <button className="w-full bg-gray-800 font-tomorrow hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-gray-800/20">
+              GitHub Login
+            </button>
+          </div>
+        )}
       </nav>
 
       {/* Hero Content */}
-      <div className="relative z-40 flex items-center justify-center min-h-[calc(100vh-76px)] px-4">
-        <div className="text-center max-w-4xl space-y-8">
-            <h1 className="font-tomorrow text-5xl md:text-7xl font-bold text-gray-100 leading-tight animate-fade-in-up">
+      <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
+        <div className="text-center max-w-4xl space-y-6 md:space-y-8">
+          <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-gray-100 leading-tight animate-fade-in-up">
             Create the next <br />
             <span className="font-tomorrow bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent"> big thing.</span>
-            </h1>
-          <p className="font-tomorrow text-xl text-gray-300/90 max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-100">
+          </h1>
+          <p className="font-tomorrow text-lg md:text-xl text-gray-300/90 max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-100">
             Dream it. Deploy it. Unleash your creativity with CodeCraft AI, the ultimate team of AI-powered coding agents.
           </p>
           <div className="animate-fade-in-up delay-200">
-            <button className="font-tomorrow bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20">
+            <button className="font-tomorrow bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20">
               Get Started
             </button>
+          </div>
+
+          {/* Logo Section */}
+          <div className="flex justify-center space-x-6 md:space-x-8 md:mt-16 animate-fade-in-up delay-300" style={{ marginTop: '50px' }}>
+            <a href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer">
+              <img src={logo1} alt="Logo 1" className="h-6 md:h-8 w-auto filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300" />
+            </a>
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer">
+              <img src={logo2} alt="Logo 2" className="h-6 md:h-8 w-auto filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300" />
+            </a>
+            <a href="https://openai.com/" target="_blank" rel="noopener noreferrer">
+              <img src={logo3} alt="Logo 3" className="h-6 md:h-8 w-auto filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300" />
+            </a>
+            <a href="https://solana.com/" target="_blank" rel="noopener noreferrer">
+              <img src={logo4} alt="Logo 4" className="h-6 md:h-8 w-auto filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300" />
+            </a>
+            <a href="https://react.dev/" target="_blank" rel="noopener noreferrer">
+              <img src={logo5} alt="Logo 5" className="h-6 md:h-8 w-auto filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300" />
+            </a>
           </div>
         </div>
       </div>
@@ -108,6 +158,13 @@ const HeroSection = () => {
       <div className="absolute inset-0 z-0 opacity-10 [mask-image:radial-gradient(ellipse_at_center,white_20%,transparent_75%)]">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCI+PHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSJ0cmFuc3BhcmVudCIvPjxwYXRoIGQ9Ik0wIDBoNTB2NTBIMHoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+')]"></div>
       </div>
+
+      {/* Copyright Footer */}
+      <footer className="relative z-40 text-center py-6 bg-[#201f1e]/50 backdrop-blur-md border-t border-orange-500/30">
+        <p className="font-tomorrow text-sm text-gray-300/80">
+          &copy; {new Date().getFullYear()} CodeCraft AI. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 };
