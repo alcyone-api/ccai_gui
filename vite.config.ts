@@ -28,7 +28,6 @@ export default defineConfig({
           reactIcons: ['react-icons'],
           reactRouter: ['react-router-dom'],
           vite: ['vite'], // Optional: Split Vite runtime
-          // Add other libraries as needed
         },
       },
     },
