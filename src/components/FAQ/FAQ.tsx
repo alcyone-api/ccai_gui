@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Background from '../Background/Background'; // Import the Background component
 
 const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -35,33 +36,45 @@ const FAQ = () => {
   };
 
   return (
-    <div className="min-h-screen bg-primary text-textPrimary py-16 px-4 md:px-8">
-      <div className="mt-24 max-w-4xl mx-auto font-tomorrow">
-        <h1 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
-          Frequently Asked Questions
-        </h1>
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className="bg-secondary rounded-lg shadow-lg overflow-hidden transition-all duration-300"
-            >
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full text-left p-6 flex items-center justify-between focus:outline-none"
+    <div className="relative min-h-screen bg-primary overflow-hidden">
+      {/* Background Component */}
+      <Background />
+
+      {/* FAQ Content */}
+      <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32">
+        <div className="max-w-4xl mx-auto font-tomorrow">
+          <h1 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent animate-fade-in-up">
+            Frequently Asked Questions
+          </h1>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="bg-secondary rounded-lg shadow-lg overflow-hidden animate-fade-in-up"
               >
-                <h2 className="text-lg md:text-xl font-semibold">{faq.question}</h2>
-                <span className="transform transition-transform duration-300">
-                  {activeIndex === index ? '−' : '+'}
-                </span>
-              </button>
-              {activeIndex === index && (
-                <div className="p-6 pt-0 text-textPrimary/80">
-                  <p>{faq.answer}</p>
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full text-left p-6 flex items-center justify-between focus:outline-none"
+                >
+                  <h2 className="text-lg md:text-xl font-semibold text-accent">
+                    {faq.question}
+                  </h2>
+                  <span className="text-accent transform transition-transform duration-300">
+                    {activeIndex === index ? '−' : '+'}
+                  </span>
+                </button>
+                <div
+                  className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                    activeIndex === index ? 'max-h-96' : 'max-h-0'
+                  }`}
+                >
+                  <div className="p-6 pt-0 text-textPrimary/80">
+                    <p>{faq.answer}</p>
+                  </div>
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

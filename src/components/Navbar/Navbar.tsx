@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ccaiLogo from '../../assets/ccai_logo.svg';
+const gh = 'https://static.cdnlogo.com/logos/g/69/github-icon.svg';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,9 +39,14 @@ const Navbar = () => {
             Connect Wallet
           </button>
           <button
-            className="font-tomorrow bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/30 border border-accent hover:shadow-accent/50 hover:border-accent/80"
+            className="font-tomorrow bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-md shadow-accent/10 hover:shadow-accent/20 border border-accent/20 hover:border-accent/40 flex items-center space-x-2"
           >
-            GitHub Login
+            <img
+              src={gh}
+              alt="GitHub"
+              className="h-4 w-4 md:h-4 md:w-4 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
+            />
+            <span>GitHub Login</span>
           </button>
         </div>
 
@@ -68,7 +74,7 @@ const Navbar = () => {
             Connect Wallet
           </button>
           <button
-            className="w-full font-tomorrow bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/30 border border-accent hover:shadow-accent/50 hover:border-accent/80"
+            className="w-full font-tomorrow bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-md shadow-accent/10 hover:shadow-accent/20 border border-accent/20 hover:border-accent/40"
           >
             GitHub Login
           </button>

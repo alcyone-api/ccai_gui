@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FaLightbulb, FaCode, FaRocket } from 'react-icons/fa'; // Importing icons from react-icons
+import Background from '../Background/Background'; // Import the Background component
 
 const PromptingInterface = () => {
   const [prompt, setPrompt] = useState(''); // State to hold the user's prompt
@@ -14,23 +15,11 @@ const PromptingInterface = () => {
 
   return (
     <div className="relative min-h-screen bg-primary overflow-hidden">
-      {/* Particle Canvas (Reuse from HeroSection) */}
-      <canvas
-        className="absolute inset-0 w-full h-full opacity-20 z-0"
-        width={typeof window !== 'undefined' ? window.innerWidth : 0}
-        height={typeof window !== 'undefined' ? window.innerHeight : 0}
-      />
-
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/90 to-primary/30 z-10" />
-
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 z-0 opacity-10 [mask-image:radial-gradient(ellipse_at_center,white_20%,transparent_75%)]">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCI+PHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSJ0cmFuc3BhcmVudCIvPjxwYXRoIGQ9Ik0wIDBoNTB2NTBIMHoiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+')]"></div>
-      </div>
+      {/* Background Component */}
+      <Background />
 
       {/* Content */}
-      <div className="mt-8 relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
+      <div className="mt-10 relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
         <div className="text-center max-w-4xl space-y-4 md:space-y-8">
           <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-textPrimary leading-tight animate-fade-in-up">
             Generate Project
