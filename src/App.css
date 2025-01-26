@@ -9,6 +9,12 @@
   color: var(--textPrimary);
 }
 
+/* Reset footer styles to avoid inheritance issues */
+footer {
+  background-color: inherit; /* Reset background */
+  color: inherit; /* Reset text color */
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

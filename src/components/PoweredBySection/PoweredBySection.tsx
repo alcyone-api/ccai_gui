@@ -3,7 +3,7 @@ const PoweredBySection = () => {
   return (
     <div className="animate-fade-in-up delay-200">
       {/* Glow Container */}
-      <div className="relative bg-gradient-to-br from-primary/90 to-secondary p-6 md:p-8 rounded-2xl shadow-2xl border border-textPrimary/50 hover:border-accent/50 transition-all duration-300 animate-gradient-glow">
+      <div className="relative bg-gradient-to-br from-primary/90 to-secondary p-6 md:p-8 rounded-2xl shadow-2xl border border-textPrimary/50 hover:border-accent/50 transition-all duration-300 animate-gradient-glow bg-opacity-30">
         {/* "Powered By" Text and Logo */}
         <div className="flex flex-col items-center justify-center space-y-4">
           {/* "Powered By" Text */}

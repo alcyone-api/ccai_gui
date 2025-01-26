@@ -23,6 +23,9 @@ export default {
         "rotate-counterclockwise-fast": "rotate-counterclockwise-fast 15s linear infinite",
         "particle-trail": "particle-trail 10s linear infinite",
         "gradient-glow": "gradient-glow 3s infinite ease-in-out",
+        "zoom-in": "zoomIn 0.3s ease-out forwards",
+        "rotate-very-slow": "rotate-very-slow 60s linear infinite", // Very slow rotation
+        "pulse-orange-bright": "pulseOrangeBright 6s infinite ease-in-out", // Bright orange pulsing
       },
       fontFamily: {
         tomorrow: ['Tomorrow', 'sans-serif'],
@@ -33,8 +36,8 @@ export default {
           "100%": { opacity: 1, transform: "translateY(0)" },
         },
         glow: {
-          "0%, 100%": { boxShadow: "0 0 10px rgba(254, 129, 39, 0.3)" },
-          "50%": { boxShadow: "0 0 20px rgba(254, 129, 39, 0.6)" },
+          "0%, 100%": { boxShadow: "0 0 10px rgba(0, 123, 255, 0.3)" },
+          "50%": { boxShadow: "0 0 20px rgba(0, 123, 255, 0.6)" },
         },
         "zoom-in-out": {
           "0%, 100%": { transform: "scale(1)" },
@@ -49,12 +52,12 @@ export default {
           "50%": { opacity: 0.7 },
         },
         "rotate-clockwise-fast": {
-          from: { transform: "rotate(0deg) rotateX(0deg) rotateY(0deg)" },
-          to: { transform: "rotate(360deg) rotateX(360deg) rotateY(360deg)" },
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
         },
         "rotate-counterclockwise-fast": {
-          from: { transform: "rotate(360deg) rotateX(360deg) rotateY(360deg)" },
-          to: { transform: "rotate(0deg) rotateX(0deg) rotateY(0deg)" },
+          from: { transform: "rotate(360deg)" },
+          to: { transform: "rotate(0deg)" },
         },
         "particle-trail": {
           from: { transform: "rotate(0deg) translateX(80px) rotate(0deg)" },
@@ -68,8 +71,19 @@ export default {
             boxShadow: "0 0 25px 10px rgba(0, 123, 255, 0.8), 0 0 40px 15px rgba(254, 129, 39, 0.5)",
           },
         },
+        zoomIn: {
+          "0%": { opacity: 0, transform: "scale(0.9)" },
+          "100%": { opacity: 1, transform: "scale(1)" },
+        },
+        "rotate-very-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        pulseOrangeBright: {
+          "0%, 100%": { opacity: 0.6 }, // Brighter base opacity
+          "50%": { opacity: 1 }, // Maximum brightness at peak
+        },
       },
-      // New custom styles
       boxShadow: {
         'input': '0 0 0 2px rgba(254, 129, 39, 0.5)',
         'card': '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
