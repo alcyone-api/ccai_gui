@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { FaLightbulb, FaCode, FaRocket } from 'react-icons/fa'; // Importing icons from react-icons
 
 const PromptingInterface = () => {
   const [prompt, setPrompt] = useState(''); // State to hold the user's prompt
-  const [appType, setAppType] = useState('React Python'); // State to hold the selected app type
-  const [deploymentType, setDeploymentType] = useState('Docker Container'); // State to hold the selected deployment type
+  const [programmingLanguage, setProgrammingLanguage] = useState('JavaScript'); // State to hold the selected programming language
+  const [infrastructure, setInfrastructure] = useState('AWS'); // State to hold the selected infrastructure
 
   const handleGenerate = () => {
     // Handle the generate button click
-    console.log('Generating code for:', prompt, appType, deploymentType);
+    console.log('Generating code for:', prompt, programmingLanguage, infrastructure);
     // You can add your logic here to send the prompt and options to the backend
   };
 
@@ -28,33 +29,41 @@ const PromptingInterface = () => {
 
         {/* Dashboard Elements */}
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-          {/* App Type Dropdown */}
+          {/* Programming Language Dropdown */}
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-300">App Type</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3"> {/* Added mb-3 for more space */}
+              Programming Language
+            </label>
             <select
               className="w-full p-2 bg-gray-800 text-gray-100 rounded-lg border border-orange-500/50 focus:border-orange-500 focus:outline-none"
-              value={appType}
-              onChange={(e) => setAppType(e.target.value)}
+              value={programmingLanguage}
+              onChange={(e) => setProgrammingLanguage(e.target.value)}
             >
-              <option value="React Python">React Python</option>
-              <option value="React Node.js">React Node.js</option>
-              <option value="Vue.js Django">Vue.js Django</option>
-              <option value="Angular Flask">Angular Flask</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="Python">Python</option>
+              <option value="Java">Java</option>
+              <option value="C#">C#</option>
+              <option value="Go">Go</option>
+              <option value="Ruby">Ruby</option>
             </select>
           </div>
 
-          {/* Deployment Type Dropdown */}
+          {/* Infrastructure Dropdown */}
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-300">Deployment Type</label>
+            <label className="block text-sm font-medium text-gray-300 mb-3"> {/* Added mb-3 for more space */}
+              Infrastructure
+            </label>
             <select
               className="w-full p-2 bg-gray-800 text-gray-100 rounded-lg border border-orange-500/50 focus:border-orange-500 focus:outline-none"
-              value={deploymentType}
-              onChange={(e) => setDeploymentType(e.target.value)}
+              value={infrastructure}
+              onChange={(e) => setInfrastructure(e.target.value)}
             >
-              <option value="Docker Container">Docker Container</option>
-              <option value="Desktop App">Desktop App</option>
-              <option value="Mobile App">Mobile App</option>
-              <option value="Web App">Web App</option>
+              <option value="AWS">AWS</option>
+              <option value="Azure">Azure</option>
+              <option value="Google Cloud">Google Cloud</option>
+              <option value="Docker">Docker</option>
+              <option value="Kubernetes">Kubernetes</option>
+              <option value="Terraform">Terraform</option>
             </select>
           </div>
         </div>
@@ -68,12 +77,36 @@ const PromptingInterface = () => {
         </button>
 
         {/* Instructions Section */}
-        <div className="text-left text-gray-300">
-          <h2 className="text-xl font-bold mb-2">Instructions</h2>
-          <ul className="list-disc list-inside">
-            <li>Describe your app idea in the text box above.</li>
-            <li>Select the appropriate app type and deployment type from the dropdowns.</li>
-            <li>Click "Generate Code" to create your app.</li>
+        <div className="w-full p-6 bg-gray-800/50 border border-gray-700/50 rounded-lg shadow-lg backdrop-blur-sm">
+          <h2 className="text-xl font-bold mb-4 text-orange-500">Instructions</h2>
+          <ul className="space-y-4">
+            <li className="flex items-start space-x-4">
+              <div className="p-2 bg-orange-500/10 rounded-lg flex-shrink-0">
+                <FaLightbulb className="w-6 h-6 text-orange-500" />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-gray-100 text-left">Describe your app idea in the text box above.</p>
+                <p className="text-sm text-gray-400 text-left">Be as detailed as possible to get the best results.</p>
+              </div>
+            </li>
+            <li className="flex items-start space-x-4">
+              <div className="p-2 bg-orange-500/10 rounded-lg flex-shrink-0">
+                <FaCode className="w-6 h-6 text-orange-500" />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-gray-100 text-left">Select the appropriate programming language and infrastructure from the dropdowns.</p>
+                <p className="text-sm text-gray-400 text-left">Choose the tools and platforms that best suit your needs.</p>
+              </div>
+            </li>
+            <li className="flex items-start space-x-4">
+              <div className="p-2 bg-orange-500/10 rounded-lg flex-shrink-0">
+                <FaRocket className="w-6 h-6 text-orange-500" />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-gray-100 text-left">Click "Generate Code" to create your app.</p>
+                <p className="text-sm text-gray-400 text-left">Sit back and watch your idea come to life!</p>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
