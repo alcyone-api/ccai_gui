@@ -3,11 +3,11 @@ import { FaBars, FaTimes } from 'react-icons/fa'; // Import hamburger and close 
 import ccaiLogo from '../../assets/ccai_logo.svg'; // Adjust the path to your logo
 
 const logo1 = 'https://static.cdnlogo.com/logos/d/9/deepseek-icon.svg';
-const logo2 = 'https://static.cdnlogo.com/logos/g/69/github-icon.svg'
-const logo3 = 'https://static.cdnlogo.com/logos/o/38/openai.svg'
-const logo4 = 'https://static.cdnlogo.com/logos/s/85/solana.svg'
-const logo5 = 'https://static.cdnlogo.com/logos/r/63/react.svg'
-const largeLogo = 'https://static.cdnlogo.com/logos/d/9/deepseek.svg'
+const logo2 = 'https://static.cdnlogo.com/logos/g/69/github-icon.svg';
+const logo3 = 'https://static.cdnlogo.com/logos/o/38/openai.svg';
+const logo4 = 'https://static.cdnlogo.com/logos/s/85/solana.svg';
+const logo5 = 'https://static.cdnlogo.com/logos/r/63/react.svg';
+const largeLogo = 'https://static.cdnlogo.com/logos/d/9/deepseek.svg';
 
 const HeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -42,8 +42,8 @@ const HeroSection = () => {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      particles.forEach(particle => {
+
+      particles.forEach((particle) => {
         particle.x += particle.speedX;
         particle.y += particle.speedY;
 
@@ -100,7 +100,10 @@ const HeroSection = () => {
             <button className="bg-orange-500 font-tomorrow hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20">
               Connect Wallet
             </button>
-            <button className="bg-gray-800 font-tomorrow hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-gray-800/20">
+            <button
+              className="bg-gray-800 font-tomorrow hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/30 border border-orange-500 hover:shadow-orange-500/50 hover:border-orange-400"
+              style={{ boxShadow: '0 0 8px 2px rgba(249, 115, 22, 0.5)' }}
+            >
               GitHub Login
             </button>
           </div>
@@ -112,7 +115,10 @@ const HeroSection = () => {
             <button className="w-full bg-orange-500 font-tomorrow hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20">
               Connect Wallet
             </button>
-            <button className="w-full bg-gray-800 font-tomorrow hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-gray-800/20">
+            <button
+              className="w-full bg-gray-800 font-tomorrow hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/30 border border-orange-500 hover:shadow-orange-500/50 hover:border-orange-400"
+              style={{ boxShadow: '0 0 8px 2px rgba(249, 115, 22, 0.5)' }}
+            >
               GitHub Login
             </button>
           </div>
@@ -130,30 +136,26 @@ const HeroSection = () => {
             Dream it. Deploy it. Unleash your creativity with CodeCraft AI, the ultimate team of AI-powered coding agents.
           </p>
 
-        {/* "Powered By" Section */}
-        <div className="animate-fade-in-up delay-200">
-        {/* Glow Container */}
-          <div className="relative bg-gradient-to-br from-[#1e1e1e] to-[#2c2c2c] p-6 md:p-8 rounded-2xl shadow-2xl border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 animate-gradient-glow">
-            {/* "Powered By" Text and Logo */}
-            <div className="flex flex-col items-center justify-center space-y-4">
-              {/* "Powered By" Text */}
-              <span className="font-tomorrow text-xl md:text-2xl font-bold text-gray-300">
-                powered by
-              </span>
+          {/* "Powered By" Section */}
+          <div className="animate-fade-in-up delay-200">
+            {/* Glow Container */}
+            <div className="relative bg-gradient-to-br from-[#1e1e1e] to-[#2c2c2c] p-6 md:p-8 rounded-2xl shadow-2xl border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 animate-gradient-glow">
+              {/* "Powered By" Text and Logo */}
+              <div className="flex flex-col items-center justify-center space-y-4">
+                {/* "Powered By" Text */}
+                <span className="font-tomorrow text-xl md:text-2xl font-bold text-gray-300">
+                  powered by
+                </span>
 
-              {/* Logo with Zoom and Hover Animation */}
-              <div className="animate-zoom-in-out hover:animate-float">
-              <a href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer">
-                <img
-                  src={largeLogo}
-                  alt="Large Logo"
-                  className="h-16 md:h-20 w-auto"
-                />
-              </a>
+                {/* Logo with Zoom and Hover Animation */}
+                <div className="animate-zoom-in-out hover:animate-float">
+                  <a href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer">
+                    <img src={largeLogo} alt="Large Logo" className="h-16 md:h-20 w-auto" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
           {/* Get Started Button */}
           <div className="animate-fade-in-up delay-300">
@@ -189,7 +191,7 @@ const HeroSection = () => {
       </div>
 
       {/* Copyright Footer */}
-      <footer className="relative z-40 text-center py-6 bg-[#201f1e]/50 backdrop-blur-md border-t border-orange-500/30">
+      <footer className="fixed bottom-0 left-0 right-0 z-40 text-center py-6 bg-[#201f1e]/50 backdrop-blur-md border-t border-orange-500/30">
         <p className="font-tomorrow text-sm text-gray-300/80">
           &copy; {new Date().getFullYear()} CodeCraft AI. All rights reserved.
         </p>
