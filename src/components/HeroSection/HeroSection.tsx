@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa'; // Import hamburger and close icons
 import ccaiLogo from '../../assets/ccai_logo.svg'; // Adjust the path to your logo
-import logo1 from '../../assets/logo1.svg'; // Adjust the paths to your logos
-import logo2 from '../../assets/logo2.svg';
-import logo3 from '../../assets/logo3.svg';
-import logo4 from '../../assets/logo4.svg';
-import logo5 from '../../assets/logo5.svg';
-import largeLogo from '../../assets/large_logo.svg'; // Add your large logo here
+
+const logo1 = 'https://static.cdnlogo.com/logos/d/9/deepseek-icon.svg';
+const logo2 = 'https://static.cdnlogo.com/logos/g/69/github-icon.svg'
+const logo3 = 'https://static.cdnlogo.com/logos/o/38/openai.svg'
+const logo4 = 'https://static.cdnlogo.com/logos/s/85/solana.svg'
+const logo5 = 'https://static.cdnlogo.com/logos/r/63/react.svg'
+const largeLogo = 'https://static.cdnlogo.com/logos/d/9/deepseek.svg'
 
 const HeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
