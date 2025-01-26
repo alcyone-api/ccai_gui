@@ -120,7 +120,7 @@ const HeroSection = () => {
 
       {/* Hero Content */}
       <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
-        <div className="text-center max-w-4xl space-y-6 md:space-y-8">
+        <div className="text-center max-w-4xl space-y-8 md:space-y-12">
           <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-gray-100 leading-tight animate-fade-in-up">
             Create the next <br />
             <span className="font-tomorrow bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent"> big thing.</span>
@@ -129,9 +129,9 @@ const HeroSection = () => {
             Dream it. Deploy it. Unleash your creativity with CodeCraft AI, the ultimate team of AI-powered coding agents.
           </p>
 
-          {/* "Powered By" Section */}
-          <div className="animate-fade-in-up delay-200">
-          {/* Glow Container */}
+        {/* "Powered By" Section */}
+        <div className="animate-fade-in-up delay-200">
+        {/* Glow Container */}
           <div className="relative bg-gradient-to-br from-[#1e1e1e] to-[#2c2c2c] p-6 md:p-8 rounded-2xl shadow-2xl border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 animate-gradient-glow">
             {/* "Powered By" Text and Logo */}
             <div className="flex flex-col items-center justify-center space-y-4">
