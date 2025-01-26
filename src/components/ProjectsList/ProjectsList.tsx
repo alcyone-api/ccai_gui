@@ -16,7 +16,7 @@ const ProjectsList = () => {
   const [projects, setProjects] = useState<Project[]>([
     { id: 1, name: 'E-commerce App', description: 'A full-stack e-commerce platform built with React and Node.js.', githubRepo: 'ecommerce-app' },
     { id: 2, name: 'Portfolio Website', description: 'A personal portfolio website showcasing projects and skills.', githubRepo: 'portfolio-website' },
-    { id: 3, name: 'Chatbot', description: 'An AI-powered chatbot for customer support using Python and TensorFlow.', githubRepo: 'chatbot-ai' },
+    { id: 3, name: 'AI Chatbot', description: 'An AI-powered chatbot for customer support using Python and TensorFlow.', githubRepo: 'chatbot-ai' },
   ]);
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
