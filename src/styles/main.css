@@ -37,3 +37,67 @@
   .animate-rotate-slow {
     animation: rotate-clockwise-fast 30s linear infinite;
   }
+
+/* Glow Animation */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(254, 129, 39, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(254, 129, 39, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(254, 129, 39, 0.3);
+  }
+}
+
+/* Glow Animation */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(254, 129, 39, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(254, 129, 39, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(254, 129, 39, 0.3);
+  }
+}
+
+.animate-glow {
+  animation: glow 3s infinite ease-in-out;
+}
+
+/* Zoom Animation */
+@keyframes zoom-in-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-zoom-in-out {
+  animation: zoom-in-out 3s infinite ease-in-out;
+}
+
+/* Float Animation */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.hover\:animate-float:hover {
+  animation: float 2s infinite ease-in-out;
+}
