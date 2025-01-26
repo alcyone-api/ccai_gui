@@ -1,5 +1,3 @@
-import React from 'react';
-
 const logo1 = 'https://static.cdnlogo.com/logos/d/9/deepseek-icon.svg';
 const logo2 = 'https://static.cdnlogo.com/logos/g/69/github-icon.svg';
 const logo3 = 'https://static.cdnlogo.com/logos/o/38/openai.svg';
