@@ -23,13 +23,22 @@ const HeroSection = () => {
           {/* Powered By Section */}
           <PoweredBySection />
 
-          {/* Get Started Button */}
-          <div className="animate-fade-in-up delay-300">
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up delay-300">
+            {/* Get Started Button */}
             <Link
               to="/prompt"
               className="font-tomorrow bg-accent hover:bg-accent/90 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
             >
               Get Started
+            </Link>
+
+            {/* Learn More Button */}
+            <Link
+              to="/docs"
+              className="font-tomorrow bg-transparent border-2 border-accent text-accent hover:bg-accent/10 px-6 py-3 md:px-8 md:py-4 rounded-full text-base md:text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
+            >
+              Learn More
             </Link>
           </div>
         </div>
