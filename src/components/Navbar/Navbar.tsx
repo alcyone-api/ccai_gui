@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaSave } from 'react-icons/fa'; // Added FaSave for the Saved Projects icon
 import { Link } from 'react-router-dom';
 import ccaiLogo from '../../assets/ccai_logo.svg';
 const gh = 'https://static.cdnlogo.com/logos/g/69/github-icon.svg';
@@ -19,10 +19,17 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Generate Project, Docs and FAQ Links (Hidden on Mobile) */}
+          {/* Generate Project, Saved Projects, Docs, and FAQ Links (Hidden on Mobile) */}
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/prompt" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
               Generate Project
+            </Link>
+            <Link
+              to="/projects"
+              className="font-tomorrow text-accent/80 hover:text-accent transition-colors text-sm font-semibold flex items-center space-x-2"
+            >
+              <FaSave className="w-4 h-4" /> {/* Saved Projects icon */}
+              <span>Saved Projects</span>
             </Link>
             <Link to="/docs" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
               Docs
@@ -65,7 +72,14 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden mt-4 space-y-2">
           <Link to="/prompt" className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-bold px-4 py-2">
-              Generate Project
+            Generate Project
+          </Link>
+          <Link
+            to="/projects"
+            className="block w-full font-tomorrow text-accent/80 hover:text-accent text-sm font-semibold px-4 py-2 flex items-center space-x-2"
+          >
+            <FaSave className="w-4 h-4" /> {/* Saved Projects icon */}
+            <span>Saved Projects</span>
           </Link>
           <Link to="/docs" className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2">
             Docs
