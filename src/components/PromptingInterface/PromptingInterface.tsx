@@ -20,7 +20,7 @@ const PromptingInterface = () => {
 
       {/* Content */}
       <div className="mt-10 relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
-        <div className="text-center max-w-4xl space-y-4 md:space-y-8">
+        <div className="mb-24 text-center max-w-4xl space-y-4 md:space-y-8">
           <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-textPrimary leading-tight animate-fade-in-up">
             Generate Project
           </h1>
@@ -47,7 +47,7 @@ const PromptingInterface = () => {
                   <p className="text-sm text-textPrimary/80 text-left">Choose the tools and platforms that best suit your needs.</p>
                 </div>
               </li>
-              <li className="flex items-start space-x-6">
+              <li className="flex items-start space-x-8">
                 <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
                   <FaRocket className="w-7 h-7 text-accent" />
                 </div>
@@ -109,12 +109,14 @@ const PromptingInterface = () => {
           </div>
 
           {/* Generate Button */}
-          <button
-            className="font-tomorrow bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
-            onClick={handleGenerate}
-          >
-            Generate Project
-          </button>
+          <div className="pt-12"> {/* Added padding-top to push the button down */}
+            <button
+              className="font-tomorrow bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
+              onClick={handleGenerate}
+            >
+              Generate Project
+            </button>
+          </div>
         </div>
       </div>
     </div>

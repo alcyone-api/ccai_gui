@@ -18,9 +18,9 @@ const Docs = () => {
       <Background />
 
       {/* Docs Content */}
-      <div className="relative z-40 flex items-center justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32">
+      <div className="relative z-40 flex flex-col md:flex-row items-start justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
         {/* Floating Docs Widget */}
-        <div className="font-tomorrow w-72 bg-secondary/90 backdrop-blur-sm p-6 rounded-xl border border-accent/20 shadow-2xl mx-8 z-30">
+        <div className="font-tomorrow w-full md:w-72 bg-secondary/90 backdrop-blur-sm p-6 rounded-xl border border-accent/20 shadow-2xl md:mx-8 mb-8 md:mb-0 z-30">
           <h2 className="text-xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
             Documentation
           </h2>
@@ -43,7 +43,7 @@ const Docs = () => {
         </div>
 
         {/* Content Section */}
-        <div className="font-tomorrow w-[calc(100%-20rem)] max-w-4xl p-8 overflow-y-auto z-40">
+        <div className="font-tomorrow w-full md:w-[calc(100%-20rem)] max-w-4xl p-6 md:p-8 overflow-y-auto z-40">
           <div
             key={activeSection}
             className="animate-fade-in-up"

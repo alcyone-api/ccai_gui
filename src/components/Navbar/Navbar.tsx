@@ -64,6 +64,9 @@ const Navbar = () => {
       {/* Mobile Menu (Collapsible) */}
       {isMenuOpen && (
         <div className="md:hidden mt-4 space-y-2">
+          <Link to="/prompt" className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-bold px-4 py-2">
+              Generate Project
+          </Link>
           <Link to="/docs" className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2">
             Docs
           </Link>

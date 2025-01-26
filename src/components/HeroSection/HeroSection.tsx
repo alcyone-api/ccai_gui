@@ -11,7 +11,7 @@ const HeroSection = () => {
 
       {/* Hero Content */}
       <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32">
-        <div className="text-center max-w-4xl space-y-8 md:space-y-14">
+        <div className="text-center max-w-4xl space-y-12 md:space-y-14">
           <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-textPrimary leading-tight animate-fade-in-up">
             Create the next <br />
             <span className="font-tomorrow bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent"> big thing.</span>

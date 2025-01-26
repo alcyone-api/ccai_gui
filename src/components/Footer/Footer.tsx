@@ -8,47 +8,47 @@ const Footer = () => {
   return (
     <footer className="fixed bottom-0 left-0 right-0 z-40 bg-primary/50 backdrop-blur-md border-t border-accent/30">
       {/* Logo Section */}
-      <div className="flex justify-center items-center space-x-10 md:space-x-14 pt-6 pb-3 border-b border-accent/30">
+      <div className="flex justify-center items-center space-x-6 md:space-x-10 pt-4 pb-2 md:pt-6 md:pb-3 border-b border-accent/30">
         <a href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer">
           <img
             src={logo1}
             alt="Logo 1"
-            className="h-8 w-8 md:h-10 md:w-10 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
+            className="h-6 w-6 md:h-8 md:w-8 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
           />
         </a>
         <a href="https://openai.com/" target="_blank" rel="noopener noreferrer">
           <img
             src={logo2}
             alt="Logo 2"
-            className="h-8 w-8 md:h-10 md:w-10 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
+            className="h-6 w-6 md:h-8 md:w-8 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
           />
         </a>
         <a href="https://solana.com/" target="_blank" rel="noopener noreferrer">
           <img
             src={logo3}
             alt="Logo 3"
-            className="h-16 w-16 md:h-16 md:w-16 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
+            className="h-10 w-10 md:h-12 md:w-12 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
           />
         </a>
         <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer">
           <img
             src={logo4}
             alt="Logo 4"
-            className="h-12 w-12 md:h-14 md:w-14 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
+            className="h-8 w-8 md:h-10 md:w-10 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
           />
         </a>
         <a href="https://react.dev/" target="_blank" rel="noopener noreferrer">
           <img
             src={logo5}
             alt="Logo 5"
-            className="h-8 w-8 md:h-10 md:w-10 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
+            className="h-6 w-6 md:h-8 md:w-8 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
           />
         </a>
       </div>
 
       {/* Copyright Text */}
-      <div className="text-center py-3">
-        <p className="font-tomorrow text-sm text-textPrimary/80">
+      <div className="text-center py-2 md:py-3">
+        <p className="font-tomorrow text-xs md:text-sm text-textPrimary/80">
           &copy; {new Date().getFullYear()} CodeCraft AI. All rights reserved.
         </p>
       </div>

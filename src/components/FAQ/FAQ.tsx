@@ -41,7 +41,7 @@ const FAQ = () => {
       <Background />
 
       {/* FAQ Content */}
-      <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32">
+      <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
         <div className="max-w-4xl mx-auto font-tomorrow">
           <h1 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent animate-fade-in-up">
             Frequently Asked Questions
