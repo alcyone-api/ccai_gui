@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import PromptingInterface from '../PromptingInterface/PromptingInterface';
-import PoweredBySection from '../PoweredBySection/PoweredBySection'; // Import the new component
+import PoweredBySection from '../PoweredBySection/PoweredBySection';
 
 const HeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -60,7 +60,7 @@ const HeroSection = () => {
   }, []);
 
   const handleGetStartedClick = () => {
-    setShowPromptingInterface(true);
+    setShowPromptingInterface(true); // Show the PromptingInterface when "Get Started" is clicked
   };
 
   return (
