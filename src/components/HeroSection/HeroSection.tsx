@@ -12,10 +12,10 @@ const HeroSection = () => {
       {/* Hero Content */}
       <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32">
         <div className="text-center max-w-4xl space-y-12 md:space-y-14">
-          <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-textPrimary leading-tight animate-fade-in-up">
+        <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-gray-100 leading-tight animate-fade-in-up">
             Create the next <br />
-            <span className="font-tomorrow bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent"> big thing.</span>
-          </h1>
+            <span className="font-tomorrow bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent"> big thing.</span>
+        </h1>
           <p className="font-tomorrow text-lg md:text-xl text-textPrimary/80 max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-100">
             Dream it. Deploy it. Unleash your creativity with CodeCraft AI, the ultimate team of AI-powered coding agents.
           </p>
