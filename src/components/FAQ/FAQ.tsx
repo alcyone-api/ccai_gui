@@ -56,7 +56,12 @@ const FAQ = () => {
                   onClick={() => toggleFAQ(index)}
                   className="w-full text-left p-6 flex items-center justify-between focus:outline-none"
                 >
-                  <h2 className="text-lg md:text-xl font-semibold text-accent">
+                  {/* Updated h2 with conditional styling */}
+                  <h2
+                    className={`text-lg md:text-xl font-semibold transition-colors duration-300 ${
+                      activeIndex === index ? 'text-accent' : 'text-textPrimary'
+                    }`}
+                  >
                     {faq.question}
                   </h2>
                   <span className="text-accent transform transition-transform duration-300">
