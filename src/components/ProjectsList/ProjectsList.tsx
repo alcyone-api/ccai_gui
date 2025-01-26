@@ -43,18 +43,18 @@ const ProjectsList = () => {
       <Background />
 
       {/* Content */}
-      <div className="mt-24 mb-24 relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
+      <div className="mt-24 relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
         <div className="text-center max-w-4xl space-y-12 md:space-y-14">
           <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-textPrimary leading-tight animate-fade-in-up">
             Your Projects
           </h1>
 
           {/* Projects Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-24">
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="bg-secondary/70 backdrop-blur-md p-6 rounded-2xl border border-textPrimary/20 shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="bg-secondary/70 backdrop-blur-md p-8 rounded-2xl border border-textPrimary/20 shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[300px] max-w-[400px]"
               >
                 {/* Project Name and GitHub Repo */}
                 <div className="flex items-center justify-between mb-4">
@@ -74,7 +74,7 @@ const ProjectsList = () => {
                 </div>
 
                 {/* Project Description */}
-                <p className="font-tomorrow text-textPrimary/80 mb-4">
+                <p className="font-tomorrow text-textPrimary/80 mb-4 text-left">
                   {project.description}
                 </p>
 
