@@ -38,35 +38,22 @@
     animation: rotate-clockwise-fast 30s linear infinite;
   }
 
-/* Glow Animation */
-@keyframes glow {
-  0% {
-    box-shadow: 0 0 10px rgba(254, 129, 39, 0.3);
+  @keyframes gradient-glow {
+    0%, 100% {
+      box-shadow: 
+        0 0 20px 5px rgba(0, 123, 255, 0.5), /* Deepseek blue glow */
+        0 0 30px 10px rgba(254, 129, 39, 0.3); /* Orange glow (#fe8127) */
+    }
+    50% {
+      box-shadow: 
+        0 0 25px 10px rgba(0, 123, 255, 0.8), /* Brighter Deepseek blue glow */
+        0 0 40px 15px rgba(254, 129, 39, 0.5); /* Brighter orange glow */
+    }
   }
-  50% {
-    box-shadow: 0 0 20px rgba(254, 129, 39, 0.6);
+  
+  .animate-gradient-glow {
+    animation: gradient-glow 3s infinite ease-in-out;
   }
-  100% {
-    box-shadow: 0 0 10px rgba(254, 129, 39, 0.3);
-  }
-}
-
-/* Glow Animation */
-@keyframes glow {
-  0% {
-    box-shadow: 0 0 10px rgba(254, 129, 39, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(254, 129, 39, 0.6);
-  }
-  100% {
-    box-shadow: 0 0 10px rgba(254, 129, 39, 0.3);
-  }
-}
-
-.animate-glow {
-  animation: glow 3s infinite ease-in-out;
-}
 
 /* Zoom Animation */
 @keyframes zoom-in-out {

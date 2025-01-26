@@ -132,7 +132,7 @@ const HeroSection = () => {
           {/* "Powered By" Section */}
           <div className="animate-fade-in-up delay-200">
           {/* Glow Container */}
-          <div className="relative bg-gradient-to-br from-[#1e1e1e] to-[#2c2c2c] p-6 md:p-8 rounded-2xl shadow-2xl border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 animate-glow">
+          <div className="relative bg-gradient-to-br from-[#1e1e1e] to-[#2c2c2c] p-6 md:p-8 rounded-2xl shadow-2xl border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 animate-gradient-glow">
             {/* "Powered By" Text and Logo */}
             <div className="flex flex-col items-center justify-center space-y-4">
               {/* "Powered By" Text */}
