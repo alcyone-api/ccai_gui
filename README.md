@@ -10,4 +10,3 @@ Backlog
 -Detailed instructions
 -Twitter link
 -Remove GitHub Logo
--Get good 
