@@ -6,9 +6,9 @@ const logo5 = 'https://static.cdnlogo.com/logos/r/63/react.svg';
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 left-0 right-0 z-40 bg-[#201f1e]/50 backdrop-blur-md">
+    <footer className="fixed bottom-0 left-0 right-0 z-40 bg-primary/50 backdrop-blur-md">
       {/* Logo Section */}
-      <div className="flex justify-center items-center space-x-10 md:space-x-14 pt-6 pb-3 border-b border-orange-500/30">
+      <div className="flex justify-center items-center space-x-10 md:space-x-14 pt-6 pb-3 border-b border-accent/30">
         <a href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer">
           <img
             src={logo1}
@@ -48,7 +48,7 @@ const Footer = () => {
 
       {/* Copyright Text */}
       <div className="text-center py-3">
-        <p className="font-tomorrow text-sm text-gray-300/80">
+        <p className="font-tomorrow text-sm text-textPrimary/80">
           &copy; {new Date().getFullYear()} CodeCraft AI. All rights reserved.
         </p>
       </div>

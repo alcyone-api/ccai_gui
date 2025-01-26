@@ -1,38 +1,56 @@
 import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import ccaiLogo from '../../assets/ccai_logo.svg';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="relative z-50 px-6 py-4 backdrop-blur-md border-b border-orange-500/30 bg-gradient-to-r from-orange-500/50 to-[#201f1e]/50">
+    <nav className="fixed w-full z-50 px-6 py-4 backdrop-blur-md border-b border-accent/30 bg-gradient-to-r from-accent/50 to-primary/50">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <div className="flex items-center">
-          <img src={ccaiLogo} alt="CodeCraft AI Logo" className="h-8 md:h-12 w-auto mr-4" />
-          <div className="text-xl md:text-2xl font-tomorrow font-bold text-gray-100">CodeCraft AI</div>
+        {/* Logo and Docs/FAQ Links (Far Left) */}
+        <div className="flex items-center space-x-8">
+          <div className="flex items-center">
+            <img src={ccaiLogo} alt="CodeCraft AI Logo" className="h-8 md:h-12 w-auto mr-4" />
+            <Link to="/" className="font-tomorrow text-xl md:text-2xl font-bold text-textPrimary">
+              CodeCraft AI
+            </Link>
+          </div>
+
+          {/* Generate Project, Docs and FAQ Links (Hidden on Mobile) */}
+          <div className="hidden md:flex items-center space-x-6">
+            <Link to="/prompt" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
+              Generate Project
+            </Link>
+            <Link to="/docs" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
+              Docs
+            </Link>
+            <Link to="/faq" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
+              FAQ
+            </Link>
+          </div>
+        </div>
+
+        {/* Login Buttons (Far Right) */}
+        <div className="hidden md:flex items-center space-x-4">
+          <button className="font-tomorrow bg-accent hover:bg-accent/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20">
+            Connect Wallet
+          </button>
+          <button
+            className="font-tomorrow bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/30 border border-accent hover:shadow-accent/50 hover:border-accent/80"
+          >
+            GitHub Login
+          </button>
         </div>
 
         {/* Hamburger Menu Icon (Mobile) */}
         <div className="md:hidden">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-gray-100 focus:outline-none"
+            className="text-textPrimary focus:outline-none"
           >
             {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-          </button>
-        </div>
-
-        {/* Menu Items (Desktop) */}
-        <div className="hidden md:flex space-x-4">
-          <button className="bg-orange-500 font-tomorrow hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20">
-            Connect Wallet
-          </button>
-          <button
-            className="bg-gray-800 font-tomorrow hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/30 border border-orange-500 hover:shadow-orange-500/50 hover:border-orange-400"
-            style={{ boxShadow: '0 0 8px 2px rgba(249, 115, 22, 0.5)' }}
-          >
-            GitHub Login
           </button>
         </div>
       </div>
@@ -40,12 +58,17 @@ const Navbar = () => {
       {/* Mobile Menu (Collapsible) */}
       {isMenuOpen && (
         <div className="md:hidden mt-4 space-y-2">
-          <button className="w-full bg-orange-500 font-tomorrow hover:bg-orange-600 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/20">
+          <Link to="/docs" className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2">
+            Docs
+          </Link>
+          <Link to="/faq" className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2">
+            FAQ
+          </Link>
+          <button className="w-full font-tomorrow bg-accent hover:bg-accent/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20">
             Connect Wallet
           </button>
           <button
-            className="w-full bg-gray-800 font-tomorrow hover:bg-gray-700 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-orange-500/30 border border-orange-500 hover:shadow-orange-500/50 hover:border-orange-400"
-            style={{ boxShadow: '0 0 8px 2px rgba(249, 115, 22, 0.5)' }}
+            className="w-full font-tomorrow bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/30 border border-accent hover:shadow-accent/50 hover:border-accent/80"
           >
             GitHub Login
           </button>

@@ -1,8 +1,12 @@
+/* App.css */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  font-family: 'Tomorrow', sans-serif;
+  background-color: var(--primary);
+  color: var(--textPrimary);
 }
 
 .logo {
@@ -11,11 +15,9 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em rgba(254, 129, 39, 0.6)); /* Use accent color */
 }
 
 @keyframes logo-spin {
@@ -38,5 +40,5 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: var(--textAccent);
 }
