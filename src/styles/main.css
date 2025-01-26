@@ -37,3 +37,54 @@
   .animate-rotate-slow {
     animation: rotate-clockwise-fast 30s linear infinite;
   }
+
+  @keyframes gradient-glow {
+    0%, 100% {
+      box-shadow: 
+        0 0 20px 5px rgba(0, 123, 255, 0.5), /* Deepseek blue glow */
+        0 0 30px 10px rgba(254, 129, 39, 0.3); /* Orange glow (#fe8127) */
+    }
+    50% {
+      box-shadow: 
+        0 0 25px 10px rgba(0, 123, 255, 0.8), /* Brighter Deepseek blue glow */
+        0 0 40px 15px rgba(254, 129, 39, 0.5); /* Brighter orange glow */
+    }
+  }
+  
+  .animate-gradient-glow {
+    animation: gradient-glow 3s infinite ease-in-out;
+  }
+
+/* Zoom Animation */
+@keyframes zoom-in-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-zoom-in-out {
+  animation: zoom-in-out 3s infinite ease-in-out;
+}
+
+/* Float Animation */
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.hover\:animate-float:hover {
+  animation: float 2s infinite ease-in-out;
+}
