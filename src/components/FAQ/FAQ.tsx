@@ -7,27 +7,43 @@ const FAQ = () => {
   const faqs = [
     {
       question: 'What is CodeCraft AI?',
-      answer: 'CodeCraft AI is a platform that allows you to create and deploy AI-powered coding agents to help you build projects faster and more efficiently.',
+      answer: 'CodeCraft AI is a multi-modal, agentic Generative AI platform that helps you scope, plan, and develop software projects using advanced LLMs like OpenAI GPT-4 and DeepSeek R3. It integrates with GitHub for deployment and uses Solana for secure payments.',
     },
     {
-      question: 'How do I get started?',
-      answer: 'Click the "Get Started" button on the homepage, and you\'ll be guided through the process of creating your first AI-powered coding agent.',
+      question: 'Do I need programming experience?',
+      answer: 'CodeCraft AI is designed to be user friendly, and many non-technical users have built applications with the tool. However, some programming and infrastructure knowledge can help you better understand the generated code and make necessary adjustments.',
     },
     {
-      question: 'Is CodeCraft AI free to use?',
-      answer: 'Yes, CodeCraft AI offers a free tier with limited features. You can upgrade to a paid plan for access to advanced features and higher usage limits.',
+      question: 'How do I get started with CodeCraft AI?',
+      answer: 'To get started connect your Solana wallet. Create a project, define its scope, and let CodeCraft AI generate and deploy the code to your GitHub repository.',
+    },
+    {
+      question: 'What LLM models does CodeCraft AI support?',
+      answer: 'CodeCraft AI leverages multiple LLMs, including OpenAI and DeepSeek models. These models are used for scoping, planning, and generating code for your projects.',
+    },
+    {
+      question: 'Is my data secure with CodeCraft AI?',
+      answer: 'Yes, CodeCraft AI prioritizes privacy and security. No user data is stored without consent, and wallet metadata is never retained. All data used for model fine-tuning is anonymized.',
     },
     {
       question: 'Can I use CodeCraft AI for commercial projects?',
-      answer: 'Absolutely! CodeCraft AI is designed to help both personal and commercial projects. Check out our pricing page for more details.',
+      answer: 'Absolutely! CodeCraft AI is designed for both personal and commercial use. You can deploy projects to GitHub and use them in any context.',
+    },
+    {
+      question: 'What happens to deleted projects?',
+      answer: 'Deleted projects are permanently removed from the platform and cannot be recovered.',
+    },
+    {
+      question: 'How does CodeCraft AI handle payments?',
+      answer: 'CodeCraft AI uses the Solana blockchain for secure, fast, and low-cost payments. You can connect your Solana wallet to manage transactions.',
     },
     {
       question: 'What programming languages are supported?',
-      answer: 'CodeCraft AI currently supports Python, JavaScript, TypeScript, and Go. We’re constantly adding support for more languages.',
+      answer: 'CodeCraft AI supports a wide range of languages, including Python, JavaScript, TypeScript, and Go. The platform is constantly expanding its language support.',
     },
     {
-      question: 'How secure is my data?',
-      answer: 'We take data security very seriously. All your data is encrypted both in transit and at rest, and we comply with industry-standard security protocols.',
+      question: 'What if I encounter issues with code generation or deployment?',
+      answer: 'If you encounter issues, check your project scope, GitHub permissions, and wallet connection. If problems persist, join our community Telegram for assistance.',
     },
   ];
 
@@ -56,7 +72,6 @@ const FAQ = () => {
                   onClick={() => toggleFAQ(index)}
                   className="w-full text-left p-6 flex items-center justify-between focus:outline-none"
                 >
-                  {/* Updated h2 with conditional styling */}
                   <h2
                     className={`text-lg md:text-xl font-semibold transition-colors duration-300 ${
                       activeIndex === index ? 'text-accent' : 'text-textPrimary'

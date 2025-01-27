@@ -56,19 +56,19 @@ const Background = () => {
 
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden z-0">
-      {/* Particle Canvas */}
+      {/* Particle Canvas - Ensure it doesn't block clicks */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-20"
+        className="absolute inset-0 w-full h-full opacity-20 pointer-events-none"
         width={typeof window !== 'undefined' ? window.innerWidth : 0}
         height={typeof window !== 'undefined' ? window.innerHeight : 0}
       />
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/90 to-primary/30 z-0" />
+      {/* Gradient Overlay - Ensure it doesn't block clicks */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/90 to-primary/30 z-0 pointer-events-none" />
 
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white_20%,transparent_75%)]">
+      {/* Grid Pattern - Ensure it doesn't block clicks */}
+      <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white_20%,transparent_75%)] pointer-events-none">
         <div
           className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idHJhbnNwYXJlbnQiLz48ZyBzdHJva2U9IiNmZTgxMjciIHN0cm9rZS13aWR0aD0iMSI+PHBhdGggZD0iTTAgMGg1MDB2NTAwSDB6Ii8+PHBhdGggZD0iTTAgMGg1MDB2NTAwSDB6Ii8+PC9nPjwvc3ZnPg==')] animate-rotate-very-slow animate-pulse-orange-bright"
           style={{
