@@ -9,7 +9,6 @@ const Docs = () => {
     { id: 'getting-started', title: 'Getting Started' },
     { id: 'features', title: 'Features' },
     { id: 'privacy-security', title: 'Privacy & Security' },
-    { id: 'api-reference', title: 'API Reference' },
     { id: 'troubleshooting', title: 'Troubleshooting' },
   ];
 
@@ -21,7 +20,7 @@ const Docs = () => {
       {/* Docs Content */}
       <div className="relative z-40 flex flex-col md:flex-row items-start justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
         {/* Floating Docs Widget */}
-        <div className="font-tomorrow w-full md:w-72 bg-secondary/90 backdrop-blur-sm p-6 rounded-xl border border-accent/20 shadow-2xl md:mx-8 mb-8 md:mb-0 z-30">
+        <div className="mt-24 font-tomorrow w-full md:w-72 bg-secondary/90 backdrop-blur-sm p-6 rounded-xl border border-accent/20 shadow-2xl md:mx-8 mb-8 md:mb-0 z-30">
           <h2 className="text-xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
             Documentation
           </h2>
@@ -44,7 +43,7 @@ const Docs = () => {
         </div>
 
         {/* Content Section */}
-        <div className="font-tomorrow w-full md:w-[calc(100%-20rem)] max-w-4xl p-6 md:p-8 overflow-y-auto z-40">
+        <div className="mt-24 font-tomorrow w-full md:w-[calc(100%-20rem)] max-w-4xl p-6 md:p-8 overflow-y-auto z-40">
           <div
             key={activeSection}
             className="animate-fade-in-up"
@@ -72,8 +71,8 @@ const Docs = () => {
                   Follow these steps to begin using CodeCraft AI:
                 </p>
                 <ol className="list-decimal list-inside space-y-2 mt-4 text-textPrimary/80">
-                  <li><strong>Sign Up:</strong> Connect your Solana wallet for Web3 functionality.</li>
-                  <li><strong>Create a Project:</strong> Define your project scope and configure your GitHub repository for deployment.</li>
+                  <li><strong>Sign Up:</strong> Create an account using your email or connect your Solana wallet for Web3 functionality.</li>
+                  <li><strong>Create a Project:</strong> Define your project scope, select the appropriate LLM models, and configure your GitHub repository for deployment.</li>
                   <li><strong>Generate Code:</strong> Let CodeCraft AI analyze your requirements and generate the necessary code.</li>
                   <li><strong>Deploy:</strong> Deploy the generated code directly to your GitHub repository or download it for local use.</li>
                 </ol>
@@ -86,7 +85,7 @@ const Docs = () => {
                   Features
                 </h1>
                 <ul className="list-disc list-inside space-y-2 mt-4 text-textPrimary/80">
-                  <li><strong>Multi-Modal LLMs:</strong> Leverage OpenAI GPT-4, DeepSeek R1 and V3 models for diverse use cases.</li>
+                  <li><strong>Multi-Modal LLMs:</strong> Leverage GPT-4, DeepSeek, R1, and V3 models for diverse use cases.</li>
                   <li><strong>Web3 Integration:</strong> Use Solana for secure, blockchain-based payments.</li>
                   <li><strong>GitHub Deployment:</strong> Seamlessly deploy generated code to your GitHub repositories.</li>
                   <li><strong>Privacy-First Design:</strong> No user data is stored without consent, and wallet metadata is never retained.</li>
@@ -112,25 +111,6 @@ const Docs = () => {
               </div>
             )}
 
-            {activeSection === 'api-reference' && (
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
-                  API Reference
-                </h1>
-                <p className="text-textPrimary/80 leading-relaxed">
-                  The CodeCraft AI API allows you to interact with the platform programmatically. Key endpoints include:
-                </p>
-                <ul className="list-disc list-inside space-y-2 mt-4 text-textPrimary/80">
-                  <li><strong>GET /projects:</strong> Retrieve a list of all your projects.</li>
-                  <li><strong>POST /projects:</strong> Create a new project with specified parameters.</li>
-                  <li><strong>GET /projects/:id:</strong> Fetch details of a specific project.</li>
-                  <li><strong>PUT /projects/:id:</strong> Update an existing project.</li>
-                  <li><strong>DELETE /projects/:id:</strong> Permanently delete a project.</li>
-                  <li><strong>POST /deploy/:id:</strong> Deploy generated code to the linked GitHub repository.</li>
-                </ul>
-              </div>
-            )}
-
             {activeSection === 'troubleshooting' && (
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
@@ -143,7 +123,6 @@ const Docs = () => {
                   <li><strong>Wallet Connection Issues:</strong> Ensure your Solana wallet is properly connected and has sufficient SOL.</li>
                   <li><strong>Code Generation Errors:</strong> Verify that your project scope is clear and the selected LLM models are appropriate.</li>
                   <li><strong>Deployment Failures:</strong> Check your GitHub repository permissions and ensure the repository is correctly linked.</li>
-                  <li><strong>API Errors:</strong> Review the API documentation and ensure all required parameters are included.</li>
                   <li><strong>Contact Support:</strong> If issues persist, reach out to support@codecraftai.com.</li>
                 </ul>
               </div>

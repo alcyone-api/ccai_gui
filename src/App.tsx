@@ -7,7 +7,8 @@ import ProjectsList from "./components/ProjectsList/ProjectsList";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Background from "./components/Background/Background";
-import GenerationResult from "./components/GenerationResult/GenerationResult"; // Import the new component
+import GenerationResult from "./components/GenerationResult/GenerationResult";
+import SocialsPill from "./components/SocialsPill/SocialsPill.tsx"; // Import the new component
 
 const App = () => {
   return (
@@ -17,6 +18,9 @@ const App = () => {
 
       {/* Navbar is outside Routes so it appears on all pages */}
       <Navbar />
+
+      {/* Socials Pill Component */}
+      <SocialsPill />
 
       {/* Main Content */}
       <div className="flex flex-col min-h-screen">

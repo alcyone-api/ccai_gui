@@ -7,15 +7,19 @@ const FAQ = () => {
   const faqs = [
     {
       question: 'What is CodeCraft AI?',
-      answer: 'CodeCraft AI is a multi-modal, agentic Generative AI platform that helps you scope, plan, and develop software projects using advanced LLMs like GPT-4 and DeepSeek. It integrates with GitHub for deployment and uses Solana for secure payments.',
+      answer: 'CodeCraft AI is a multi-modal, agentic Generative AI platform that helps you scope, plan, and develop software projects using advanced LLMs like OpenAI GPT-4 and DeepSeek R3. It integrates with GitHub for deployment and uses Solana for secure payments.',
+    },
+    {
+      question: 'Do I need programming experience?',
+      answer: 'CodeCraft AI is designed to be user friendly, and many non-technical users have built applications with the tool. However, some programming and infrastructure knowledge can help you better understand the generated code and make necessary adjustments.',
     },
     {
       question: 'How do I get started with CodeCraft AI?',
-      answer: 'To get started, sign up using your email or connect your Solana wallet. Create a project, define its scope, and let CodeCraft AI generate and deploy the code to your GitHub repository.',
+      answer: 'To get started connect your Solana wallet. Create a project, define its scope, and let CodeCraft AI generate and deploy the code to your GitHub repository.',
     },
     {
       question: 'What LLM models does CodeCraft AI support?',
-      answer: 'CodeCraft AI supports multiple LLMs, including GPT-4, DeepSeek, R1, and V3. These models are used for scoping, planning, and generating code for your projects.',
+      answer: 'CodeCraft AI leverages multiple LLMs, including OpenAI and DeepSeek models. These models are used for scoping, planning, and generating code for your projects.',
     },
     {
       question: 'Is my data secure with CodeCraft AI?',
@@ -38,12 +42,8 @@ const FAQ = () => {
       answer: 'CodeCraft AI supports a wide range of languages, including Python, JavaScript, TypeScript, and Go. The platform is constantly expanding its language support.',
     },
     {
-      question: 'Can I fine-tune the LLM models used by CodeCraft AI?',
-      answer: 'Yes, CodeCraft AI allows you to fine-tune models using anonymized data from your projects. This helps improve the accuracy and relevance of generated code.',
-    },
-    {
       question: 'What if I encounter issues with code generation or deployment?',
-      answer: 'If you encounter issues, check your project scope, GitHub permissions, and API parameters. If problems persist, contact support@codecraftai.name for assistance.',
+      answer: 'If you encounter issues, check your project scope, GitHub permissions, and wallet connection. If problems persist, join our community Telegram for assistance.',
     },
   ];
 
