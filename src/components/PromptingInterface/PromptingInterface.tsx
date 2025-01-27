@@ -1,18 +1,28 @@
-import { useState } from 'react';
-import { FaLightbulb, FaCode, FaRocket, FaGithub, FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Added FaChevronDown and FaChevronUp
-import { Tooltip as ReactTooltip } from 'react-tooltip'; // Tooltip component
-import Background from '../Background/Background'; // Import the Background component
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaLightbulb, FaCode, FaRocket, FaGithub, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import Background from "../Background/Background";
 
 const PromptingInterface = () => {
-  const [prompt, setPrompt] = useState(''); // State to hold the user's prompt
-  const [programmingLanguage, setProgrammingLanguage] = useState('JavaScript'); // State to hold the selected programming language
-  const [infrastructure, setInfrastructure] = useState('AWS'); // State to hold the selected infrastructure
-  const [isInstructionsExpanded, setIsInstructionsExpanded] = useState(false); // State to manage instructions expansion (collapsed by default)
+  const [prompt, setPrompt] = useState("");
+  const [programmingLanguage, setProgrammingLanguage] = useState("JavaScript");
+  const [infrastructure, setInfrastructure] = useState("AWS");
+  const [isInstructionsExpanded, setIsInstructionsExpanded] = useState(false);
+  const navigate = useNavigate();
 
   const handleGenerate = () => {
-    // Handle the generate button click
-    console.log('Generating code for:', prompt, programmingLanguage, infrastructure);
-    // You can add your logic here to send the prompt and options to the backend
+    console.log("Generating code for:", prompt, programmingLanguage, infrastructure);
+
+    // Navigate to the GenerationResult page with data
+    navigate("/generation-result", {
+      state: {
+        prompt,
+        repoUrl: "https://github.com/your-repo", // Replace with dynamic data
+        description: "This is a detailed description...", // Replace with dynamic data
+        rawOutput: "// Raw generated code output goes here", // Replace with dynamic data
+      },
+    });
   };
 
   return (
@@ -43,7 +53,7 @@ const PromptingInterface = () => {
             {/* Instructions Content */}
             <div
               className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                isInstructionsExpanded ? 'max-h-120' : 'max-h-0'
+                isInstructionsExpanded ? "max-h-120" : "max-h-0"
               }`}
             >
               <div className="px-6 pb-6 space-y-6">
