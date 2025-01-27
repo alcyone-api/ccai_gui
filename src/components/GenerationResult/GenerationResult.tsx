@@ -34,12 +34,12 @@ const GenerationResult = ({ prompt, repoUrl, description, rawOutput }) => {
   };
 
   return (
-    <div className="relative min-h-screen bg-primary overflow-hidden">
+    <div className="relative min-h-screen bg-primary overflow-hidden font-tomorrow">
       <Background />
       <div className="mt-10 relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
         <div className="mb-24 text-center max-w-4xl space-y-8 md:space-y-12 w-full">
           {/* Project Name Header */}
-          <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-6xl font-bold text-textPrimary leading-tight animate-fade-in-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-textPrimary leading-tight animate-fade-in-up">
             AI Chatbot
           </h1>
 
@@ -56,7 +56,7 @@ const GenerationResult = ({ prompt, repoUrl, description, rawOutput }) => {
               href={repoUrl || "https://github.com/your-repo"}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-tomorrow bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center space-x-3 group"
+              className="bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center space-x-3 group"
             >
               <FaGithub className="w-6 h-6" />
               <span>View Project on GitHub</span>
