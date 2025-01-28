@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLightbulb, FaCode, FaRocket, FaGithub, FaChevronDown, FaChevronUp, FaCheck } from "react-icons/fa";
-import Background from "../Background/Background";
 
 const PromptingInterface = () => {
   const [prompt, setPrompt] = useState("");
@@ -31,7 +30,6 @@ const PromptingInterface = () => {
 
   return (
     <div className="relative min-h-screen bg-primary overflow-hidden font-tomorrow">
-      <Background />
       <div className="mt-10 relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
         <div className="mb-24 text-center max-w-4xl space-y-4 md:space-y-8 w-full">
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-textPrimary leading-tight animate-fade-in-up">
