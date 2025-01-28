@@ -7,9 +7,7 @@ const Footer = () => {
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 z-40 bg-primary/50 backdrop-blur-md border-t border-accent/30">
-      {/* Logo Section */}
-      <div className="flex justify-center items-center pt-4 pb-2 md:pt-6 md:pb-3 border-b border-accent/30">
-        {/* Tech Logos */}
+      <div className="flex justify-center items-center py-4 border-b border-accent/30">
         <div className="flex items-center space-x-6 md:space-x-10">
           <a href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer">
             <img
@@ -48,9 +46,7 @@ const Footer = () => {
           </a>
         </div>
       </div>
-
-      {/* Copyright Text */}
-      <div className="text-center py-2 md:py-3">
+      <div className="text-center py-4">
         <p className="font-tomorrow text-xs md:text-sm text-textPrimary/80">
           &copy; {new Date().getFullYear()} CodeCraft AI. All rights reserved.
         </p>

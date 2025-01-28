@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { Info } from 'react-feather'; // Info icon for tooltips
-import { Tooltip as ReactTooltip } from 'react-tooltip'; // Corrected import
+import { Info } from 'react-feather'; 
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
-// Define the Project type
+
 interface Project {
   id: number;
   name: string;
   description: string;
 }
 
-// Define the props for UpdateProjectModal
+
 interface UpdateProjectModalProps {
   project: Project;
   onClose: () => void;
@@ -25,13 +25,10 @@ const UpdateProjectModal = ({ project, onClose, onSubmit }: UpdateProjectModalPr
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md">
-      {/* Modal Content */}
       <div className="bg-secondary/90 backdrop-blur-md p-8 rounded-2xl border border-textPrimary/20 shadow-2xl w-full max-w-2xl animate-fade-in-up">
         <h2 className="font-tomorrow text-2xl font-bold text-textPrimary mb-4">
           Update {project.name}
         </h2>
-
-        {/* Update Prompt Textarea with Tooltip */}
         <div className="mb-6">
           <label className="font-tomorrow text-textPrimary/80 mb-2 flex items-center">
             Update Prompt
@@ -48,8 +45,6 @@ const UpdateProjectModal = ({ project, onClose, onSubmit }: UpdateProjectModalPr
             onChange={(e) => setUpdatePrompt(e.target.value)}
           />
         </div>
-
-        {/* Buttons with Tooltips */}
         <div className="flex justify-end space-x-4">
           <button
             onClick={onClose}

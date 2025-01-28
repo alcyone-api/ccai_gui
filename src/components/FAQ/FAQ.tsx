@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Background from '../Background/Background'; // Import the Background component
 
 const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -7,7 +6,7 @@ const FAQ = () => {
   const faqs = [
     {
       question: 'What is CodeCraft AI?',
-      answer: 'CodeCraft AI is a multi-modal, agentic Generative AI platform that helps you scope, plan, and develop software projects using advanced LLMs like OpenAI GPT-4 and DeepSeek R3. It integrates with GitHub for deployment and uses Solana for secure payments.',
+      answer: 'CodeCraft AI is a multi-modal, agentic Generative AI platform designed to streamline software development. By leveraging advanced Large Language Models (LLMs) from DeepSeek and OpenAI, CodeCraft AI helps you scope projects, create development plans, generate code, and deploy them directly to GitHub repositories. CodeCraft AI is integrated with the Solana blockchain and also leverages DeepSeek, OpenAI, and GitHub APIs.',
     },
     {
       question: 'Do I need programming experience?',
@@ -30,16 +29,8 @@ const FAQ = () => {
       answer: 'Absolutely! CodeCraft AI is designed for both personal and commercial use. You can deploy projects to GitHub and use them in any context.',
     },
     {
-      question: 'What happens to deleted projects?',
-      answer: 'Deleted projects are permanently removed from the platform and cannot be recovered.',
-    },
-    {
-      question: 'How does CodeCraft AI handle payments?',
-      answer: 'CodeCraft AI uses the Solana blockchain for secure, fast, and low-cost payments. You can connect your Solana wallet to manage transactions.',
-    },
-    {
       question: 'What programming languages are supported?',
-      answer: 'CodeCraft AI supports a wide range of languages, including Python, JavaScript, TypeScript, and Go. The platform is constantly expanding its language support.',
+      answer: 'CodeCraft AI supports a wide range of languages. You can specify using drop-down menus, or indicate in the prompt. The platform is constantly expanding its language support.',
     },
     {
       question: 'What if I encounter issues with code generation or deployment?',
@@ -53,10 +44,6 @@ const FAQ = () => {
 
   return (
     <div className="relative min-h-screen bg-primary overflow-hidden">
-      {/* Background Component */}
-      <Background />
-
-      {/* FAQ Content */}
       <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
         <div className="max-w-4xl mx-auto font-tomorrow">
           <h1 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent animate-fade-in-up">
