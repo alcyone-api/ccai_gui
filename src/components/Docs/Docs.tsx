@@ -77,9 +77,9 @@ const Docs = () => {
                   Features
                 </h1>
                 <ul className="list-disc list-inside space-y-2 mt-4 text-textPrimary/80">
-                  <li><strong>Multi-Modal LLMs:</strong> Leverage GPT-4, DeepSeek, R1 and V3 models for diverse use cases.</li>
-                  <li><strong>Web3 Integration:</strong> Use Solana for secure account access.</li>
-                  <li><strong>GitHub Deployment:</strong> Seamlessly deploy generated code to your GitHub repositories.</li>
+                  <li><strong>Multi-Modal LLMs:</strong> Leverage DeepSeek and OpenAI models for diverse use cases.</li>
+                  <li><strong>Web3 Integration:</strong> Use Solana wallet for secure account access.</li>
+                  <li><strong>GitHub Deployment:</strong> Seamlessly deploy generated code to your own GitHub repositories.</li>
                   <li><strong>Project Management:</strong> Store and update projects indefinitely.</li>
                 </ul>
               </div>
@@ -96,7 +96,6 @@ const Docs = () => {
                 <ul className="list-disc list-inside space-y-2 mt-4 text-textPrimary/80">
                   <li><strong>No Unauthorized Data Storage:</strong> User data is only stored with explicit consent.</li>
                   <li><strong>Wallet Privacy:</strong> Users can log out of their wallets at any time, and no wallet metadata is retained.</li>
-                  <li><strong>Anonymized Data for Model Training:</strong> Model outputs may be used for fine-tuning, but all data is anonymized.</li>
                   <li><strong>Project Retention:</strong> Projects are stored indefinitely, deleting projects will be included in a future release</li>
                 </ul>
               </div>
@@ -113,7 +112,7 @@ const Docs = () => {
                 <ul className="list-disc list-inside space-y-2 mt-4 text-textPrimary/80">
                   <li><strong>Wallet Connection Issues:</strong> Ensure your Solana wallet is properly connected.</li>
                   <li><strong>Code Generation Errors:</strong> Verify that your project scope is clear.</li>
-                  <li><strong>Deployment Failures:</strong> Check your GitHub repository permissions and ensure the repository is correctly linked.</li>
+                  <li><strong>Deployment Failures:</strong> Check your GitHub repository permissions and confirm the repository is linked.</li>
                   <li><strong>Contact Support:</strong> If issues persist, reach contact us on our community Telegram.</li>
                 </ul>
               </div>
