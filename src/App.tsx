@@ -8,22 +8,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Background from "./components/Background/Background";
 import GenerationResult from "./components/GenerationResult/GenerationResult";
-import SocialsPill from "./components/SocialsPill/SocialsPill"; // Import the new component
-import ContractAddress from "./components/ContractAddress/ContractAddress"; // Import the new component
+
 
 const App = () => {
   return (
     <Router>
-
-
-      {/* Navbar is outside Routes so it appears on all pages */}
       <Navbar />
-
-      {/* Socials Pill Component */}
-      <SocialsPill />
-      <ContractAddress />
-
-      {/* Main Content */}
       <div className="flex flex-col min-h-screen">
         <Routes>
           <Route path="/" element={<HeroSection />} />
@@ -31,8 +21,6 @@ const App = () => {
           <Route path="/docs" element={<Docs />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/projects" element={<ProjectsList />} />
-
-          {/* Add the new route for GenerationResult */}
           <Route
             path="/generation-result"
             element={
@@ -41,10 +29,7 @@ const App = () => {
           />
         </Routes>
       </div>
-      {/* Background Component */}
       <Background />
-      
-      {/* Footer is outside Routes so it appears on all pages */}
       <Footer />
     </Router>
   );
