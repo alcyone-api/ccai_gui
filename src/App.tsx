@@ -9,6 +9,7 @@ import Footer from "./components/Footer/Footer";
 import Background from "./components/Background/Background";
 import GenerationResult from "./components/GenerationResult/GenerationResult";
 import SocialsPill from "./components/SocialsPill/SocialsPill"; // Import the new component
+import ProjectPage from './components/ProjectPage/ProjectPage';
 
 const App = () => {
   return (
@@ -29,7 +30,7 @@ const App = () => {
           <Route path="/docs" element={<Docs />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/projects" element={<ProjectsList />} />
-
+          <Route path="/projects/:id" element={<ProjectPage />} />
           {/* Add the new route for GenerationResult */}
           <Route
             path="/generation-result"

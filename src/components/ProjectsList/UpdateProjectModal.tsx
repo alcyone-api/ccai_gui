@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Info } from 'react-feather'; 
+import { Info } from 'react-feather';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
-
 
 interface Project {
   id: number;
@@ -9,18 +8,20 @@ interface Project {
   description: string;
 }
 
-
 interface UpdateProjectModalProps {
   project: Project;
   onClose: () => void;
   onSubmit: (updatePrompt: string) => void;
+  onLoadingStart: () => void; // New prop to trigger the loading modal
 }
 
-const UpdateProjectModal = ({ project, onClose, onSubmit }: UpdateProjectModalProps) => {
+const UpdateProjectModal = ({ project, onClose, onSubmit, onLoadingStart }: UpdateProjectModalProps) => {
   const [updatePrompt, setUpdatePrompt] = useState('');
 
   const handleSubmit = () => {
-    onSubmit(updatePrompt);
+    onSubmit(updatePrompt); // Call the parent onSubmit handler
+    onLoadingStart(); // Trigger the loading modal
+    onClose(); // Close this modal
   };
 
   return (
