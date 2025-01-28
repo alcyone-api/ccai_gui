@@ -9,6 +9,7 @@ import Footer from "./components/Footer/Footer";
 import Background from "./components/Background/Background";
 import GenerationResult from "./components/GenerationResult/GenerationResult";
 import SocialsPill from "./components/SocialsPill/SocialsPill"; // Import the new component
+import ContractAddress from "./components/ContractAddress/ContractAddress"; // Import the new component
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
 
       {/* Socials Pill Component */}
       <SocialsPill />
+      <ContractAddress />
 
       {/* Main Content */}
       <div className="flex flex-col min-h-screen">
