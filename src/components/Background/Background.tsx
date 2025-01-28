@@ -26,7 +26,7 @@ const Background = () => {
         radius: Math.random() * 2,
         speedX: (Math.random() - 0.5) * 0.5,
         speedY: (Math.random() - 0.5) * 0.5,
-        color: `rgba(0, 123, 255, ${Math.random() * 0.3})`, // Dark blue glowing color
+        color: `rgba(0, 123, 255, ${Math.random() * 0.3})`, 
       });
     }
 
@@ -56,29 +56,24 @@ const Background = () => {
 
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden z-0">
-      {/* Particle Canvas - Ensure it doesn't block clicks */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full opacity-20 pointer-events-none"
         width={typeof window !== 'undefined' ? window.innerWidth : 0}
         height={typeof window !== 'undefined' ? window.innerHeight : 0}
       />
-
-      {/* Gradient Overlay - Ensure it doesn't block clicks */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/90 to-primary/30 z-0 pointer-events-none" />
-
-      {/* Grid Pattern - Ensure it doesn't block clicks */}
       <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white_20%,transparent_75%)] pointer-events-none">
         <div
-          className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idHJhbnNwYXJlbnQiLz48ZyBzdHJva2U9IiNmZTgxMjciIHN0cm9rZS13aWR0aD0iMSI+PHBhdGggZD0iTTAgMGg1MDB2NTAwSDB6Ii8+PHBhdGggZD0iTTAgMGg1MDB2NTAwSDB6Ii8+PC9nPjwvc3ZnPg==')] animate-rotate-very-slow animate-pulse-orange-bright"
+          className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idHJhbnNwYXJlbnQiLz48ZyBzdHJva2U9IiNmZmE2NGQiIHN0cm9rZS13aWR0aD0iMiI+PHBhdGggZD0iTTAgMGg1MDB2NTAwSDB6Ii8+PHBhdGggZD0iTTAgMGg1MDB2NTAwSDB6Ii8+PC9nPjwvc3ZnPg==')] animate-rotate-very-slow animate-pulse-orange-bright"
           style={{
-            backgroundSize: '50px 50px', // Grid spacing
-            backgroundRepeat: 'repeat', // Seamless tiling
-            width: '200%', // Make the grid larger than the screen
+            backgroundSize: '50px 50px',
+            backgroundRepeat: 'repeat',
+            width: '200%',
             height: '200%',
-            left: '-50%', // Center the grid
+            left: '-50%',
             top: '-50%',
-            opacity: 0.8, // Increased opacity for brighter grid
+            opacity: 1,
           }}
         ></div>
       </div>

@@ -8,13 +8,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Background from "./components/Background/Background";
 import GenerationResult from "./components/GenerationResult/GenerationResult";
-import SocialsPill from "./components/SocialsPill/SocialsPill.tsx"; // Import the new component
+import SocialsPill from "./components/SocialsPill/SocialsPill"; // Import the new component
 
 const App = () => {
   return (
     <Router>
-      {/* Background Component */}
-      <Background />
+
 
       {/* Navbar is outside Routes so it appears on all pages */}
       <Navbar />
@@ -35,17 +34,14 @@ const App = () => {
           <Route
             path="/generation-result"
             element={
-              <GenerationResult
-                prompt="Your app idea goes here" // Replace with dynamic data
-                repoUrl="https://github.com/your-repo" // Replace with dynamic data
-                description="This is a detailed description of the generated application, including the technologies used and deployment instructions." // Replace with dynamic data
-                rawOutput="// Raw generated code output goes here" // Replace with dynamic data
-              />
+              <GenerationResult/>
             }
           />
         </Routes>
       </div>
-
+      {/* Background Component */}
+      <Background />
+      
       {/* Footer is outside Routes so it appears on all pages */}
       <Footer />
     </Router>
