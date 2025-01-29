@@ -10,6 +10,7 @@ import Background from "./components/Background/Background";
 import GenerationResult from "./components/GenerationResult/GenerationResult";
 import ProjectPage from './components/ProjectPage/ProjectPage';
 
+
 const App = () => {
   return (
     <Router>
