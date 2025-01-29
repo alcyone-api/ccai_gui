@@ -35,7 +35,7 @@ const ProjectsList = () => {
 
   return (
     <div className="relative min-h-screen bg-primary overflow-hidden">
-      <div className="mt-24 relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
+      <div className="mb-32 mt-24 relative z-40 flex flex-col items-center justify-center px-4 pt-16 md:pt-24 pb-24 md:pb-32">
         <div className="text-center max-w-4xl space-y-12 md:space-y-14">
           <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-textPrimary leading-tight animate-fade-in-up">
             Your Projects

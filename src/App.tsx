@@ -8,21 +8,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Background from "./components/Background/Background";
 import GenerationResult from "./components/GenerationResult/GenerationResult";
-import SocialsPill from "./components/SocialsPill/SocialsPill"; // Import the new component
 import ProjectPage from './components/ProjectPage/ProjectPage';
 
 const App = () => {
   return (
     <Router>
-
-
-      {/* Navbar is outside Routes so it appears on all pages */}
       <Navbar />
-
-      {/* Socials Pill Component */}
-      <SocialsPill />
-
-      {/* Main Content */}
       <div className="flex flex-col min-h-screen">
         <Routes>
           <Route path="/" element={<HeroSection />} />
@@ -40,10 +31,7 @@ const App = () => {
           />
         </Routes>
       </div>
-      {/* Background Component */}
       <Background />
-      
-      {/* Footer is outside Routes so it appears on all pages */}
       <Footer />
     </Router>
   );
