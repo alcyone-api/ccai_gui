@@ -1,6 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaLightbulb, FaCode, FaRocket, FaGithub, FaChevronDown, FaChevronUp, FaCheck } from "react-icons/fa";
+import {
+  FaLightbulb,
+  FaCode,
+  FaRocket,
+  FaGithub,
+  FaChevronDown,
+  FaChevronUp,
+  FaCheck,
+} from "react-icons/fa";
+import LoadingModal from "./LoadingModal"; // Import the LoadingModal component
 
 const PromptingInterface = () => {
   const [prompt, setPrompt] = useState("");
@@ -10,18 +19,57 @@ const PromptingInterface = () => {
   const [webFrontend, setWebFrontend] = useState("");
   const [isTechConfigExpanded, setIsTechConfigExpanded] = useState(true);
   const [isGitHubConnected, setIsGitHubConnected] = useState(false);
-  const [isInstructionsExpanded, setIsInstructionsExpanded] = useState(true); // New state for instructions
+  const [isInstructionsExpanded, setIsInstructionsExpanded] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(1);
+  const [websocket, setWebsocket] = useState(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isLoading) {
+      // Uncomment this block for actual WebSocket integration
+      /*
+      // Initialize WebSocket connection
+      const ws = new WebSocket("wss://your-websocket-api-endpoint");
+      setWebsocket(ws);
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.progress) {
+          setProgress(data.progress); // Update progress based on WebSocket response
+        }
+      };
+
+      ws.onclose = () => {
+        setIsLoading(false); // Close modal when WebSocket closes
+      };
+
+      return () => {
+        ws.close(); // Cleanup WebSocket on component unmount
+      };
+      */
+
+      // Demo logic - Simulate progress over 8 seconds
+      // Remove this block when WebSocket integration is implemented
+      let currentProgress = 1;
+      const interval = setInterval(() => {
+        if (currentProgress < 8) {
+          currentProgress++;
+          setProgress(currentProgress);
+        } else {
+          clearInterval(interval);
+          setIsLoading(false); // Close modal when progress completes
+        }
+      }, 1000); // Update progress every second
+
+      // Cleanup interval on component unmount
+      return () => clearInterval(interval);
+    }
+  }, [isLoading]);
+
   const handleGenerate = () => {
-    navigate("/generation-result", {
-      state: {
-        prompt,
-        repoUrl: "https://github.com/your-repo",
-        description: "This is a detailed description...",
-        rawOutput: "// Raw generated code output goes here",
-      },
-    });
+    setIsLoading(true); // Show loading modal
+    setProgress(1); // Reset progress
   };
 
   const handleConnectGitHub = () => {
@@ -61,7 +109,7 @@ const PromptingInterface = () => {
                       <p className="text-xs sm:text-sm text-textPrimary/80 text-left">Be as detailed as possible to get the best results</p>
                     </div>
                   </li>
-                  <li className="flex items-start space-x-6">
+{/*                   <li className="flex items-start space-x-6">
                     <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
                       <FaCode className="w-7 h-7 text-accent" />
                     </div>
@@ -69,14 +117,14 @@ const PromptingInterface = () => {
                       <p className="text-sm sm:text-base font-medium text-textPrimary text-left">Select your desired app type (optional)</p>
                       <p className="text-xs sm:text-sm text-textPrimary/80 text-left">Choose your mobile / desktop OS, or specify languages for web apps</p>
                     </div>
-                  </li>
+                  </li> */}
                   <li className="flex items-start space-x-8">
                     <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
                       <FaGithub className="w-7 h-7 text-accent" />
                     </div>
                     <div className="flex-1">
                       <p className="text-sm sm:text-base font-medium text-textPrimary text-left">Connect your GitHub account to deploy to your own repository</p>
-                      <p className="text-xs sm:text-sm text-textPrimary/80 text-left">Click the "GitHub Login" button in the top right, or down below before generating</p>
+                      <p className="text-xs sm:text-sm text-textPrimary/80 text-left">Click the 'GitHub Login' button in the top right, or down below before generating</p>
                     </div>
                   </li>
                   <li className="flex items-start space-x-8">
@@ -84,7 +132,7 @@ const PromptingInterface = () => {
                       <FaRocket className="w-7 h-7 text-accent" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm sm:text-base font-medium text-textPrimary text-left">Click "Generate Code" to create your app</p>
+                      <p className="text-sm sm:text-base font-medium text-textPrimary text-left">Click 'Generate Code' to create your app</p>
                       <p className="text-xs sm:text-sm text-textPrimary/80 text-left">Sit back and watch your idea come to life!</p>
                     </div>
                   </li>
@@ -100,7 +148,7 @@ const PromptingInterface = () => {
               onChange={(e) => setPrompt(e.target.value)}
             />
           </div>
-          <div className="w-full bg-secondary/70 border border-textPrimary/20 rounded-2xl shadow-card backdrop-blur-md overflow-hidden">
+{/*           <div className="w-full bg-secondary/70 border border-textPrimary/20 rounded-2xl shadow-card backdrop-blur-md overflow-hidden">
             <div
               className="p-6 cursor-pointer flex justify-between items-center"
               onClick={() => setIsTechConfigExpanded(!isTechConfigExpanded)}
@@ -180,7 +228,7 @@ const PromptingInterface = () => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-12 w-full">
             {/* GitHub Button */}
@@ -207,6 +255,13 @@ const PromptingInterface = () => {
           </div>
         </div>
       </div>
+
+      {/* Loading Modal */}
+      <LoadingModal
+        isOpen={isLoading}
+        progress={progress}
+        onClose={() => setIsLoading(false)}
+      />
     </div>
   );
 };

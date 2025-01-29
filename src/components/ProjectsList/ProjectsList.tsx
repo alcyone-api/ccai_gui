@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { FaGithub} from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import UpdateProjectModal from './UpdateProjectModal';
+import UpdateLoadingModal from './UpdateLoadingModal';
 
 interface Project {
   id: number;
@@ -18,18 +20,18 @@ const ProjectsList = () => {
   ]);
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isLoadingModalOpen, setIsLoadingModalOpen] = useState(false);
 
   const handleUpdateClick = (project: Project) => {
     setSelectedProject(project);
-    setIsModalOpen(true);
+    setIsUpdateModalOpen(true);
   };
 
   const handleUpdateSubmit = (updatePrompt: string) => {
     console.log('Updating project:', selectedProject?.name, 'with prompt:', updatePrompt);
-    setIsModalOpen(false);
+    setIsLoadingModalOpen(true); // Open the loading modal
   };
-
 
   return (
     <div className="relative min-h-screen bg-primary overflow-hidden">
@@ -40,9 +42,10 @@ const ProjectsList = () => {
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-24">
             {projects.map((project) => (
-              <div
+              <Link
                 key={project.id}
-                className="bg-secondary/70 backdrop-blur-md p-8 rounded-2xl border border-textPrimary/20 shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[300px] max-w-[400px]"
+                to={`/projects/${project.id}`} // Link to the project page with the project ID
+                className="bg-secondary/70 backdrop-blur-md p-8 rounded-2xl border border-textPrimary/20 shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[300px] max-w-[400px] block" // Added 'block' to make the entire card clickable
               >
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="font-tomorrow text-xl font-bold text-textPrimary">
@@ -55,6 +58,7 @@ const ProjectsList = () => {
                     className="text-textPrimary/80 hover:text-accent transition-colors"
                     data-tooltip-id="github-tooltip"
                     data-tooltip-content="View on GitHub"
+                    onClick={(e) => e.stopPropagation()} // Prevent the Link from being triggered when clicking the GitHub icon
                   >
                     <FaGithub className="w-6 h-6" />
                   </a>
@@ -70,7 +74,10 @@ const ProjectsList = () => {
                 </div>
                 <div className="flex items-center justify-center w-full mt-4">
                   <button
-                    onClick={() => handleUpdateClick(project)}
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevent the Link from being triggered
+                      handleUpdateClick(project);
+                    }}
                     className="mt-12 w-full max-w-[300px] font-tomorrow bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-xl text-md font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
                     data-tooltip-id="update-tooltip"
                     data-tooltip-content="Click to update this project."
@@ -78,18 +85,27 @@ const ProjectsList = () => {
                     Update Project
                   </button>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </div>
-      {isModalOpen && selectedProject && (
+
+      {/* Update Project Modal */}
+      {isUpdateModalOpen && selectedProject && (
         <UpdateProjectModal
           project={selectedProject}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => setIsUpdateModalOpen(false)}
           onSubmit={handleUpdateSubmit}
+          onLoadingStart={() => setIsLoadingModalOpen(true)}
         />
       )}
+
+      {/* Loading Modal */}
+      <UpdateLoadingModal
+        isOpen={isLoadingModalOpen}
+        onClose={() => setIsLoadingModalOpen(false)}
+      />
 
       {/* Tooltips */}
       <ReactTooltip id="update-tooltip" className="z-[9999]" />

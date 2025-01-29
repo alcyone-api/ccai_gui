@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Background from "./components/Background/Background";
 import GenerationResult from "./components/GenerationResult/GenerationResult";
+import ProjectPage from './components/ProjectPage/ProjectPage';
 
 
 const App = () => {
@@ -21,6 +22,8 @@ const App = () => {
           <Route path="/docs" element={<Docs />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/projects" element={<ProjectsList />} />
+          <Route path="/projects/:id" element={<ProjectPage />} />
+          {/* Add the new route for GenerationResult */}
           <Route
             path="/generation-result"
             element={

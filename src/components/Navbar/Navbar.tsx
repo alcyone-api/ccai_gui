@@ -1,11 +1,51 @@
 import { useState } from 'react';
-import { FaBars, FaTimes, FaSave } from 'react-icons/fa';
+import { FaBars, FaTimes, FaSave, FaCheck, FaChevronDown, FaCopy, FaSignOutAlt, FaWallet, FaGithub } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ccaiLogo from '../../assets/ccai_logo.svg';
 const gh = 'https://static.cdnlogo.com/logos/g/69/github-icon.svg';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [isGitHubLoggedIn, setIsGitHubLoggedIn] = useState(false);
+  const [showWalletDropdown, setShowWalletDropdown] = useState(false);
+  const [showGitHubModal, setShowGitHubModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const handleConnectWallet = () => {
+    if (!isWalletConnected) {
+      setIsWalletConnected(true);
+    } else {
+      setShowWalletDropdown(!showWalletDropdown);
+    }
+  };
+
+  const handleGitHubLogin = () => {
+    if (!isGitHubLoggedIn) {
+      setIsGitHubLoggedIn(true);
+      setModalMessage('GitHub Login Successful');
+      setShowGitHubModal(true);
+    } else {
+      setIsGitHubLoggedIn(false);
+      setModalMessage('GitHub Log Out Successful');
+      setShowGitHubModal(true);
+    }
+  };
+
+  interface WalletActionProps {
+    action: 'Disconnect Wallet' | 'Change Wallet' | 'Copy Address';
+  }
+
+  const handleWalletAction = ({ action }: WalletActionProps) => {
+    if (action === 'Disconnect Wallet') {
+      setIsWalletConnected(false);
+    }
+    setShowWalletDropdown(false);
+  };
+
+  const closeModal = () => {
+    setShowGitHubModal(false);
+  };
 
   return (
     <nav className="fixed w-full z-50 px-6 py-4 backdrop-blur-md border-b border-accent/30 bg-gradient-to-r from-accent/50 to-primary/50">
@@ -32,19 +72,60 @@ const Navbar = () => {
             </Link>
           </div>
         </div>
-        <div className="hidden md:flex items-center space-x-4">
-          <button className="font-tomorrow bg-accent hover:bg-accent/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20">
-            Connect Wallet
-          </button>
+        <div className="hidden md:flex items-center space-x-4 ml-auto mr-4">
+          <div className="relative">
+            <button
+              onClick={handleConnectWallet}
+              className={`${
+                isWalletConnected
+                  ? 'bg-green-500/10 border-green-500 text-green-500'
+                  : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
+              } px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center justify-center space-x-2`}
+            >
+              <FaWallet className="w-4 h-4" />
+              <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
+              {isWalletConnected && <FaCheck className="w-4 h-4 text-green-500" />}
+            </button>
+            {showWalletDropdown && (
+              <div className="absolute right-0 mt-2 w-48 bg-primary rounded-xl border border-accent/30 shadow-lg shadow-accent/20 z-50">
+                <div className="py-2">
+                  <button
+                    onClick={() => handleWalletAction({ action: 'Disconnect Wallet' })}
+                    className="block w-full px-4 py-2 text-sm text-textPrimary/80 hover:bg-accent/10 transition-colors"
+                  >
+                    Disconnect Wallet
+                  </button>
+                  <button
+                    onClick={() => handleWalletAction({ action: 'Change Wallet' })}
+                    className="block w-full px-4 py-2 text-sm text-textPrimary/80 hover:bg-accent/10 transition-colors"
+                  >
+                    Change Wallet
+                  </button>
+                  <button
+                    onClick={() => handleWalletAction({ action: 'Copy Address' })}
+                    className="block w-full px-4 py-2 text-sm text-textPrimary/80 hover:bg-accent/10 transition-colors"
+                  >
+                    Copy Address
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
           <button
-            className="font-tomorrow bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-md shadow-accent/10 hover:shadow-accent/20 border border-accent/20 hover:border-accent/40 flex items-center space-x-2"
+            onClick={handleGitHubLogin}
+            className={`${
+              isGitHubLoggedIn
+                ? 'bg-green-500/10 border-green-500 text-green-500'
+                : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
+            } px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center justify-center space-x-2`}
           >
             <img
               src={gh}
               alt="GitHub"
-              className="h-4 w-4 md:h-4 md:w-4 object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
+              className="w-4 h-4 filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
             />
-            <span>GitHub Login</span>
+            <span>{isGitHubLoggedIn ? 'Connected' : 'Connect GitHub'}</span>
+            {isGitHubLoggedIn && <FaCheck className="w-4 h-4 text-green-500" />}
           </button>
         </div>
         <div className="md:hidden">
@@ -74,18 +155,53 @@ const Navbar = () => {
           <Link to="/faq" className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2">
             FAQ
           </Link>
-          <button className="w-full font-tomorrow bg-accent hover:bg-accent/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20">
-            Connect Wallet
+          <button
+            onClick={handleConnectWallet}
+            className={`${
+              isWalletConnected
+                ? 'bg-green-500/10 border-green-500 text-green-500'
+                : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
+            } px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center justify-center space-x-2 w-full`}
+          >
+            <FaWallet className="w-4 h-4" />
+            <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
+            {isWalletConnected && <FaCheck className="w-4 h-4 text-green-500" />}
           </button>
           <button
-            className="w-full font-tomorrow bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-md shadow-accent/10 hover:shadow-accent/20 border border-accent/20 hover:border-accent/40"
+            onClick={handleGitHubLogin}
+            className={`${
+              isGitHubLoggedIn
+                ? 'bg-green-500/10 border-green-500 text-green-500'
+                : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
+            } px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center justify-center space-x-2 w-full`}
           >
-            GitHub Login
+            <img
+              src={gh}
+              alt="GitHub"
+              className="w-4 h-4 filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
+            />
+            <span>{isGitHubLoggedIn ? 'Connected' : 'Connect GitHub'}</span>
+            {isGitHubLoggedIn && <FaCheck className="w-4 h-4 text-green-500" />}
           </button>
         </div>
       )}
+
+      {showGitHubModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-primary p-6 rounded-xl border border-accent/30 shadow-lg shadow-accent/20 animate-zoom-in">
+            <p className="font-tomorrow text-textPrimary text-lg font-semibold mb-4">
+              {modalMessage}
+            </p>
+            <button
+              onClick={closeModal}
+              className="font-tomorrow bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </nav>
-  );
-};
+  );};
 
 export default Navbar;
