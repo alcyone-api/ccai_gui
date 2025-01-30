@@ -1,10 +1,15 @@
-import { useState } from "react";
-import { FaChevronDown, FaChevronUp, FaCode, FaRocket, FaToolbox, FaRegClipboard, FaCheckCircle, FaGithub } from "react-icons/fa";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+import { useState, useEffect } from 'react';
+import { FaChevronDown, FaChevronUp, FaCode, FaRocket, FaToolbox, FaRegClipboard, FaCheckCircle, FaGithub } from 'react-icons/fa';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 const GenerationResult = () => {
   const [isRawOutputExpanded, setIsRawOutputExpanded] = useState(false);
   const [isPromptExpanded, setIsPromptExpanded] = useState(false);
+
+  // Scroll to the top when the component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Sample data for technologies and deployment steps
   const technologies = [

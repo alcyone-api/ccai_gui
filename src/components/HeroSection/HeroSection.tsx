@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import PoweredBySection from '../PoweredBySection/PoweredBySection';
+import PoweredBySection from './PoweredBySection/PoweredBySection';
 
 const HeroSection = () => {
   return (
@@ -15,16 +15,16 @@ const HeroSection = () => {
           </p>
           <PoweredBySection />
           {/* Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up delay-300">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full animate-fade-in-up delay-300">
             <Link
               to="/prompt"
-              className="font-tomorrow bg-accent hover:bg-accent/90 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-lg md:text-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
+              className="w-full sm:w-auto font-tomorrow bg-accent hover:bg-accent/90 text-white px-6 py-3 md:px-8 md:py-4 rounded-full text-lg md:text-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 text-center"
             >
               Get Started
             </Link>
             <Link
               to="/docs"
-              className="font-tomorrow bg-transparent border-2 border-accent text-accent hover:bg-accent/10 px-6 py-3 md:px-8 md:py-4 rounded-full text-lg md:text-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
+              className="w-full sm:w-auto font-tomorrow bg-transparent border-2 border-accent text-accent hover:bg-accent/10 px-6 py-3 md:px-8 md:py-4 rounded-full text-lg md:text-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 text-center sm:mb-0 mb-24"
             >
               Learn More
             </Link>

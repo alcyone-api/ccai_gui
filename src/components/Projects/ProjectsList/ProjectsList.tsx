@@ -3,7 +3,6 @@ import { FaGithub } from 'react-icons/fa';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import UpdateProjectModal from './UpdateProjectModal';
-import UpdateLoadingModal from './UpdateLoadingModal';
 
 interface Project {
   id: number;
@@ -73,17 +72,6 @@ const ProjectsList = () => {
                   </span>
                 </div>
                 <div className="flex items-center justify-center w-full mt-4">
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevent the Link from being triggered
-                      handleUpdateClick(project);
-                    }}
-                    className="mt-12 w-full max-w-[300px] font-tomorrow bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-xl text-md font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
-                    data-tooltip-id="update-tooltip"
-                    data-tooltip-content="Click to update this project."
-                  >
-                    Update Project
-                  </button>
                 </div>
               </Link>
             ))}
@@ -100,12 +88,6 @@ const ProjectsList = () => {
           onLoadingStart={() => setIsLoadingModalOpen(true)}
         />
       )}
-
-      {/* Loading Modal */}
-      <UpdateLoadingModal
-        isOpen={isLoadingModalOpen}
-        onClose={() => setIsLoadingModalOpen(false)}
-      />
 
       {/* Tooltips */}
       <ReactTooltip id="update-tooltip" className="z-[9999]" />
