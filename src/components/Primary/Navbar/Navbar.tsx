@@ -80,9 +80,11 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
             <Link to="/prompt" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
               Generate Project
             </Link>
-            <Link to="/projects" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
-              Saved Projects
-            </Link>
+            {isWalletConnected && (
+              <Link to="/projects" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
+                Saved Projects
+              </Link>
+            )}
             <Link to="/docs" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
               Docs
             </Link>
@@ -169,13 +171,15 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
           >
             Generate Project
           </Link>
-          <Link
-            to="/projects"
-            onClick={() => setIsMenuOpen(false)}
-            className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2"
-          >
-            <span>Saved Projects</span>
-          </Link>
+          {isWalletConnected && (
+            <Link
+              to="/projects"
+              onClick={() => setIsMenuOpen(false)}
+              className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2"
+            >
+              <span>Saved Projects</span>
+            </Link>
+          )}
           <Link
             to="/docs"
             onClick={() => setIsMenuOpen(false)}
