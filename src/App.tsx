@@ -12,6 +12,7 @@ import GenerationResult from './components/PromptingInterface/GenerationResult/G
 import ProjectPage from './components/Projects/ProjectPage/ProjectPage';
 import GitHubSuccessModal from './components/Primary/Navbar/GitHubSuccessModal'; // Import the modal component
 
+
 const App = () => {
   const [showGitHubModal, setShowGitHubModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
