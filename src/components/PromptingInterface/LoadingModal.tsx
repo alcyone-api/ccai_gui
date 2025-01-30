@@ -1,5 +1,5 @@
 import { FaSpinner } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
 
 interface LoadingModalProps {
   progress: number;
@@ -8,7 +8,7 @@ interface LoadingModalProps {
 }
 
 const LoadingModal: React.FC<LoadingModalProps> = ({ progress, isOpen, onClose }) => {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   // Step messages for each progress value
   const steps = [
@@ -55,12 +55,23 @@ const LoadingModal: React.FC<LoadingModalProps> = ({ progress, isOpen, onClose }
           {/* View Project Button */}
           {progress === 8 && ( // Show the button only when progress is complete
             <button
-              onClick={() => navigate("/generation-result")} // Navigate to /generation-result
+              onClick={() => {
+                navigate("/generation-result"); // Navigate to /generation-result
+                onClose(); // Close the modal after navigation
+              }}
               className="mt-4 w-full max-w-[300px] font-tomorrow bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-xl text-md font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
             >
               View Project
             </button>
           )}
+
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="mt-4 w-full max-w-[300px] font-tomorrow bg-transparent border-2 border-accent text-accent hover:bg-accent/10 px-8 py-3 rounded-xl text-md font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20"
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>
