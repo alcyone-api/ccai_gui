@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'; // Add useRef and useEffect
+import { useState, useRef, useEffect } from 'react';
 import { FaBars, FaTimes, FaSave, FaCheck, FaWallet } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ccaiLogo from '../../../assets/ccai_logo.svg';
@@ -88,8 +88,12 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
             <Link to="/docs" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
               Docs
             </Link>
+            
             <Link to="/faq" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
               FAQ
+            </Link>
+            <Link to="/education" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
+              Prompting 101
             </Link>
           </div>
         </div>
@@ -186,6 +190,13 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
             className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2"
           >
             Docs
+          </Link>
+          <Link
+            to="/education"
+            onClick={() => setIsMenuOpen(false)}
+            className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2"
+          >
+            Prompting 101
           </Link>
           <Link
             to="/faq"
