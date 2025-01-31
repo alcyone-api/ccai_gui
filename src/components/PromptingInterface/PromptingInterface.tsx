@@ -23,6 +23,7 @@ const PromptingInterface = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(1);
   const [websocket, setWebsocket] = useState(null);
+  const [repoName, setRepoName] = useState(""); // New state for GitHub repository name
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -117,6 +118,20 @@ const PromptingInterface = () => {
               </div>
             </div>
           </div>
+
+          {/* New GitHub Repository Name Input Section */}
+          <div className="w-full bg-secondary/70 border border-textPrimary/20 rounded-2xl shadow-card backdrop-blur-md p-6">
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-textPrimary/80">GitHub Repository Name</label>
+              <input
+                className="w-full p-3 bg-primary/50 text-textPrimary rounded-xl border border-textPrimary/20 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50 placeholder:text-textPrimary/50 shadow-input"
+                placeholder="Enter your GitHub repository name..."
+                value={repoName}
+                onChange={(e) => setRepoName(e.target.value)}
+              />
+            </div>
+          </div>
+
           <div className="w-full bg-secondary/70 border border-textPrimary/20 rounded-2xl shadow-card backdrop-blur-md p-6">
             <textarea
               className="w-full h-56 p-5 bg-primary/50 text-textPrimary rounded-xl border border-textPrimary/20 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50 placeholder:text-textPrimary/50 shadow-input resize-none"
@@ -125,6 +140,7 @@ const PromptingInterface = () => {
               onChange={(e) => setPrompt(e.target.value)}
             />
           </div>
+
           <div className="w-full bg-secondary/70 border border-textPrimary/20 rounded-2xl shadow-card backdrop-blur-md overflow-hidden">
             <div
               className="p-6 cursor-pointer flex justify-between items-center"
@@ -208,7 +224,6 @@ const PromptingInterface = () => {
           </div>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-12 w-full">
-
             {/* Generate Code Button */}
             <button
               className="bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 w-full md:w-auto"
