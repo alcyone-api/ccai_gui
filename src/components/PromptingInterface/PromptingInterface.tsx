@@ -76,53 +76,76 @@ const PromptingInterface = () => {
                 isInstructionsExpanded ? "max-h-120" : "max-h-0"
               }`}
             >
-              <div className="px-6 pb-6 space-y-6">
-                <ul className="space-y-6">
-                  <li className="flex items-start space-x-6">
-                    <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
-                      <FaLightbulb className="w-7 h-7 text-accent" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm sm:text-base font-medium text-textPrimary text-left">Describe your app idea in the text box below</p>
-                      <p className="text-xs sm:text-sm text-textPrimary/80 text-left">Be as detailed as possible to get the best results</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start space-x-6">
-                    <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
-                      <FaCode className="w-7 h-7 text-accent" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm sm:text-base font-medium text-textPrimary text-left">Select your desired app type (optional)</p>
-                      <p className="text-xs sm:text-sm text-textPrimary/80 text-left">Choose your mobile / desktop OS, or specify languages for web apps</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start space-x-8">
-                    <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
-                      <FaGithub className="w-7 h-7 text-accent" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm sm:text-base font-medium text-textPrimary text-left">Connect your GitHub account to deploy to your own repository</p>
-                      <p className="text-xs sm:text-sm text-textPrimary/80 text-left">Click the 'GitHub Login' button in the top right, or down below before generating</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start space-x-8">
-                    <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
-                      <FaRocket className="w-7 h-7 text-accent" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm sm:text-base font-medium text-textPrimary text-left">Click 'Generate Code' to create your app</p>
-                      <p className="text-xs sm:text-sm text-textPrimary/80 text-left">Sit back and watch your idea come to life!</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+            <div className="px-6 pb-6 space-y-6">
+              <ul className="space-y-6">
+                {/* List Item 1 */}
+                <li className="flex items-start space-x-6">
+                  <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
+                    <FaLightbulb className="w-7 h-7 text-accent" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm sm:text-base font-medium text-textPrimary text-left">
+                      Describe your app idea in the text box below
+                    </p>
+                    <p className="text-xs sm:text-sm text-textPrimary/80 text-left">
+                      Be as detailed as possible to get the best results
+                    </p>
+                  </div>
+                </li>
+
+                {/* List Item 2 */}
+                <li className="flex items-start space-x-6">
+                  <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
+                    <FaCode className="w-7 h-7 text-accent" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm sm:text-base font-medium text-textPrimary text-left">
+                      Select your desired app type (optional)
+                    </p>
+                    <p className="text-xs sm:text-sm text-textPrimary/80 text-left">
+                      Choose your mobile / desktop OS, or specify languages for web apps
+                    </p>
+                  </div>
+                </li>
+
+                {/* List Item 3 */}
+                <li className="flex items-start space-x-6">
+                  <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
+                    <FaGithub className="w-7 h-7 text-accent" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm sm:text-base font-medium text-textPrimary text-left">
+                      Connect your GitHub account to deploy to your own repository
+                    </p>
+                    <p className="text-xs sm:text-sm text-textPrimary/80 text-left">
+                      Click the 'GitHub Login' button in the top right, or down below before generating
+                    </p>
+                  </div>
+                </li>
+
+                {/* List Item 4 */}
+                <li className="flex items-start space-x-6">
+                  <div className="p-3 bg-accent/10 rounded-xl flex-shrink-0">
+                    <FaRocket className="w-7 h-7 text-accent" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm sm:text-base font-medium text-textPrimary text-left">
+                      Click 'Generate Code' to create your app
+                    </p>
+                    <p className="text-xs sm:text-sm text-textPrimary/80 text-left">
+                      Sit back and watch your idea come to life!
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
             </div>
           </div>
 
           {/* New GitHub Repository Name Input Section */}
           <div className="w-full bg-secondary/70 border border-textPrimary/20 rounded-2xl shadow-card backdrop-blur-md p-6">
             <div className="space-y-3">
-              <label className="block text-sm font-medium text-textPrimary/80">GitHub Repository Name</label>
+              <h2 className="text-xl text-left sm:text-2xl font-bold text-accent">GitHub Repo Name</h2>
               <input
                 className="w-full p-3 bg-primary/50 text-textPrimary rounded-xl border border-textPrimary/20 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50 placeholder:text-textPrimary/50 shadow-input"
                 placeholder="Enter your GitHub repository name..."
@@ -133,12 +156,16 @@ const PromptingInterface = () => {
           </div>
 
           <div className="w-full bg-secondary/70 border border-textPrimary/20 rounded-2xl shadow-card backdrop-blur-md p-6">
-            <textarea
-              className="w-full h-56 p-5 bg-primary/50 text-textPrimary rounded-xl border border-textPrimary/20 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50 placeholder:text-textPrimary/50 shadow-input resize-none"
-              placeholder="Describe your app idea in detail..."
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-            />
+          <div className="space-y-3">
+              <h2 className="text-xl text-left sm:text-2xl font-bold text-accent">Enter Prompt</h2>
+              <textarea
+                className="w-full h-56 p-5 bg-primary/50 text-textPrimary rounded-xl border border-textPrimary/20 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50 placeholder:text-textPrimary/50 shadow-input resize-none"
+                placeholder="Describe your app idea in detail..."
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+              />
+            </div>
+
           </div>
 
           <div className="w-full bg-secondary/70 border border-textPrimary/20 rounded-2xl shadow-card backdrop-blur-md overflow-hidden">
@@ -155,7 +182,7 @@ const PromptingInterface = () => {
             <div className={`transition-all duration-300 ${isTechConfigExpanded ? "max-h-[500px]" : "max-h-0"}`}>
               <div className="px-6 pb-6 space-y-6">
                 <div className="space-y-3">
-                  <label className="block text-sm font-medium text-textPrimary/80">App Type</label>
+                  <label className="block text-sm text-left font-medium text-textPrimary/80">App Type</label>
                   <select
                     className="w-full p-3 bg-primary/50 text-textPrimary rounded-xl border border-textPrimary/20 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50 shadow-input"
                     value={appType}
@@ -171,7 +198,7 @@ const PromptingInterface = () => {
 
                 {appType === "Desktop" && (
                   <div className="space-y-3 animate-fade-in-up">
-                    <label className="block text-sm font-medium text-textPrimary/80">Desktop Platform</label>
+                    <label className="text-left  block text-sm font-medium text-textPrimary/80">Desktop Platform</label>
                     <select
                       className="w-full p-3 bg-primary/50 text-textPrimary rounded-xl border border-textPrimary/20 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50 shadow-input"
                       value={desktopPlatform}
@@ -188,7 +215,7 @@ const PromptingInterface = () => {
                 {appType === "Web" && (
                   <>
                     <div className="space-y-3 animate-fade-in-up">
-                      <label className="block text-sm font-medium text-textPrimary/80">Back-end Language</label>
+                      <label className="text-left  block text-sm font-medium text-textPrimary/80">Back-end Language</label>
                       <select
                         className="w-full p-3 bg-primary/50 text-textPrimary rounded-xl border border-textPrimary/20 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50 shadow-input"
                         value={webBackend}
@@ -204,7 +231,7 @@ const PromptingInterface = () => {
                     </div>
 
                     <div className="space-y-3 animate-fade-in-up">
-                      <label className="block text-sm font-medium text-textPrimary/80">Front-end Language</label>
+                      <label className="text-left block text-sm font-medium text-textPrimary/80">Front-end Language</label>
                       <select
                         className="w-full p-3 bg-primary/50 text-textPrimary rounded-xl border border-textPrimary/20 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50 shadow-input"
                         value={webFrontend}
