@@ -16,7 +16,8 @@ const Footer = () => {
   const logo5 = 'https://static.cdnlogo.com/logos/r/63/react.svg';
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 z-40 bg-primary/50 backdrop-blur-md border-t border-accent/30">
+    <footer className="bg-primary/95 backdrop-blur-md border-t border-accent/30">
+      {/* Removed fixed positioning */}
       {/* Contract Address Section */}
       <div className="flex justify-center items-center py-2 border-b border-accent/30">
         <div className="flex items-center space-x-3">
