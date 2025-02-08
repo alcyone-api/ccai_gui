@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Import icons for the dropdown
-import Intro from './text/Intro';
-import GettingStarted from './text/GettingStarted';
-import Features from './text/Features';
-import Architecture from './text/Architecture';
-import Troubleshooting from './text/Troubleshooting';
+import Intro from './text/intro.tsx';
+import GettingStarted from './text/gettingStarted.tsx';
+import Features from './text/features.tsx';
+import Architecture from './text/architecture.tsx';
+import Troubleshooting from './text/troubleshooting.tsx';
+
 
 const Docs = () => {
   const [activeSection, setActiveSection] = useState('introduction');
