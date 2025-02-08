@@ -1,20 +1,55 @@
 import { useState } from 'react';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Import icons for the dropdown
 
 const EducationContent = () => {
   const [activeSection, setActiveSection] = useState('introduction');
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to manage dropdown visibility
 
   const sections = [
     { id: 'introduction', title: 'Introduction' },
     { id: 'best-practices', title: 'Best Practices' },
-    { id: 'common-pitfalls', title: 'Common Pitfalls' },
+    { id: 'new-projects', title: 'New Projects' },
+    { id: 'updating-projects', title: 'Updating Projects' },
     { id: 'examples', title: 'Examples' },
   ];
 
   return (
     <div className="relative min-h-screen bg-primary overflow-hidden">
-      <div className="relative z-40 flex flex-col md:flex-row items-start justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
-        {/* Sidebar Navigation */}
-        <div className="mt-24 font-tomorrow w-full md:w-72 bg-secondary/90 backdrop-blur-sm p-6 rounded-xl border border-accent/20 shadow-2xl md:mx-8 mb-8 md:mb-0 z-30">
+      <div className="relative z-40 flex flex-col md:flex-row items-start justify-center px-4 pt-16 mt-12 md:pt-24 pb-24 md:pb-32 mb-12">
+        {/* Mobile Dropdown Menu */}
+        <div className="md:hidden w-full">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="w-full flex justify-between items-center p-3 bg-secondary/90 backdrop-blur-sm rounded-xl border border-accent/20 shadow-lg text-textPrimary/70 hover:bg-secondary/80 transition-all duration-300"
+          >
+            <span>Prompting 101</span>
+            {isMenuOpen ? <FaChevronUp size={16} /> : <FaChevronDown size={16} />}
+          </button>
+          {isMenuOpen && (
+            <ul className="mt-2 space-y-2 bg-secondary/90 backdrop-blur-sm rounded-xl border border-accent/20 shadow-lg p-3">
+              {sections.map((section) => (
+                <li key={section.id}>
+                  <button
+                    onClick={() => {
+                      setActiveSection(section.id);
+                      setIsMenuOpen(false); // Close dropdown after selecting a section
+                    }}
+                    className={`w-full text-left p-2 rounded-lg transition-all duration-300 ${
+                      activeSection === section.id
+                        ? 'bg-accent text-white shadow-md shadow-accent/20'
+                        : 'text-textPrimary/70 hover:bg-secondary/80 hover:shadow-md'
+                    }`}
+                  >
+                    {section.title}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Desktop Sidebar Menu */}
+        <div className="hidden md:block mt-24 font-tomorrow w-full md:w-72 bg-secondary/90 backdrop-blur-sm p-6 rounded-xl border border-accent/20 shadow-2xl md:mx-8 mb-8 md:mb-0 z-30">
           <h2 className="text-xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
             Prompting 101
           </h2>
@@ -37,7 +72,7 @@ const EducationContent = () => {
         </div>
 
         {/* Main Content */}
-        <div className="mt-24 font-tomorrow w-full md:w-[calc(100%-20rem)] max-w-4xl p-6 md:p-8 overflow-y-auto z-40">
+        <div className="mt-16 font-tomorrow w-full md:w-[calc(100%-20rem)] max-w-4xl p-6 md:p-8 overflow-y-auto z-40">
           <div key={activeSection} className="animate-fade-in-up">
             {/* Introduction Section */}
             {activeSection === 'introduction' && (
@@ -51,14 +86,22 @@ const EducationContent = () => {
                 <p className="text-textPrimary/80 leading-relaxed mt-4">
                   This guide will walk you through the fundamentals of CodeCraft AI prompting, including best practices, common pitfalls, and ready-to-use examples for various use cases.
                 </p>
+                <p className="text-textPrimary/80 leading-relaxed mt-4">
+                  <strong>Why Prompt Engineering Matters:</strong>
+                </p>
+                <ul className="list-disc list-inside space-y-2 mt-4 text-textPrimary/80">
+                  <li><strong>Clarity:</strong> Clear prompts reduce ambiguity and ensure the agents understand your requirements.</li>
+                  <li><strong>Efficiency:</strong> Well-structured prompts save time by minimizing back-and-forth iterations.</li>
+                  <li><strong>Quality:</strong> Detailed prompts lead to higher-quality outputs that align with your vision.</li>
+                </ul>
               </div>
             )}
 
-            {/* Best Practices */}
+            {/* Best Practices Section */}
             {activeSection === 'best-practices' && (
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
-                  Scoping Projects
+                  Best Practices
                 </h1>
                 <p className="text-textPrimary/80 leading-relaxed">
                   For best results, when you first generate a project, start with a basic foundation. Explain the core function of your application. From there, use the <b className="text-accent">Update Project</b> feature to make more specific requests.
@@ -71,19 +114,52 @@ const EducationContent = () => {
                   <li><strong>Break Down Tasks:</strong> Divide the project into smaller, manageable tasks with specific goals.</li>
                   <li><strong>Iterate and Refine:</strong> Start with a foundational app and use the Update Project feature to add on to it.</li>
                 </ul>
+                <p className="text-textPrimary/80 leading-relaxed mt-4">
+                  <strong>Common Mistakes to Avoid:</strong>
+                </p>
+                <ul className="list-disc list-inside space-y-2 mt-4 text-textPrimary/80">
+                  <li><strong>Vague Prompts:</strong> Ambiguous instructions lead to unpredictable results.</li>
+                  <li><strong>Overloading Information:</strong> Too much context can reduce the quality of the output. Start with your core application functionality, and expand with updates.</li>
+                </ul>
               </div>
             )}
 
-            {/* Common Pitfalls Section */}
-            {activeSection === 'common-pitfalls' && (
+            {/* New Projects Section */}
+            {activeSection === 'new-projects' && (
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
-                  Common Pitfalls
+                  New Projects
                 </h1>
+                <p className="text-textPrimary/80 leading-relaxed">
+                  When generating a new project, focus on <strong>clear context</strong> and <strong>core functionality</strong>. Avoid overly granular requests at this stage — start with a solid foundation and iterate later.
+                </p>
+                <p className="text-textPrimary/80 leading-relaxed mt-4">
+                  <strong>Tips for New Projects:</strong>
+                </p>
                 <ul className="list-disc list-inside space-y-2 mt-4 text-textPrimary/80">
-                  <li><strong>Vague Prompts:</strong> Ambiguous instructions lead to unpredictable results.</li>
-                  <li><strong>Overloading Information:</strong> Too much context can confuse the model.</li>
-                  <li><strong>Lack of Examples:</strong> Without examples, the model may misinterpret the task.</li>
+                  <li><strong>Describe the Purpose:</strong> What problem does the app solve? Who is the target audience?</li>
+                  <li><strong>Outline Key Features:</strong> What are the must-have functionalities?</li>
+                  <li><strong>Keep It Simple:</strong> Avoid super granular details to start.</li>
+                </ul>
+              </div>
+            )}
+
+            {/* Updating Projects Section */}
+            {activeSection === 'updating-projects' && (
+              <div>
+                <h1 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
+                  Updating Projects
+                </h1>
+                <p className="text-textPrimary/80 leading-relaxed">
+                  Once you have a foundational app, use the <b className="text-accent">Update Project</b> feature to add new features, fix bugs, or refine existing functionality. Updates can be more granular and detailed than initial project prompts.
+                </p>
+                <p className="text-textPrimary/80 leading-relaxed mt-4">
+                  <strong>Tips for Updating Projects:</strong>
+                </p>
+                <ul className="list-disc list-inside space-y-2 mt-4 text-textPrimary/80">
+                  <li><strong>Be Specific:</strong> Clearly describe the changes or additions you want.</li>
+                  <li><strong>Reference Existing Code:</strong> Point to specific parts of the codebase that need updates.</li>
+                  <li><strong>Test Incrementally:</strong> Make iterative changes to add new features.</li>
                 </ul>
               </div>
             )}
@@ -95,58 +171,56 @@ const EducationContent = () => {
                   Examples
                 </h1>
                 <div className="space-y-8">
-                  {/* Template 1: Full-Stack Web App */}
+                  {/* Example 1: E-Commerce Platform */}
                   <div className="bg-secondary p-6 rounded-lg shadow-card">
-                    <h3 className="text-2xl font-semibold text-textPrimary mb-4">Full-Stack Web App</h3>
+                    <h3 className="text-2xl font-semibold text-textPrimary mb-4">E-Commerce Platform</h3>
                     <p className="text-textPrimary/80 mb-4">
-                      Build a full-stack web application with user authentication, a dashboard, and CRUD functionality for a task management system.
+                      Generate a foundational e-commerce platform with user authentication, product listings, and a shopping cart.
                     </p>
                     <div className="bg-primary p-4 rounded">
                       <p className="text-textPrimary font-mono">
-                        <strong>Prompt:</strong><br />
-                        "Create a full-stack web application using React for the frontend and Node.js with Express for the backend. The app should include:<br />
-                        - User authentication (login/signup) with JWT.<br />
-                        - A dashboard displaying user-specific tasks.<br />
-                        - CRUD functionality for tasks (create, read, update, delete).<br />
-                        - Use MongoDB for the database.<br />
-                        - Deploy the app using Docker and provide a CI/CD pipeline configuration."
+                        <strong>Generate Prompt:</strong><br />
+                        "Create an e-commerce platform with the following core features:<br />
+                        - User authentication (login/signup).<br />
+                        - Product listings with categories and search functionality.<br />
+                        - A shopping cart with checkout functionality.<br />
+                      </p>
+                    </div>
+                    <div className="bg-primary p-4 rounded mt-4">
+                      <p className="text-textPrimary font-mono">
+                        <strong>Update Prompt:</strong><br />
+                        "Add payment integration to the existing e-commerce platform. Include:<br />
+                        - Integration with Stripe for payment processing.<br />
+                        - A checkout page with payment form and validation.<br />
+                        - Error handling for failed transactions.<br />
+                        - Update the database to store payment records."
                       </p>
                     </div>
                   </div>
 
-                  {/* Template 2: API Integration */}
+                  {/* Example 2: Task Management App */}
                   <div className="bg-secondary p-6 rounded-lg shadow-card">
-                    <h3 className="text-2xl font-semibold text-textPrimary mb-4">API Integration</h3>
+                    <h3 className="text-2xl font-semibold text-textPrimary mb-4">Task Management App</h3>
                     <p className="text-textPrimary/80 mb-4">
-                      Integrate a third-party API into an existing application to fetch and display real-time data.
+                      Generate a task management app with user authentication, task creation, and due date reminders.
                     </p>
                     <div className="bg-primary p-4 rounded">
                       <p className="text-textPrimary font-mono">
-                        <strong>Prompt:</strong><br />
-                        "Integrate the OpenWeatherMap API into an existing React application to display real-time weather data for a user-specified location. Include:<br />
-                        - A search bar for entering the location.<br />
-                        - Display of current weather conditions (temperature, humidity, wind speed).<br />
-                        - Error handling for invalid locations or API failures.<br />
-                        - Cache API responses for 10 minutes to reduce load."
+                        <strong>Generate Prompt:</strong><br />
+                        "Create a task management app with the following core features:<br />
+                        - User authentication (login/signup).<br />
+                        - Task creation, editing, and deletion.<br />
+                        - Due date reminders with email notifications.<br />
                       </p>
                     </div>
-                  </div>
-
-                  {/* Template 3: Machine Learning Pipeline */}
-                  <div className="bg-secondary p-6 rounded-lg shadow-card">
-                    <h3 className="text-2xl font-semibold text-textPrimary mb-4">Machine Learning Pipeline</h3>
-                    <p className="text-textPrimary/80 mb-4">
-                      Build a machine learning pipeline for sentiment analysis on customer reviews.
-                    </p>
-                    <div className="bg-primary p-4 rounded">
+                    <div className="bg-primary p-4 rounded mt-4">
                       <p className="text-textPrimary font-mono">
-                        <strong>Prompt:</strong><br />
-                        "Create a machine learning pipeline for sentiment analysis using Python. Include:<br />
-                        - Data preprocessing (cleaning, tokenization, stemming).<br />
-                        - Training a model using a dataset of customer reviews.<br />
-                        - Evaluation metrics (accuracy, precision, recall).<br />
-                        - A simple Flask API to serve predictions.<br />
-                        - Documentation for deploying the pipeline on AWS SageMaker."
+                        <strong>Update Prompt:</strong><br />
+                        "Add collaboration features to the existing task management app. Include:<br />
+                        - Ability to assign tasks to other users.<br />
+                        - Real-time updates for task changes.<br />
+                        - A comments section for each task.<br />
+                        - Update the database to store user assignments and comments."
                       </p>
                     </div>
                   </div>

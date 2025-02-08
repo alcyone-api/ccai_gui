@@ -6,35 +6,53 @@ const FAQ = () => {
   const faqs = [
     {
       question: 'What is CodeCraft AI?',
-      answer: 'CodeCraft AI is a multi-modal, agentic Generative AI platform designed to streamline software development. By leveraging advanced Large Language Models (LLMs) from DeepSeek and OpenAI, CodeCraft AI helps you scope projects, create development plans, generate code, and deploy them directly to GitHub repositories. CodeCraft AI is integrated with the Solana blockchain and also leverages DeepSeek, OpenAI, and GitHub APIs.',
+      answer:
+        'CodeCraft AI is an advanced AI-powered development platform designed to make software creation smarter, faster, and more accessible. It leverages multiple specialized AI agents, powered by DeepSeek and OpenAI models, to help you plan, generate, and deploy code. Built on Solana, it ensures fast, secure, and scalable operations while offering seamless blockchain integration and modern tech stacks like React and Tailwind CSS.',
     },
     {
       question: 'Do I need programming experience?',
-      answer: 'CodeCraft AI is designed to be user friendly, and many non-technical users have built applications with the tool. However, some programming and infrastructure knowledge can help you better understand the generated code and make necessary adjustments.',
+      answer:
+        'CodeCraft AI is designed to be user-friendly, and many non-technical users have successfully built applications with it. However, some programming and infrastructure knowledge can help you better understand the generated code and make necessary adjustments. Beginners can also use tools like GitHub Copilot or ChatGPT alongside CodeCraft AI to learn and refine their skills.',
     },
     {
       question: 'How do I get started with CodeCraft AI?',
-      answer: 'To get started connect your Solana wallet. Create a project, define its scope, and let CodeCraft AI generate and deploy the code to your GitHub repository.',
+      answer:
+        'To get started, connect your Solana wallet for secure authentication. Then, create a project by defining its scope, objectives, and required technologies. CodeCraft AI will generate the necessary code and deploy it to your GitHub repository. You can also connect GitHub to enable seamless code deployment and version control.',
     },
     {
       question: 'What LLM models does CodeCraft AI support?',
-      answer: 'CodeCraft AI leverages multiple LLMs, including OpenAI and DeepSeek models. These models are used for scoping, planning, and generating code for your projects.',
+      answer:
+        'CodeCraft AI leverages multiple Large Language Models (LLMs), including DeepSeek and OpenAI models. These models work together to handle tasks like project scoping, code generation, and error analysis. The platform dynamically selects the best agent for each task to ensure efficiency and accuracy.',
     },
     {
       question: 'Is my data secure with CodeCraft AI?',
-      answer: 'Yes, CodeCraft AI prioritizes privacy and security. No user data is stored without consent, and wallet metadata is never retained. All data used for model fine-tuning is anonymized.',
+      answer:
+        'Yes, CodeCraft AI prioritizes privacy and security. All LLMs are hosted on proprietary, on-premise infrastructure, ensuring prompt input & completion data never leaves our controlled environment.',
     },
     {
       question: 'Can I use CodeCraft AI for commercial projects?',
-      answer: 'Absolutely! CodeCraft AI is designed for both personal and commercial use. You can deploy projects to GitHub and use them in any context.',
+      answer:
+        'Absolutely! CodeCraft AI is designed for both personal and commercial use. You can deploy projects to GitHub and use them in any context. The platform supports long-term project management, making it ideal for teams working on complex projects over extended periods.',
     },
     {
       question: 'What programming languages are supported?',
-      answer: 'CodeCraft AI supports a wide range of languages. You can specify using drop-down menus, or indicate in the prompt. The platform is constantly expanding its language support.',
+      answer:
+        'CodeCraft AI supports a wide range of programming languages and frameworks. You can specify your preferred technologies using the pre-populated drop-down menus or indicate them in your prompts. The platform is constantly expanding its language and framework support.',
     },
     {
       question: 'What if I encounter issues with code generation or deployment?',
-      answer: 'If you encounter issues, check your project scope, GitHub permissions, and wallet connection. If problems persist, join our community Telegram for assistance.',
+      answer:
+        'If you encounter issues, check your project scope, GitHub permissions, and wallet connection. For code generation errors, ensure your instructions are clear and well-defined. If problems persist, reach out to our support team via the community Telegram channel for assistance.',
+    },
+    {
+      question: 'How does CodeCraft AI handle updates to existing projects?',
+      answer:
+        'CodeCraft AI allows you to update existing projects with granular requests. You can add new features, fix bugs, or refine functionality. The platform uses a separate team of agents for updates, ensuring seamless integration with your existing codebase.',
+    },
+    {
+      question: 'What makes CodeCraft AI different from other AI tools?',
+      answer:
+        'CodeCraft AI stands out due to its multi-agent system, which uses specialized AI agents to handle different tasks like project management, code generation, and quality assurance. It also offers on-premise infrastructure for reliability, seamless Web3 integration, and GitHub deployment for streamlined workflows.',
     },
   ];
 
