@@ -27,8 +27,8 @@ const Team = () => {
     },
     {
       name: 'Titan-42',
-      role: 'Tokenomics Master',
-      bio: 'Titan-42 is a master of token economics, game theory, and incentive design. His strategic insights drive the sustainable growth of CodeCraft’s ecosystem.',
+      role: 'Deep Researcher',
+      bio: 'Titan-42 is a crypto DeFi veteran and deep researcher, exploring the forefront of new technology. His expertise ensures CodeCraft stays up-to-date with the latest developments in crypto and AI, driving innovation and adaptability.',
       image: avatar4,
     },
     {

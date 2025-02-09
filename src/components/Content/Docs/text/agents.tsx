@@ -28,10 +28,10 @@ const Agents = () => {
             <strong>Agent Atlas</strong> – The master strategist. Atlas maps out the project's trajectory, breaking down tasks and assigning them to the right agents with precision.
           </li>
           <li className="text-textPrimary/90">
-            <strong>Agent Codey</strong> – The code wizard. Codey turns ideas into reality, crafting elegant and functional code with a futuristic flair.
+            <strong>Agent Byte</strong> – The code wizard. Byte turns ideas into reality, crafting elegant and functional code with a futuristic flair.
           </li>
           <li className="text-textPrimary/90">
-            <strong>Agent Hex</strong> – The vigilant sentinel. Hex hunts down bugs and vulnerabilities, ensuring the code is bulletproof and secure.
+            <strong>Agent Sentinel</strong> – The vigilant sentinel. Sentinel hunts down bugs and vulnerabilities, ensuring the code is bulletproof and secure.
           </li>
           <li className="text-textPrimary/90">
             <strong>Agent Nova</strong> – The perfectionist. Nova refines the code, polishing it to a gleaming shine for optimal performance and readability.
@@ -43,7 +43,7 @@ const Agents = () => {
             <strong>Agent Echo</strong> – The storyteller. Echo documents the code, crafting explanations and guides that make even the most complex systems understandable.
           </li>
           <li className="text-textPrimary/90">
-            <strong>Agent Tidy</strong> – The organizer. Tidy structures the project, ensuring every file and directory is in its rightful place.
+            <strong>Agent Order</strong> – The organizer. Order structures the project, ensuring every file and directory is in its rightful place.
           </li>
           <li className="text-textPrimary/90">
             <strong>Agent Patch</strong> – The deployer. Patch uploads the project to its destination, ensuring it reaches the world seamlessly.
@@ -55,14 +55,14 @@ const Agents = () => {
       <div className="group space-y-4 transition-all duration-300 hover:scale-[1.02] hover:pl-2">
         <h2 className="text-2xl font-bold text-accent">Update Workflow</h2>
         <p className="text-textPrimary/90 leading-relaxed">
-          For updating projects, CodeCraft uses a separate team of 4 Agents, comprised of:
+          For updating projects, CodeCraft uses an additional Agent named Forge, along with Order, Echo, and Patch. The update process involves the following Agents:
         </p>
         <ul className="list-disc ml-6 space-y-2 mt-4">
           <li className="text-textPrimary/90">
             <strong>Agent Forge</strong> – The architect of updates. Forge ensures compatibility and oversees the entire update process with a steady hand.
           </li>
           <li className="text-textPrimary/90">
-            <strong>Agent Tidy</strong> – The organizer. Tidy restructures files and directories to accommodate changes.
+            <strong>Agent Order</strong> – The organizer. Order restructures files and directories to accommodate changes.
           </li>
           <li className="text-textPrimary/90">
             <strong>Agent Echo</strong> – The storyteller. Echo updates documentation to reflect the latest changes.

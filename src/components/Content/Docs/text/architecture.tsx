@@ -37,16 +37,16 @@ const Architecture = () => {
             <strong>Agent Atlas</strong> takes the enhanced prompt and creates a detailed project plan. It determines what tasks need to be performed, which agents are responsible, and the order of execution. The project plan is sent back to the Agent Orchestration Module.
           </li>
           <li className="text-textPrimary/90">
-            <strong>Agent Codey</strong> receives the project plan and begins coding the application. The completed code is returned to the Agent Orchestration Module.
+            <strong>Agent Byte</strong> receives the project plan and begins coding the application. The completed code is returned to the Agent Orchestration Module.
           </li>
           <li className="text-textPrimary/90">
-            <strong>Agent Nova</strong> and <strong>Agent Hex</strong> refine and enhance the code. Nova ensures the code is optimized for readability and performance, while Hex rigorously tests it to ensure functionality and reliability.
+            <strong>Agent Nova</strong> and <strong>Agent Sentinel</strong> refine and enhance the code. Nova ensures the code is optimized for readability and performance, while Sentinel rigorously tests it to ensure functionality and reliability.
           </li>
           <li className="text-textPrimary/90">
             <strong>Agent Flux</strong> further optimizes the code for performance, ensuring it runs efficiently on the designated platform.
           </li>
           <li className="text-textPrimary/90">
-            <strong>Agent Tidy</strong> organizes all deliverables, structuring the project files and directories for clarity and ease of use.
+            <strong>Agent Order</strong> organizes all deliverables, structuring the project files and directories for clarity and ease of use.
           </li>
           <li className="text-textPrimary/90">
             <strong>Agent Echo</strong> generates a summary of the application, explaining how it works and documenting its features for future reference.
@@ -56,7 +56,7 @@ const Architecture = () => {
           </li>
         </ol>
         <p className="text-textPrimary/90 leading-relaxed mt-4">
-          For updates, <strong>Agent Forge</strong> oversees the process, ensuring compatibility and managing changes. <strong>Agent Tidy</strong> reorganizes files as needed, <strong>Agent Echo</strong> updates the documentation, and <strong>Agent Patch</strong> commits the changes to your Git repository.
+          For updates, <strong>Agent Forge</strong> oversees the process, ensuring compatibility and managing changes. <strong>Agent Order</strong> reorganizes files as needed, <strong>Agent Echo</strong> updates the documentation, and <strong>Agent Patch</strong> commits the changes to your Git repository.
         </p>
       </div>
 

@@ -19,15 +19,15 @@ const Features = () => {
         </div>
   
         <div className="group space-y-4 transition-all duration-300 hover:scale-[1.02] hover:pl-2">
-          <h2 className="text-2xl font-bold text-accent">On-Premise AI Infrastructure for Resilience</h2>
+          <h2 className="text-2xl font-bold text-accent">Hybrid AI Infrastructure for Resilience</h2>
           <p className="text-textPrimary/90 leading-relaxed">
-            All LLMs are hosted on proprietary, <strong>on-premise</strong> infrastructure instead of relying on cloud-based services. This approach provides <strong>greater reliability, security, and performance</strong> by eliminating dependencies on external cloud providers.
+            While many of our LLMs are hosted on proprietary, <strong>on-premise</strong> infrastructure, we also leverage cloud-based solutions via APIs when appropriate. This hybrid approach combines the benefits of <strong>greater reliability, security, and performance</strong> from on-premise hosting with the flexibility and scalability of cloud-based services.
           </p>
           <p className="text-textPrimary/90 leading-relaxed mt-4">
-            Since cloud-based LLMs can be affected by network outages, provider downtimes, or API rate limits, hosting models in-house ensures <strong>uninterrupted availability</strong> and <strong>faster response times</strong>. Additionally, on-prem deployment enhances <strong>data privacy and compliance</strong>, as sensitive information never leaves the controlled environment.
+            On-premise hosting ensures <strong>uninterrupted availability</strong> and <strong>faster response times</strong> for critical workloads, while cloud-based APIs provide fallback options during updates or maintenance. This setup also enhances <strong>data privacy and compliance</strong> for sensitive information, as it remains within controlled environments whenever possible.
           </p>
           <p className="text-textPrimary/90 leading-relaxed mt-4">
-            By maintaining full ownership over AI processing, this setup guarantees <strong>long-term stability, reduced latency, and superior resilience</strong> against external disruptions.
+            By strategically balancing on-premise and cloud-based AI processing, we guarantee <strong>long-term stability, reduced latency, and superior resilience</strong> against external disruptions.
           </p>
         </div>
   

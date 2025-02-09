@@ -25,11 +25,6 @@ const FAQ = () => {
         'CodeCraft AI leverages multiple Large Language Models (LLMs), including DeepSeek and OpenAI models. These models work together to handle tasks like project scoping, code generation, and error analysis. The platform dynamically selects the best agent for each task to ensure efficiency and accuracy.',
     },
     {
-      question: 'Is my data secure with CodeCraft AI?',
-      answer:
-        'Yes, CodeCraft AI prioritizes privacy and security. All LLMs are hosted on proprietary, on-premise infrastructure, ensuring prompt input & completion data never leaves our controlled environment.',
-    },
-    {
       question: 'Can I use CodeCraft AI for commercial projects?',
       answer:
         'Absolutely! CodeCraft AI is designed for both personal and commercial use. You can deploy projects to GitHub and use them in any context. The platform supports long-term project management, making it ideal for teams working on complex projects over extended periods.',
@@ -52,7 +47,7 @@ const FAQ = () => {
     {
       question: 'What makes CodeCraft AI different from other AI tools?',
       answer:
-        'CodeCraft AI stands out due to its multi-agent system, which uses specialized AI agents to handle different tasks like project management, code generation, and quality assurance. It also offers on-premise infrastructure for reliability, seamless Web3 integration, and GitHub deployment for streamlined workflows.',
+        'CodeCraft AI stands out due to its multi-agent system, which uses specialized AI agents to handle different tasks like project management, code generation, and quality assurance. It also offers a combination of on-premise and cloud-hosted infrastructure for reliability, seamless Web3 integration, and GitHub deployment for streamlined workflows.',
     },
   ];
 
