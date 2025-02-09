@@ -6,7 +6,7 @@ const Architecture = () => {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-bold text-accent">Agent-Based Workflow</h1>
+      <h1 className="text-2xl font-bold text-accent">Agentic Workflow</h1>
       {/* Agents Graphic */}
       <div>
         <img
