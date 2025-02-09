@@ -1,4 +1,4 @@
-import React from 'react';
+
 import avatar1 from '../../../../assets/1.svg';
 import avatar2 from '../../../../assets/2.svg';
 import avatar3 from '../../../../assets/3.svg';
