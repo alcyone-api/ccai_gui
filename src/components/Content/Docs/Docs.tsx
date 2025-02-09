@@ -5,7 +5,8 @@ import GettingStarted from './text/gettingStarted.tsx';
 import Features from './text/features.tsx';
 import Architecture from './text/architecture.tsx';
 import Troubleshooting from './text/troubleshooting.tsx';
-import Team from './text/team.tsx'; // Import the new Team component
+import Team from './text/team.tsx'; 
+import Agents from './text/agents.tsx'; 
 
 const Docs = () => {
   const [activeSection, setActiveSection] = useState('introduction');
@@ -15,6 +16,7 @@ const Docs = () => {
     { id: 'introduction', title: 'Introduction' },
     { id: 'getting-started', title: 'Getting Started' },
     { id: 'features', title: 'Features' },
+    { id: 'agents', title: 'Agents' },
     { id: 'architecture', title: 'Architecture' },
     { id: 'team', title: 'Team' }, 
     { id: 'troubleshooting', title: 'Troubleshooting' }
@@ -84,6 +86,7 @@ const Docs = () => {
             {activeSection === 'introduction' && <Intro />}
             {activeSection === 'getting-started' && <GettingStarted />}
             {activeSection === 'features' && <Features />}
+            {activeSection === 'agents' && <Agents />}
             {activeSection === 'architecture' && <Architecture />}
             {activeSection === 'team' && <Team />}
             {activeSection === 'troubleshooting' && <Troubleshooting />}
