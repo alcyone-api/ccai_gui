@@ -1,22 +1,23 @@
 import { useState } from 'react';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Import icons for the dropdown
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import Intro from './text/intro.tsx';
 import GettingStarted from './text/gettingStarted.tsx';
 import Features from './text/features.tsx';
 import Architecture from './text/architecture.tsx';
 import Troubleshooting from './text/troubleshooting.tsx';
-
+import Team from './text/team.tsx'; // Import the new Team component
 
 const Docs = () => {
   const [activeSection, setActiveSection] = useState('introduction');
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to manage dropdown visibility
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const sections = [
     { id: 'introduction', title: 'Introduction' },
     { id: 'getting-started', title: 'Getting Started' },
     { id: 'features', title: 'Features' },
     { id: 'architecture', title: 'Architecture' },
-    { id: 'troubleshooting', title: 'Troubleshooting' },
+    { id: 'team', title: 'Team' }, 
+    { id: 'troubleshooting', title: 'Troubleshooting' }
   ];
 
   return (
@@ -38,7 +39,7 @@ const Docs = () => {
                   <button
                     onClick={() => {
                       setActiveSection(section.id);
-                      setIsMenuOpen(false); // Close dropdown after selecting a section
+                      setIsMenuOpen(false);
                     }}
                     className={`w-full text-left p-2 rounded-lg transition-all duration-300 ${
                       activeSection === section.id
@@ -84,6 +85,7 @@ const Docs = () => {
             {activeSection === 'getting-started' && <GettingStarted />}
             {activeSection === 'features' && <Features />}
             {activeSection === 'architecture' && <Architecture />}
+            {activeSection === 'team' && <Team />}
             {activeSection === 'troubleshooting' && <Troubleshooting />}
           </div>
         </div>
