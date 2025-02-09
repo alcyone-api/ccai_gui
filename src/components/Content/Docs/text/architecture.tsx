@@ -16,7 +16,13 @@ const Architecture = () => {
           className="mt-12 mb-12 cursor-pointer hover:opacity-80 transition-opacity"
         />
       </div>
-
+        {/* Modular Orchestration */}
+        <div className="group space-y-4 transition-all duration-300 hover:scale-[1.02] hover:pl-2">
+        <h2 className="text-2xl font-bold text-accent">Modular Orchestration</h2>
+        <p className="text-textPrimary/90 leading-relaxed">
+        CodeCraft Agents are built on a modular, agentic AI architecture where the real power lies in the unique logic each agent uses to interact with its own instance of a large language model (LLM). Unlike relying on a single LLM, each agent generates its own prompts and processes information independently, enabling deeper, more contextual problem-solving for software development tasks. This approach unlocks far greater processing power and flexibility, as the agents work together in specialized workflows. Moving forward, we’re expanding this system with new agents, advanced orchestration methods, and even more innovative ways to tackle complex challenges.
+        </p>
+      </div>
       {/* Workflow Description */}
       <div className="group space-y-4 transition-all duration-300 hover:scale-[1.02] hover:pl-2">
         <h2 className="text-2xl font-bold text-accent">Workflow Overview</h2>
@@ -51,16 +57,6 @@ const Architecture = () => {
         </ol>
         <p className="text-textPrimary/90 leading-relaxed mt-4">
           For updates, <strong>Agent Forge</strong> oversees the process, ensuring compatibility and managing changes. <strong>Agent Tidy</strong> reorganizes files as needed, <strong>Agent Echo</strong> updates the documentation, and <strong>Agent Patch</strong> commits the changes to your Git repository.
-        </p>
-      </div>
-
-
-
-      {/* Modular Orchestration */}
-      <div className="group space-y-4 transition-all duration-300 hover:scale-[1.02] hover:pl-2">
-        <h2 className="text-2xl font-bold text-accent">Modular Orchestration</h2>
-        <p className="text-textPrimary/90 leading-relaxed">
-        CodeCraft Agents are built on a modular, agentic AI architecture where the real power lies in the unique logic each agent uses to interact with its own instance of a large language model (LLM). Unlike relying on a single LLM, each agent generates its own prompts and processes information independently, enabling deeper, more contextual problem-solving for software development tasks. This approach unlocks far greater processing power and flexibility, as the agents work together in specialized workflows. Moving forward, we’re expanding this system with new agents, advanced orchestration methods, and even more innovative ways to tackle complex challenges.
         </p>
       </div>
 
