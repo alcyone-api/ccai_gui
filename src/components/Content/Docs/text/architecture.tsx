@@ -1,17 +1,8 @@
-import { useState } from 'react';
+
 import arch from '../../../../assets/arch.svg';
 import agentsImage from '../../../../assets/agents.svg'; // Assume you have an image of the agents
 
 const Architecture = () => {
-  const [isArchModalOpen, setArchModalOpen] = useState(false);
-  const [isAgentsModalOpen, setAgentsModalOpen] = useState(false);
-
-  const openArchModal = () => setArchModalOpen(true);
-  const openAgentsModal = () => setAgentsModalOpen(true);
-  const closeModals = () => {
-    setArchModalOpen(false);
-    setAgentsModalOpen(false);
-  };
 
   return (
     <div className="space-y-8">
@@ -93,7 +84,6 @@ const Architecture = () => {
           src={arch}
           alt="architecture_diagram"
           className="mt-12 mb-12 cursor-pointer hover:opacity-80 transition-opacity"
-          onClick={openArchModal}
         />
       </div>
 
@@ -144,43 +134,6 @@ const Architecture = () => {
         </p>
       </div>
 
-      {/* Modal for Architecture Diagram */}
-      {isArchModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" onClick={closeModals}>
-          <div className="relative w-full h-full flex items-center justify-center">
-            <img
-              src={arch}
-              alt="architecture_diagram"
-              className="max-w-full max-h-full"
-            />
-            <button
-              className="absolute top-4 right-4 p-2 bg-accent text-white rounded-full hover:bg-accent/80"
-              onClick={closeModals}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Modal for Agents Graphic */}
-      {isAgentsModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" onClick={closeModals}>
-          <div className="relative w-full h-full flex items-center justify-center">
-            <img
-              src={agentsImage}
-              alt="agents_graphic"
-              className="max-w-full max-h-full"
-            />
-            <button
-              className="absolute top-4 right-4 p-2 bg-accent text-white rounded-full hover:bg-accent/80"
-              onClick={closeModals}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
