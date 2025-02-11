@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaGithub } from 'react-icons/fa';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 import UpdateProjectModal from './UpdateProjectModal';
 
 interface Project {
@@ -39,17 +39,31 @@ const ProjectsList = () => {
           <h1 className="font-tomorrow text-4xl sm:text-5xl md:text-7xl font-bold text-textPrimary leading-tight animate-fade-in-up">
             Your Projects
           </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-24">
+          <div className="w-full space-y-6">
             {projects.map((project) => (
               <Link
                 key={project.id}
-                to={`/projects/${project.id}`} // Link to the project page with the project ID
-                className="bg-secondary/70 backdrop-blur-md p-8 rounded-2xl border border-textPrimary/20 shadow-lg hover:shadow-xl transition-shadow duration-300 min-w-[300px] max-w-[400px] block" // Added 'block' to make the entire card clickable
+                to={`/projects/${project.id}`}
+                className="bg-secondary/70 backdrop-blur-md p-6 rounded-2xl border border-textPrimary/20 shadow-lg hover:shadow-xl transition-shadow duration-300 w-full flex items-center justify-between"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-tomorrow text-xl font-bold text-textPrimary">
+                {/* Left Section: Project Details */}
+                <div className="flex-1 pr-6">
+                  <h2 className="font-tomorrow text-xl font-bold text-textPrimary break-all overflow-hidden overflow-ellipsis mb-2">
                     {project.name}
                   </h2>
+                  <p className="font-tomorrow text-textPrimary/80 text-left break-words mb-4">
+                    {project.description}
+                  </p>
+                  <div className="flex items-center space-x-2">
+                    <span className="font-tomorrow text-sm text-textPrimary/80">Repo:</span>
+                    <span className="font-tomorrow text-sm text-textPrimary break-all">
+                      {project.githubRepo}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Right Section: GitHub Button */}
+                <div className="flex-shrink-0">
                   <a
                     href={`https://github.com/${project.githubRepo}`}
                     target="_blank"
@@ -57,21 +71,10 @@ const ProjectsList = () => {
                     className="text-textPrimary/80 hover:text-accent transition-colors"
                     data-tooltip-id="github-tooltip"
                     data-tooltip-content="View on GitHub"
-                    onClick={(e) => e.stopPropagation()} // Prevent the Link from being triggered when clicking the GitHub icon
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <FaGithub className="w-6 h-6" />
+                    <FaGithub className="w-8 h-8" />
                   </a>
-                </div>
-                <p className="font-tomorrow text-textPrimary/80 mb-4 text-left">
-                  {project.description}
-                </p>
-                <div className="flex items-center space-x-2 mb-4">
-                  <span className="font-tomorrow text-sm text-textPrimary/80">Repo:</span>
-                  <span className="font-tomorrow text-sm text-textPrimary">
-                    {project.githubRepo}
-                  </span>
-                </div>
-                <div className="flex items-center justify-center w-full mt-4">
                 </div>
               </Link>
             ))}
