@@ -12,6 +12,7 @@ import Background from './components/Primary/Background/Background';
 import GenerationResult from './components/PromptingInterface/GenerationResult/GenerationResult';
 import ProjectPage from './components/Projects/ProjectPage/ProjectPage';
 import GitHubSuccessModal from './components/Primary/Navbar/GitHubSuccessModal';
+import LandingPage from './components/LandingPage'; // Import the LandingPage component
 
 const App = () => {
   const [showGitHubModal, setShowGitHubModal] = useState(false);
@@ -35,7 +36,8 @@ const App = () => {
       <Navbar onGitHubLogin={handleGitHubLogin} />
       <div className="flex flex-col min-h-screen">
         <Routes>
-          <Route path="/" element={<HeroSection />} />
+          <Route path="/" element={<LandingPage />} /> {/* LandingPage as the root route */}
+          <Route path="/home" element={<HeroSection />} /> {/* Change the route for HeroSection */}
           <Route path="/prompt" element={<PromptingInterface />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/education" element={<EducationContent />} /> {/* Add the new route */}
