@@ -2,19 +2,21 @@ import { useState, useRef, useEffect } from 'react';
 import { FaBars, FaTimes, FaWallet, FaGithub, FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ccaiLogo from '../../../assets/ccai_logo.svg';
+import { useGlobalState } from '../../Context/GlobalStateContext'; // Import the global state hook
 
 interface NavbarProps {
   onGitHubLogin: (isLoggedIn: boolean) => void;
-  profilePicture?: string | null; // Avatar SVG or URL
-  username?: string; // Username
   balance?: { usd: number; craft: number }; // Balance
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username, balance }) => {
+const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isGitHubLoggedIn, setIsGitHubLoggedIn] = useState(false);
   const [showAccountDropdown, setShowAccountDropdown] = useState(false);
+
+  // Access global state for profile picture and username
+  const { selectedIconUrl, username } = useGlobalState();
 
   // Create a ref for the dropdown
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -48,6 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
   return (
     <nav className="fixed w-full z-50 px-6 py-4 backdrop-blur-md border-b border-accent/30 bg-gradient-to-r from-accent/50 to-primary/50">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
+        {/* Left side of the navbar */}
         <div className="flex items-center space-x-8">
           <div className="flex items-center">
             <Link to="/" className="font-tomorrow text-xl md:text-2xl font-bold text-textPrimary">
@@ -77,6 +80,8 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
             </Link>
           </div>
         </div>
+
+        {/* Right side of the navbar */}
         <div className="hidden md:flex items-center space-x-4 ml-auto mr-4">
           {/* Account Dropdown */}
           <div className="relative" ref={dropdownRef}>
@@ -84,11 +89,19 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
               onClick={() => setShowAccountDropdown(!showAccountDropdown)}
               className="flex items-center space-x-2 p-2 rounded-lg hover:bg-secondary/80 transition-all"
             >
-              {profilePicture ? (
+              {selectedIconUrl ? (
+                // If selectedIconUrl is a CDN URL, render an image
                 <div className="w-8 h-8 rounded-full overflow-hidden">
-                  {profilePicture} {/* Render the avatar SVG or image */}
+                  <img style={{
+                        filter: 'brightness(0) invert(1)', // Convert black to white
+                              }} 
+                        src={selectedIconUrl} 
+                        alt="Profile" 
+                        className="w-full h-full object-cover" />
                 </div>
+                
               ) : (
+                // Fallback to a default icon
                 <FaUserCircle className="w-8 h-8 text-textPrimary" />
               )}
               {username && <span className="text-textPrimary">{username}</span>}
@@ -125,7 +138,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
                   {isWalletConnected && (
                     <div className="my-4">
                       <Link
-                        to="/account"
+                        to="/account/profile"
                         onClick={() => setShowAccountDropdown(false)}
                         className="w-full px-4 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all flex items-center justify-center space-x-2"
                       >
@@ -134,17 +147,16 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
                       </Link>
                     </div>
                   )}
-                  {/* Balances (Conditional) */}
                   {isWalletConnected && (
                     <div className="space-y-2">
                       <h3 className="text-textPrimary font-bold">Balances</h3>
                       <div className="flex justify-between">
                         <span className="text-textPrimary">USD:</span>
-                        <span className="text-textPrimary font-bold">${balance?.usd || 0}</span>
+                        <span className="text-textPrimary font-bold">${balance?.usd.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-textPrimary">CRAFT:</span>
-                        <span className="text-textPrimary font-bold">{balance?.craft || 0}</span>
+                        <span className="text-textPrimary font-bold">${balance?.craft.toFixed(2)}</span>
                       </div>
                     </div>
                   )}
@@ -153,7 +165,8 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
             )}
           </div>
         </div>
-        {/* Mobile Menu */}
+
+        {/* Mobile Menu Toggle */}
         <div className="md:hidden">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -163,6 +176,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
           </button>
         </div>
       </div>
+
       {/* Mobile Menu Content */}
       {isMenuOpen && (
         <div className="md:hidden mt-4 space-y-2">
@@ -179,7 +193,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
               onClick={() => setIsMenuOpen(false)}
               className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2"
             >
-              <span>Saved Projects</span>
+              Saved Projects
             </Link>
           )}
           <Link
@@ -209,11 +223,13 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
               onClick={() => setShowAccountDropdown(!showAccountDropdown)}
               className="flex items-center space-x-2 p-2 rounded-lg hover:bg-secondary/80 transition-all w-full"
             >
-              {profilePicture ? (
+              {selectedIconUrl ? (
+                // If selectedIconUrl is a CDN URL, render an image
                 <div className="w-8 h-8 rounded-full overflow-hidden">
-                  {profilePicture} {/* Render the avatar SVG or image */}
+                  <img src={selectedIconUrl} alt="Profile" className="w-full h-full object-cover" />
                 </div>
               ) : (
+                // Fallback to a default icon
                 <FaUserCircle className="w-8 h-8 text-textPrimary" />
               )}
               {username && <span className="text-textPrimary">Account</span>}
@@ -250,7 +266,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username
                   {isWalletConnected && (
                     <div className="my-4">
                       <Link
-                        to="/account"
+                        to="/account/profile"
                         onClick={() => setShowAccountDropdown(false)}
                         className="w-full px-4 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all flex items-center justify-center space-x-2"
                       >

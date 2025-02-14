@@ -1,81 +1,66 @@
-import React, { useState } from 'react';
-
-// Avatar SVGs
-const avatars = [
-  {
-    id: 'analyzer',
-    name: 'The Analyzer',
-    svg: (
-      <svg viewBox="0 0 100 100" className="w-20 h-20">
-        <circle cx="50" cy="50" r="45" fill="#4F46E5" />
-        <rect x="30" y="40" width="40" height="20" fill="#FFFFFF" />
-        <circle cx="40" cy="50" r="5" fill="#4F46E5" />
-        <circle cx="60" cy="50" r="5" fill="#4F46E5" />
-      </svg>
-    ),
-  },
-  {
-    id: 'warrior',
-    name: 'The Warrior',
-    svg: (
-      <svg viewBox="0 0 100 100" className="w-20 h-20">
-        <circle cx="50" cy="50" r="45" fill="#EF4444" />
-        <path d="M30,70 L50,30 L70,70 Z" fill="#FFFFFF" />
-        <rect x="45" y="60" width="10" height="20" fill="#FFFFFF" />
-      </svg>
-    ),
-  },
-  {
-    id: 'cryptic',
-    name: 'The Cryptic',
-    svg: (
-      <svg viewBox="0 0 100 100" className="w-20 h-20">
-        <circle cx="50" cy="50" r="45" fill="#6B7280" />
-        <circle cx="50" cy="50" r="30" fill="#FFFFFF" />
-        <path d="M40,40 L60,60 M60,40 L40,60" stroke="#6B7280" strokeWidth="5" />
-      </svg>
-    ),
-  },
-  {
-    id: 'rogue',
-    name: 'The Rogue',
-    svg: (
-      <svg viewBox="0 0 100 100" className="w-20 h-20">
-        <circle cx="50" cy="50" r="45" fill="#10B981" />
-        <rect x="30" y="40" width="40" height="20" fill="#FFFFFF" />
-        <path d="M40,50 L60,50 M50,40 L50,60" stroke="#10B981" strokeWidth="5" />
-      </svg>
-    ),
-  },
-  {
-    id: 'wizard',
-    name: 'The Wizard',
-    svg: (
-      <svg viewBox="0 0 100 100" className="w-20 h-20">
-        <circle cx="50" cy="50" r="45" fill="#F59E0B" />
-        <path d="M50,30 L70,70 L30,70 Z" fill="#FFFFFF" />
-        <circle cx="50" cy="50" r="10" fill="#F59E0B" />
-      </svg>
-    ),
-  },
-];
+import React, { useState, useEffect } from 'react';
+import { Icon } from '@iconify/react'; // Import Iconify
+import { useGlobalState } from '../Context/GlobalStateContext'; // Import the global state hook
 
 interface ProfileSectionProps {
   onSaveProfile: (avatar: string, username: string) => void;
 }
 
-const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
-  const [selectedAvatar, setSelectedAvatar] = useState<string>('analyzer');
-  const [username, setUsername] = useState<string>('');
-  const [showAvatarMenu, setShowAvatarMenu] = useState<boolean>(true);
+// Avatar SVGs (local avatars)
+interface Avatar {
+  id: string;
+  name: string;
+  svg: JSX.Element;
+}
 
-  const handleAvatarSelect = (avatarId: string) => {
-    setSelectedAvatar(avatarId);
+const avatars: Avatar[] = []; // Add your local avatars here if needed
+
+const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
+  const { selectedIconUrl, setSelectedIconUrl, username, setUsername } = useGlobalState();
+  const [showAvatarMenu, setShowAvatarMenu] = useState<boolean>(true);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [iconResults, setIconResults] = useState<string[]>([]);
+  const [isDirty, setIsDirty] = useState<boolean>(false); // Track changes
+
+  // Track changes to username or avatar
+  useEffect(() => {
+    const isUsernameChanged = username.trim() !== '';
+    const isAvatarChanged = !!selectedIconUrl; // Check if an avatar is selected
+    setIsDirty(isUsernameChanged || isAvatarChanged);
+  }, [username, selectedIconUrl]);
+
+  // Fetch icons from Iconify based on search query
+  const searchIcons = async (query: string) => {
+    if (!query) {
+      setIconResults([]);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.iconify.design/search?query=${encodeURIComponent(query)}&limit=20`
+      );
+      const data = await response.json();
+      setIconResults(data.icons);
+    } catch (error) {
+      console.error('Error fetching icons:', error);
+    }
+  };
+
+  const handleAvatarSelect = (icon: string) => {
+    const iconUrl = `https://api.iconify.design/${icon}.svg`; // Construct CDN URL
+    setSelectedIconUrl(iconUrl); // Update global state
     setShowAvatarMenu(false); // Hide the avatar selection menu
   };
 
+  const handleEditAvatar = () => {
+    setShowAvatarMenu(true); // Reopen the avatar selection menu
+  };
+
   const handleSaveProfile = () => {
-    onSaveProfile(selectedAvatar, username); // Pass data to parent
+    // Save the profile
+    onSaveProfile(selectedIconUrl, username);
+    console.log('Profile saved:', { selectedIconUrl, username });
   };
 
   return (
@@ -84,32 +69,66 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
       <div className="space-y-6">
         {/* Avatar Selection */}
         {showAvatarMenu ? (
-          <div className="space-y-2">
+          <div className="space-y-4">
             <h3 className="text-xl font-semibold text-textPrimary">Choose Your Avatar</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
-              {avatars.map((avatar) => (
-                <button
-                  key={avatar.id}
-                  onClick={() => handleAvatarSelect(avatar.id)}
-                  className={`p-2 rounded-lg transition-all duration-300 ${
-                    selectedAvatar === avatar.id
-                      ? 'bg-accent/20 border-2 border-accent'
-                      : 'bg-primary hover:bg-accent/10'
-                  }`}
-                >
-                  {avatar.svg}
-                  <p className="text-textPrimary text-sm mt-2">{avatar.name}</p>
-                </button>
-              ))}
-            </div>
+
+            {/* Search Bar */}
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                searchIcons(e.target.value);
+              }}
+              className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
+              placeholder="Search for icons..."
+            />
+
+            {/* Display Search Results */}
+            {searchQuery && (
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-4">
+                {iconResults.map((icon, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAvatarSelect(icon)}
+                    className="p-2 rounded-lg bg-primary hover:bg-accent/10 transition-all duration-300"
+                  >
+                    <Icon
+                      icon={icon}
+                      className="w-12 h-12 text-textPrimary"
+                      style={{
+                        filter: 'brightness(0) invert(1)', // Convert black to white
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex items-center space-x-4">
             {/* Display Selected Avatar */}
             <div className="w-16 h-16 rounded-full overflow-hidden">
-              {avatars.find((avatar) => avatar.id === selectedAvatar)?.svg}
+              {selectedIconUrl ? (
+                <img
+                  src={selectedIconUrl}
+                  alt="Selected Avatar"
+                  className="w-full h-full object-cover"
+                  style={{
+                    filter: 'brightness(0) invert(1)', // Convert black to white
+                  }}
+                />
+              ) : (
+                <Icon
+                  icon="mdi:user"
+                  className="w-16 h-16 text-textPrimary"
+                  style={{
+                    filter: 'brightness(0) invert(1)', // Convert black to white
+                  }}
+                /> // Fallback icon
+              )}
             </div>
-            <span className="text-textPrimary text-xl font-bold">{username}</span>
+            <span className="text-textPrimary text-xl font-bold">{username || 'Your Username'}</span>
           </div>
         )}
 
@@ -128,13 +147,34 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
           />
         </div>
 
-        {/* Save Button */}
-        <button
-          className="px-8 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all font-tomorrow"
-          onClick={handleSaveProfile}
-        >
-          Save Changes
-        </button>
+        {/* Action Buttons */}
+        <div className="flex items-center justify-start space-x-4">
+          {/* Edit Button */}
+          <button
+            onClick={handleEditAvatar}
+            disabled={!isDirty}
+            className={`px-6 py-2 rounded-lg transition-all font-tomorrow ${
+              isDirty
+          ? 'bg-accent text-textPrimary hover:bg-opacity-90'
+          : 'bg-gray-400 text-gray-700 cursor-not-allowed'
+            }`}
+          >
+            Edit Avatar
+          </button>
+
+          {/* Save Changes Button */}
+          <button
+            onClick={handleSaveProfile}
+            disabled={!isDirty}
+            className={`px-6 py-2 rounded-lg transition-all font-tomorrow ${
+              isDirty
+          ? 'bg-accent text-textPrimary hover:bg-opacity-90'
+          : 'bg-gray-400 text-gray-700 cursor-not-allowed'
+            }`}
+          >
+            Save Changes
+          </button>
+        </div>
       </div>
     </div>
   );

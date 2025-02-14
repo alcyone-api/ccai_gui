@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { GlobalStateProvider } from './components/Context/GlobalStateContext'; // Import the GlobalStateProvider
 import HeroSection from './components/HeroSection/HeroSection';
 import PromptingInterface from './components/PromptingInterface/PromptingInterface';
 import FAQ from './components/Content/FAQ/FAQ';
@@ -13,14 +14,12 @@ import GenerationResult from './components/PromptingInterface/GenerationResult/G
 import ProjectPage from './components/Projects/ProjectPage/ProjectPage';
 import GitHubSuccessModal from './components/Primary/Navbar/GitHubSuccessModal';
 import ProfileSection from './components/AccountManagement/ProfileSection';
-import BalanceCard from './components/AccountManagement/Balance';
+import Balance from './components/AccountManagement/Balance';
 import SubscriptionSection from './components/AccountManagement/SubscriptionSection';
 
 const App = () => {
   const [showGitHubModal, setShowGitHubModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
-  const [username, setUsername] = useState<string>('');
   const [balance, setBalance] = useState<{ usd: number; craft: number }>({ usd: 100, craft: 500 }); // Example balance
 
   const handleGitHubLogin = (isLoggedIn: boolean) => {
@@ -36,11 +35,6 @@ const App = () => {
     setShowGitHubModal(false);
   };
 
-  const handleSaveProfile = (avatar: string, username: string) => {
-    setProfilePicture(avatar); // Set the selected avatar
-    setUsername(username); // Set the username
-  };
-
   const handleAddFunds = (amount: number, currency: 'usd' | 'craft') => {
     setBalance((prevBalance) => ({
       ...prevBalance,
@@ -49,51 +43,49 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <Navbar
-        onGitHubLogin={handleGitHubLogin}
-        profilePicture={profilePicture}
-        username={username}
-        balance={balance}
-      />
-      <div className="flex flex-col min-h-screen">
-        <Routes>
-          <Route path="/" element={<HeroSection />} />
-          <Route path="/prompt" element={<PromptingInterface />} />
-          <Route path="/docs" element={<Docs />} />
-          <Route path="/education" element={<EducationContent />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/projects" element={<ProjectsList />} />
-          <Route path="/projects/:id" element={<ProjectPage />} />
-          <Route path="/generation-result" element={<GenerationResult />} />
-          <Route path="/account/*" element={
-            <AccountManagementPage
-              onSaveProfile={handleSaveProfile}
-              balance={balance}
-              onAddFunds={handleAddFunds}
-            />
-          } />
-        </Routes>
-      </div>
-      <Background />
-      <Footer />
-      <GitHubSuccessModal
-        isOpen={showGitHubModal}
-        message={modalMessage}
-        onClose={closeModal}
-      />
-    </Router>
+    <GlobalStateProvider>
+      <Router>
+        <Navbar
+          onGitHubLogin={handleGitHubLogin}
+          balance={balance}
+        />
+        <div className="flex flex-col min-h-screen">
+          <Routes>
+            <Route path="/" element={<HeroSection />} />
+            <Route path="/prompt" element={<PromptingInterface />} />
+            <Route path="/docs" element={<Docs />} />
+            <Route path="/education" element={<EducationContent />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/projects" element={<ProjectsList />} />
+            <Route path="/projects/:id" element={<ProjectPage />} />
+            <Route path="/generation-result" element={<GenerationResult />} />
+            <Route path="/account/*" element={
+              <AccountManagementPage
+                balance={balance}
+                onAddFunds={handleAddFunds}
+              />
+            } />
+          </Routes>
+        </div>
+        <Background />
+        <Footer />
+        <GitHubSuccessModal
+          isOpen={showGitHubModal}
+          message={modalMessage}
+          onClose={closeModal}
+        />
+      </Router>
+    </GlobalStateProvider>
   );
 };
 
 // Account Management Page Component
 interface AccountManagementPageProps {
-  onSaveProfile: (avatar: string, username: string) => void;
   balance: { usd: number; craft: number };
   onAddFunds: (amount: number, currency: 'usd' | 'craft') => void;
 }
 
-const AccountManagementPage = ({ onSaveProfile, balance, onAddFunds }: AccountManagementPageProps) => {
+const AccountManagementPage = (props: AccountManagementPageProps) => {
   const location = useLocation();
 
   return (
@@ -147,8 +139,8 @@ const AccountManagementPage = ({ onSaveProfile, balance, onAddFunds }: AccountMa
         {/* Main Content */}
         <div className="mt-16 font-tomorrow w-full md:w-[calc(100%-20rem)] max-w-4xl p-6 md:p-8 overflow-y-auto z-40">
           <Routes>
-            <Route path="profile" element={<ProfileSection onSaveProfile={onSaveProfile} />} />
-            <Route path="balances" element={<BalanceCard balance={balance} />} />
+            <Route path="profile" element={<ProfileSection onSaveProfile={(avatar, username) => { /* handle save profile */ }} />} />
+            <Route path="balances" element={<Balance/>} />
             <Route path="subscriptions" element={<SubscriptionSection />} />
           </Routes>
         </div>

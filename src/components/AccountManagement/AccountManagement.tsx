@@ -4,21 +4,16 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import ProfileSection from './ProfileSection';
 import Balance from './Balance';
 import SubscriptionSection from './SubscriptionSection';
+import { useGlobalState } from '../Context/GlobalStateContext'; // Import the global state hook
 
-interface AccountManagementPageProps {
-  balance: {
-    usd: number;
-    craft: number;
-  };
-}
-
-const AccountManagementPage: React.FC<AccountManagementPageProps> = ({ balance }) => {
+const AccountManagementPage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
   const sections = [
     { id: 'profile', title: 'Profile Management', path: '/account/profile' },
     { id: 'balances', title: 'Account Balances', path: '/account/balances' },
+    { id: 'add-funds', title: 'Add Funds', path: '/account/add-funds' },
     { id: 'subscriptions', title: 'Subscription Management', path: '/account/subscriptions' },
   ];
 
@@ -81,8 +76,8 @@ const AccountManagementPage: React.FC<AccountManagementPageProps> = ({ balance }
         {/* Main Content */}
         <div className="w-full md:w-[calc(100%-20rem)] max-w-4xl p-6 md:p-8">
           <Routes>
-            <Route path="profile" element={<ProfileSection onSaveProfile={(avatar, username) => {}} />} />
-            <Route path="balances" element={<Balance balance={balance} />} />
+            <Route path="profile" element={<ProfileSection onSaveProfile={(avatar, username) => { /* handle save profile */ }} />} />
+            <Route path="balances" element={<Balance />} />
             <Route path="subscriptions" element={<SubscriptionSection />} />
             {/* Add more routes as needed */}
           </Routes>

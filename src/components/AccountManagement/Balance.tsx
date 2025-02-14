@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
+import { useGlobalState } from '../Context/GlobalStateContext'; // Import the global state hook
 
-interface BalanceProps {
-  balance: {
-    usd: number;
-    craft: number;
-  };
-}
-
-const Balance: React.FC<BalanceProps> = ({ balance }) => {
+const Balance: React.FC = () => {
+  const { balance, setBalance } = useGlobalState(); // Access global state for balance
   const [amount, setAmount] = useState<string>('');
   const [currency, setCurrency] = useState<'USDC' | 'SOL' | 'CRAFT'>('USDC');
   const [convertedAmount, setConvertedAmount] = useState<number>(0);
@@ -39,9 +34,16 @@ const Balance: React.FC<BalanceProps> = ({ balance }) => {
   const handleAddFunds = () => {
     const numericAmount = parseFloat(amount) || 0;
     if (numericAmount > 0) {
-      console.log(`Added ${numericAmount} ${currency} to balance.`);
+      const newBalance = { ...balance };
+      if (currency === 'USDC') {
+        newBalance.usd += numericAmount;
+      } else if (currency === 'CRAFT') {
+        newBalance.craft += numericAmount;
+      }
+      setBalance(newBalance); // Update global state
       setAmount('');
       setConvertedAmount(0);
+      console.log(`Added ${numericAmount} ${currency} to balance.`);
     }
   };
 
@@ -51,11 +53,16 @@ const Balance: React.FC<BalanceProps> = ({ balance }) => {
       <div className="space-y-6">
         {/* Balance Display */}
         <div className="space-y-2">
-          <div className="flex justify-between items-center">
-            <h3 className="text-xl font-semibold text-textPrimary">Balance</h3>
-            <span className="text-textPrimary font-bold text-lg">
-              USD: ${balance.usd}, Craft: ${balance.craft}
-            </span>
+          <h3 className="text-xl font-semibold text-textPrimary">Balance</h3>
+          <div className="bg-primary p-4 rounded-lg">
+            <div className="flex justify-between items-center">
+              <span className="text-textPrimary">USD:</span>
+              <span className="text-textPrimary font-bold">${balance.usd.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-textPrimary">CRAFT:</span>
+              <span className="text-textPrimary font-bold">${balance.craft.toFixed(2)}</span>
+            </div>
           </div>
         </div>
 
