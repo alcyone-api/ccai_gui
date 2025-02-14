@@ -367,7 +367,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
                   {isWalletConnected && (
                     <div className="my-4">
                       <Link
-                        to="/account/profile"
+                        to="/account"
                         onClick={() => setShowAccountDropdown(false)}
                         className="w-full px-4 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all flex items-center justify-center space-x-2"
                       >
