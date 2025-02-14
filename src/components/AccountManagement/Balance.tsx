@@ -8,6 +8,8 @@ const Balance: React.FC = () => {
   const [convertedAmount, setConvertedAmount] = useState<number>(0);
   const [isTransactionHistoryExpanded, setIsTransactionHistoryExpanded] = useState<boolean>(false);
   const [isPurchaseHistoryExpanded, setIsPurchaseHistoryExpanded] = useState<boolean>(false);
+  const [isConfirmationVisible, setIsConfirmationVisible] = useState<boolean>(false);
+  const [isTermsAccepted, setIsTermsAccepted] = useState<boolean>(false);
 
   // Exchange rates
   const exchangeRates = {
@@ -40,7 +42,17 @@ const Balance: React.FC = () => {
   const handleAmountChange = (value: string) => {
     setAmount(value);
     const numericValue = parseFloat(value) || 0;
-    setConvertedAmount(numericValue / (currency === 'CRAFT' ? exchangeRates.CRAFT_TO_USD : 1));
+    let convertedValue = 0;
+
+    if (currency === 'USDC') {
+      convertedValue = numericValue * exchangeRates.CRAFT_TO_USD; // USDC → CRAFT
+    } else if (currency === 'SOL') {
+      convertedValue = numericValue * exchangeRates.SOL_TO_USD * exchangeRates.CRAFT_TO_USD; // SOL → USD → CRAFT
+    } else if (currency === 'CRAFT') {
+      convertedValue = numericValue; // CRAFT → CRAFT
+    }
+
+    setConvertedAmount(convertedValue);
   };
 
   // Handle currency change
@@ -51,17 +63,32 @@ const Balance: React.FC = () => {
 
   // Handle adding funds
   const handleAddFunds = () => {
+    setIsConfirmationVisible(true); // Show confirmation step
+  };
+
+  // Handle confirmation of funds
+  const handleConfirmFunds = () => {
+    if (!isTermsAccepted) {
+      alert('Please accept the terms to proceed.');
+      return;
+    }
+
     const numericAmount = parseFloat(amount) || 0;
     if (numericAmount > 0) {
       const newBalance = { ...balance };
       if (currency === 'USDC') {
         newBalance.usd += numericAmount;
+        newBalance.craft += numericAmount * exchangeRates.CRAFT_TO_USD; // Add equivalent CRAFT
+      } else if (currency === 'SOL') {
+        newBalance.craft += numericAmount * exchangeRates.SOL_TO_USD * exchangeRates.CRAFT_TO_USD; // Add equivalent CRAFT
       } else if (currency === 'CRAFT') {
         newBalance.craft += numericAmount;
       }
       setBalance(newBalance); // Update global state
       setAmount('');
       setConvertedAmount(0);
+      setIsConfirmationVisible(false); // Hide confirmation step
+      setIsTermsAccepted(false); // Reset terms checkbox
       console.log(`Added ${numericAmount} ${currency} to balance.`);
     }
   };
@@ -107,14 +134,16 @@ const Balance: React.FC = () => {
         <div className="space-y-2">
           <h3 className="text-xl font-semibold text-textPrimary">Add Funds</h3>
           <div className="bg-primary p-4 rounded-lg">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-4">
+              {/* Input for amount */}
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => handleAmountChange(e.target.value)}
-                className="w-full p-3 bg-secondary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                className="flex-1 p-3 bg-secondary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                 placeholder="Enter amount"
               />
+              {/* Currency selector */}
               <select
                 value={currency}
                 onChange={(e) =>
@@ -126,14 +155,47 @@ const Balance: React.FC = () => {
                 <option value="SOL">SOL</option>
                 <option value="CRAFT">CRAFT</option>
               </select>
+              {/* Add Funds button */}
+              <button
+                onClick={handleAddFunds}
+                className="px-6 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all whitespace-nowrap"
+              >
+                Add Funds
+              </button>
             </div>
             {convertedAmount > 0 && (
               <p className="text-textPrimary text-sm mt-2">
-                ≈ {convertedAmount.toFixed(2)} {currency}
+                You will receive ≈ {convertedAmount.toLocaleString()} CRAFT
               </p>
             )}
           </div>
         </div>
+
+        {/* Confirmation Step */}
+        {isConfirmationVisible && (
+          <div className="bg-primary p-4 rounded-lg space-y-4">
+            <p className="text-textPrimary">
+              You are about to purchase ≈ {convertedAmount.toLocaleString()} CRAFT with {amount} {currency}.
+            </p>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={isTermsAccepted}
+                onChange={(e) => setIsTermsAccepted(e.target.checked)}
+                className="accent-accent"
+              />
+              <span className="text-textPrimary text-sm">
+                I understand this purchase is non-refundable.
+              </span>
+            </div>
+            <button
+              onClick={handleConfirmFunds}
+              className="px-6 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all"
+            >
+              Confirm Purchase
+            </button>
+          </div>
+        )}
 
         {/* Quick Add Buttons */}
         <div className="space-y-2">
@@ -150,14 +212,6 @@ const Balance: React.FC = () => {
             ))}
           </div>
         </div>
-
-        {/* Add Funds Button */}
-        <button
-          onClick={handleAddFunds}
-          className="w-full px-6 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all"
-        >
-          Add Funds
-        </button>
 
         {/* Transaction History */}
         <div className="space-y-2">

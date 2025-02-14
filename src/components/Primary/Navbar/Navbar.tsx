@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaBars, FaTimes, FaWallet, FaGithub, FaUserCircle, FaCopy, FaExchangeAlt, FaSignOutAlt } from 'react-icons/fa';
+import { FaBars, FaTimes, FaWallet, FaGithub, FaUserCircle, FaCopy, FaExchangeAlt, FaSignOutAlt, FaDollarSign, FaCoins, FaSun } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ccaiLogo from '../../../assets/ccai_logo.svg';
 import { useGlobalState } from '../../Context/GlobalStateContext'; // Import the global state hook
@@ -19,6 +19,10 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
 
   // Access global state for profile picture, username, and balance
   const { selectedIconUrl, username, balance, setBalance } = useGlobalState();
+
+  // Derived balances
+  const usdBalance = balance.craft / 1000; // 1000 CRAFT = $1
+  const solBalance = usdBalance / 200; // 1 SOL = $200
 
   // Create a ref for the dropdown
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -214,15 +218,39 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
                   )}
                   {/* Balances (Conditional) */}
                   {isWalletConnected && (
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       <h3 className="text-textPrimary font-bold">Balances</h3>
-                      <div className="flex justify-between">
-                        <span className="text-textPrimary">USD:</span>
-                        <span className="text-textPrimary font-bold">${balance?.usd.toFixed(2)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-textPrimary">CRAFT:</span>
-                        <span className="text-textPrimary font-bold">${balance?.craft.toFixed(2)}</span>
+                      <div className="space-y-3">
+                        {/* USD Balance */}
+                        <div className="flex items-center space-x-3">
+                          <div className="p-2 bg-secondary/90 rounded-lg">
+                            <FaDollarSign className="w-5 h-5 text-textPrimary" />
+                          </div>
+                          <div>
+                            <span className="text-textPrimary text-sm">USD Balance</span>
+                            <span className="text-textPrimary font-bold block">${usdBalance.toFixed(2)}</span>
+                          </div>
+                        </div>
+                        {/* CRAFT Balance */}
+                        <div className="flex items-center space-x-3">
+                          <div className="p-2 bg-secondary/90 rounded-lg">
+                            <FaCoins className="w-5 h-5 text-textPrimary" />
+                          </div>
+                          <div>
+                            <span className="text-textPrimary text-sm">CRAFT Balance</span>
+                            <span className="text-textPrimary font-bold block">{balance.craft.toLocaleString()}</span>
+                          </div>
+                        </div>
+                        {/* SOL Balance */}
+                        <div className="flex items-center space-x-3">
+                          <div className="p-2 bg-secondary/90 rounded-lg">
+                            <FaSun className="w-5 h-5 text-textPrimary" />
+                          </div>
+                          <div>
+                            <span className="text-textPrimary text-sm">SOL Balance</span>
+                            <span className="text-textPrimary font-bold block">{solBalance.toFixed(4)}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -378,15 +406,39 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
                   )}
                   {/* Balances (Conditional) */}
                   {isWalletConnected && (
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       <h3 className="text-textPrimary font-bold">Balances</h3>
-                      <div className="flex justify-between">
-                        <span className="text-textPrimary">USD:</span>
-                        <span className="text-textPrimary font-bold">${balance?.usd.toFixed(2)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-textPrimary">CRAFT:</span>
-                        <span className="text-textPrimary font-bold">${balance?.craft.toFixed(2)}</span>
+                      <div className="space-y-3">
+                        {/* USD Balance */}
+                        <div className="flex items-center space-x-3">
+                          <div className="p-2 bg-secondary/90 rounded-lg">
+                            <FaDollarSign className="w-5 h-5 text-textPrimary" />
+                          </div>
+                          <div>
+                            <span className="text-textPrimary text-sm">USD Balance</span>
+                            <span className="text-textPrimary font-bold block">${usdBalance.toFixed(2)}</span>
+                          </div>
+                        </div>
+                        {/* CRAFT Balance */}
+                        <div className="flex items-center space-x-3">
+                          <div className="p-2 bg-secondary/90 rounded-lg">
+                            <FaCoins className="w-5 h-5 text-textPrimary" />
+                          </div>
+                          <div>
+                            <span className="text-textPrimary text-sm">CRAFT Balance</span>
+                            <span className="text-textPrimary font-bold block">{balance.craft.toLocaleString()}</span>
+                          </div>
+                        </div>
+                        {/* SOL Balance */}
+                        <div className="flex items-center space-x-3">
+                          <div className="p-2 bg-secondary/90 rounded-lg">
+                            <FaSun className="w-5 h-5 text-textPrimary" />
+                          </div>
+                          <div>
+                            <span className="text-textPrimary text-sm">SOL Balance</span>
+                            <span className="text-textPrimary font-bold block">{solBalance.toFixed(4)}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )}
