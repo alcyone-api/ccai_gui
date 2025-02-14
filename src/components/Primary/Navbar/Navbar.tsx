@@ -1,22 +1,24 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaBars, FaTimes, FaWallet, FaGithub, FaUserCircle } from 'react-icons/fa';
+import { FaBars, FaTimes, FaWallet, FaGithub, FaUserCircle, FaCopy, FaExchangeAlt, FaSignOutAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ccaiLogo from '../../../assets/ccai_logo.svg';
 import { useGlobalState } from '../../Context/GlobalStateContext'; // Import the global state hook
 
 interface NavbarProps {
   onGitHubLogin: (isLoggedIn: boolean) => void;
-  balance?: { usd: number; craft: number }; // Balance
+  balance: { usd: number; craft: number };
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
+const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isGitHubLoggedIn, setIsGitHubLoggedIn] = useState(false);
   const [showAccountDropdown, setShowAccountDropdown] = useState(false);
+  const [showWalletOptions, setShowWalletOptions] = useState(false); // For wallet options dropdown
+  const [walletAddress, setWalletAddress] = useState<string | null>(null); // Store wallet address
 
-  // Access global state for profile picture and username
-  const { selectedIconUrl, username } = useGlobalState();
+  // Access global state for profile picture, username, and balance
+  const { selectedIconUrl, username, balance, setBalance } = useGlobalState();
 
   // Create a ref for the dropdown
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -25,7 +27,8 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowAccountDropdown(false); // Close the dropdown
+        setShowAccountDropdown(false);
+        setShowWalletOptions(false); // Close wallet options dropdown
       }
     };
 
@@ -38,13 +41,46 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
     };
   }, []);
 
-  const handleConnectWallet = () => {
-    setIsWalletConnected(!isWalletConnected);
+  // Mock function to connect wallet (replace with actual wallet connection logic)
+  const connectWallet = async () => {
+    try {
+      // Replace this with your wallet provider's connection logic
+      const provider = [String] // Assuming MetaMask or similar wallet provider
+      if (provider) {
+        const accounts: string[] = [];
+        const address = accounts[0];
+        setWalletAddress(address);
+        setIsWalletConnected(true);
+        setShowWalletOptions(false); // Close wallet options dropdown after connecting
+
+        // Update balance (mock data)
+        setBalance({ usd: 100, craft: 50 }); // Replace with actual balance fetch logic
+      } else {
+        alert('Please install a wallet like MetaMask!');
+      }
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
+      alert('Failed to connect wallet.');
+    }
   };
 
   const handleGitHubLogin = () => {
     setIsGitHubLoggedIn(!isGitHubLoggedIn);
     onGitHubLogin(!isGitHubLoggedIn); // Notify the parent component
+  };
+
+  const handleCopyAddress = () => {
+    if (walletAddress) {
+      navigator.clipboard.writeText(walletAddress);
+      alert('Wallet address copied to clipboard!');
+    }
+  };
+
+  const handleDisconnectWallet = () => {
+    setIsWalletConnected(false);
+    setWalletAddress(null);
+    setShowWalletOptions(false); // Close wallet options dropdown after disconnecting
+    setBalance({ usd: 0, craft: 0 }); // Reset balance
   };
 
   return (
@@ -92,14 +128,15 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
               {selectedIconUrl ? (
                 // If selectedIconUrl is a CDN URL, render an image
                 <div className="w-8 h-8 rounded-full overflow-hidden">
-                  <img style={{
-                        filter: 'brightness(0) invert(1)', // Convert black to white
-                              }} 
-                        src={selectedIconUrl} 
-                        alt="Profile" 
-                        className="w-full h-full object-cover" />
+                  <img
+                    src={selectedIconUrl}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                    style={{
+                      filter: 'brightness(0) invert(1)', // Convert black to white
+                    }}
+                  />
                 </div>
-                
               ) : (
                 // Fallback to a default icon
                 <FaUserCircle className="w-8 h-8 text-textPrimary" />
@@ -112,7 +149,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
                   {/* Wallet and GitHub Buttons */}
                   <div className="space-y-2">
                     <button
-                      onClick={handleConnectWallet}
+                      onClick={isWalletConnected ? () => setShowWalletOptions(!showWalletOptions) : connectWallet}
                       className={`${
                         isWalletConnected
                           ? 'bg-green-500/10 border-green-500 text-green-500'
@@ -120,8 +157,36 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
                       } w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2`}
                     >
                       <FaWallet className="w-4 h-4" />
-                      <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
+                      <span>{isWalletConnected ? 'Wallet Connected' : 'Connect Wallet'}</span>
                     </button>
+                    {isWalletConnected && showWalletOptions && (
+                        <div className="text-textPrimary space-y-2 text-left">
+                        <button
+                          onClick={handleCopyAddress}
+                          className="w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-start space-x-2 bg-primary hover:bg-secondary/80"
+                        >
+                          <FaCopy className="text-textPrimary w-4 h-4" />
+                          <span>Copy Address</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                          // Handle changing wallet
+                          alert('Change Wallet functionality');
+                          }}
+                          className="w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-start space-x-2 bg-primary hover:bg-secondary/80"
+                        >
+                          <FaExchangeAlt className="text-textPrimary w-4 h-4" />
+                          <span>Change Wallet</span>
+                        </button>
+                        <button
+                          onClick={handleDisconnectWallet}
+                          className="w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-start space-x-2 bg-primary hover:bg-secondary/80"
+                        >
+                          <FaSignOutAlt className="text-textPrimary w-4 h-4" />
+                          <span>Disconnect Wallet</span>
+                        </button>
+                        </div>
+                    )}
                     <button
                       onClick={handleGitHubLogin}
                       className={`${
@@ -147,6 +212,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
                       </Link>
                     </div>
                   )}
+                  {/* Balances (Conditional) */}
                   {isWalletConnected && (
                     <div className="space-y-2">
                       <h3 className="text-textPrimary font-bold">Balances</h3>
@@ -226,7 +292,14 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
               {selectedIconUrl ? (
                 // If selectedIconUrl is a CDN URL, render an image
                 <div className="w-8 h-8 rounded-full overflow-hidden">
-                  <img src={selectedIconUrl} alt="Profile" className="w-full h-full object-cover" />
+                  <img
+                    src={selectedIconUrl}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                    style={{
+                      filter: 'brightness(0) invert(1)', // Convert black to white
+                    }}
+                  />
                 </div>
               ) : (
                 // Fallback to a default icon
@@ -240,7 +313,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
                   {/* Wallet and GitHub Buttons */}
                   <div className="space-y-2">
                     <button
-                      onClick={handleConnectWallet}
+                      onClick={isWalletConnected ? () => setShowWalletOptions(!showWalletOptions) : connectWallet}
                       className={`${
                         isWalletConnected
                           ? 'bg-green-500/10 border-green-500 text-green-500'
@@ -248,8 +321,36 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
                       } w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2`}
                     >
                       <FaWallet className="w-4 h-4" />
-                      <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
+                      <span>{isWalletConnected ? 'Wallet Connected' : 'Connect Wallet'}</span>
                     </button>
+                    {isWalletConnected && showWalletOptions && (
+                      <div className="space-y-2">
+                        <button
+                          onClick={handleCopyAddress}
+                          className="w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2 bg-primary hover:bg-secondary/80"
+                        >
+                          <FaCopy className="w-4 h-4" />
+                          <span>Copy Address</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            // Handle changing wallet
+                            alert('Change Wallet functionality');
+                          }}
+                          className="w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2 bg-primary hover:bg-secondary/80"
+                        >
+                          <FaExchangeAlt className="w-4 h-4" />
+                          <span>Change Wallet</span>
+                        </button>
+                        <button
+                          onClick={handleDisconnectWallet}
+                          className="w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2 bg-primary hover:bg-secondary/80"
+                        >
+                          <FaSignOutAlt className="w-4 h-4" />
+                          <span>Disconnect Wallet</span>
+                        </button>
+                      </div>
+                    )}
                     <button
                       onClick={handleGitHubLogin}
                       className={`${
@@ -281,11 +382,11 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, balance }) => {
                       <h3 className="text-textPrimary font-bold">Balances</h3>
                       <div className="flex justify-between">
                         <span className="text-textPrimary">USD:</span>
-                        <span className="text-textPrimary font-bold">${balance?.usd || 0}</span>
+                        <span className="text-textPrimary font-bold">${balance?.usd.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-textPrimary">CRAFT:</span>
-                        <span className="text-textPrimary font-bold">{balance?.craft || 0}</span>
+                        <span className="text-textPrimary font-bold">${balance?.craft.toFixed(2)}</span>
                       </div>
                     </div>
                   )}
