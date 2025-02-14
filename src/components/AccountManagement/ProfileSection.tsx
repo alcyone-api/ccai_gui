@@ -64,7 +64,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
   };
 
   return (
-    <div className="bg-secondary p-8 rounded-2xl shadow-card relative z-10">
+    <div className="font-tomorrow bg-secondary p-8 rounded-2xl shadow-card relative z-10">
       <h2 className="text-2xl font-bold text-accent mb-6 font-tomorrow">Developer Profile</h2>
       <div className="space-y-6">
         {/* Avatar Selection */}
