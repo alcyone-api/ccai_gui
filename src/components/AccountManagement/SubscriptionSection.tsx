@@ -1,4 +1,3 @@
-// components/AccountManagement/SubscriptionSection.tsx
 import React, { useState } from 'react';
 
 const SubscriptionSection = () => {
@@ -12,6 +11,18 @@ const SubscriptionSection = () => {
     tokens: string;
   } | null>(null);
 
+  // State for subscription history
+  const [subscriptionHistory, setSubscriptionHistory] = useState<
+    Array<{
+      plan: string;
+      startDate: string;
+      endDate: string;
+      status: string;
+      price: number;
+      tokens: string;
+    }>
+  >([]);
+
   // Mock subscription plans
   const subscriptionPlans = [
     { label: 'Starter', price: 5, tokens: '500,000 tokens' },
@@ -21,11 +32,23 @@ const SubscriptionSection = () => {
 
   const handleCancelSubscription = () => {
     setIsCancelling(true);
-    // Add logic to cancel the subscription
-    console.log('Cancelling subscription...');
   };
 
   const handleConfirmCancellation = () => {
+    if (currentSubscription) {
+      // Add the current subscription to history before cancelling
+      setSubscriptionHistory((prevHistory) => [
+        ...prevHistory,
+        {
+          plan: currentSubscription.plan,
+          startDate: new Date().toISOString().split('T')[0], // Today's date
+          endDate: new Date().toISOString().split('T')[0], // Cancelled today
+          status: 'Cancelled',
+          price: currentSubscription.price,
+          tokens: currentSubscription.tokens,
+        },
+      ]);
+    }
     setIsCancelling(false);
     setCurrentSubscription(null); // Clear current subscription
     console.log('Subscription cancelled.');
@@ -35,13 +58,28 @@ const SubscriptionSection = () => {
     if (selectedPlan) {
       const plan = subscriptionPlans.find((p) => p.label === selectedPlan);
       if (plan) {
-        setCurrentSubscription({
+        const newSubscription = {
           status: 'Active',
           plan: plan.label,
           renewalDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 30 days from now
           price: plan.price,
           tokens: plan.tokens,
-        });
+        };
+        setCurrentSubscription(newSubscription);
+
+        // Add the new subscription to history
+        setSubscriptionHistory((prevHistory) => [
+          ...prevHistory,
+          {
+            plan: plan.label,
+            startDate: new Date().toISOString().split('T')[0], // Today's date
+            endDate: '', // No end date yet
+            status: 'Active',
+            price: plan.price,
+            tokens: plan.tokens,
+          },
+        ]);
+
         console.log(`Enrolled in ${plan.label} plan.`);
       }
     }
@@ -162,6 +200,49 @@ const SubscriptionSection = () => {
             )}
           </div>
         )}
+
+        {/* Subscription History */}
+        <div className="space-y-2">
+          <h3 className="text-xl font-semibold text-textPrimary">Subscription History</h3>
+          {subscriptionHistory.length > 0 ? (
+            <div className="bg-primary p-4 rounded-lg">
+              <div className="space-y-4">
+                {subscriptionHistory.map((history, index) => (
+                  <div key={index} className="border-b border-accent/20 pb-4 last:border-b-0">
+                    <div className="flex justify-between items-center">
+                      <span className="text-textPrimary">Plan:</span>
+                      <span className="text-textPrimary font-bold">{history.plan}</span>
+                    </div>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-textPrimary">Start Date:</span>
+                      <span className="text-textPrimary font-bold">{history.startDate}</span>
+                    </div>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-textPrimary">End Date:</span>
+                      <span className="text-textPrimary font-bold">
+                        {history.endDate || 'Active'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-textPrimary">Status:</span>
+                      <span
+                        className={`font-bold ${
+                          history.status === 'Active' ? 'text-green-400' : 'text-red-400'
+                        }`}
+                      >
+                        {history.status}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="bg-primary p-4 rounded-lg">
+              <p className="text-textPrimary">No subscription history available.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

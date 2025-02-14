@@ -6,22 +6,41 @@ const Balance: React.FC = () => {
   const [amount, setAmount] = useState<string>('');
   const [currency, setCurrency] = useState<'USDC' | 'SOL' | 'CRAFT'>('USDC');
   const [convertedAmount, setConvertedAmount] = useState<number>(0);
+  const [isTransactionHistoryExpanded, setIsTransactionHistoryExpanded] = useState<boolean>(false);
+  const [isPurchaseHistoryExpanded, setIsPurchaseHistoryExpanded] = useState<boolean>(false);
 
-  // Mock exchange rates (replace with real-time data)
+  // Exchange rates
   const exchangeRates = {
-    USDC: 1,
-    SOL: 0.05, // 1 SOL = 20 USDC
-    CRAFT: 0.1, // 1 CRAFT = 10 USDC
+    CRAFT_TO_USD: 1000, // 1000 CRAFT = $1
+    SOL_TO_USD: 200, // 1 SOL = $200
   };
+
+  // Derived balances
+  const usdBalance = balance.craft / exchangeRates.CRAFT_TO_USD; // CRAFT → USD
+  const solBalance = usdBalance / exchangeRates.SOL_TO_USD; // USD → SOL
 
   // Predefined amounts for quick add
   const predefinedAmounts = [10, 20, 50, 100];
+
+  // Mock transaction history (replace with real data)
+  const transactionHistory = [
+    { type: 'Purchase', amount: 2, currency: 'SOL', date: '2024-10-01' },
+    { type: 'Purchase', amount: 5, currency: 'SOL', date: '2024-09-25' },
+    { type: 'Purchase', amount: 100, currency: 'USDC', date: '2025-01-20' },
+  ];
+
+  // Mock purchase history (replace with real data)
+  const purchaseHistory = [
+    { description: 'Prompt: Generate a marketing plan', cost: 50, currency: 'CRAFT', date: '2023-10-05' },
+    { description: 'Prompt: Write a blog post', cost: 378, currency: 'CRAFT', date: '2023-10-04' },
+    { description: 'Prompt: Analyze sales data', cost: 721, currency: 'CRAFT', date: '2023-10-03' },
+  ];
 
   // Convert amount based on selected currency
   const handleAmountChange = (value: string) => {
     setAmount(value);
     const numericValue = parseFloat(value) || 0;
-    setConvertedAmount(numericValue / exchangeRates[currency]);
+    setConvertedAmount(numericValue / (currency === 'CRAFT' ? exchangeRates.CRAFT_TO_USD : 1));
   };
 
   // Handle currency change
@@ -52,16 +71,34 @@ const Balance: React.FC = () => {
       <h2 className="text-2xl font-bold text-accent mb-6">Balance & Add Funds</h2>
       <div className="space-y-6">
         {/* Balance Display */}
-        <div className="space-y-2">
-          <h3 className="text-xl font-semibold text-textPrimary">Balance</h3>
-          <div className="bg-primary p-4 rounded-lg">
-            <div className="flex justify-between items-center">
-              <span className="text-textPrimary">USD:</span>
-              <span className="text-textPrimary font-bold">${balance.usd.toFixed(2)}</span>
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold text-textPrimary">Your Balances</h3>
+          <div className="bg-primary p-6 rounded-xl shadow-lg">
+            {/* CRAFT Balance (Prominent) */}
+            <div className="flex flex-col items-center mb-6">
+              <span className="text-textPrimary text-lg">CRAFT Balance</span>
+              <span className="text-4xl font-bold text-accent mt-2">
+                {balance.craft.toLocaleString()} CRAFT
+              </span>
+              <span className="text-textPrimary text-sm mt-1">
+                ≈ ${usdBalance.toFixed(2)} USD
+              </span>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-textPrimary">CRAFT:</span>
-              <span className="text-textPrimary font-bold">${balance.craft.toFixed(2)}</span>
+
+            {/* USDC and SOL Balances */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-secondary/90 p-4 rounded-lg">
+                <span className="text-textPrimary text-sm">USDC Balance</span>
+                <span className="text-textPrimary font-bold block mt-1">
+                  {usdBalance.toFixed(2)} USDC
+                </span>
+              </div>
+              <div className="bg-secondary/90 p-4 rounded-lg">
+                <span className="text-textPrimary text-sm">SOL Balance</span>
+                <span className="text-textPrimary font-bold block mt-1">
+                  {solBalance.toFixed(4)} SOL
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -124,15 +161,58 @@ const Balance: React.FC = () => {
 
         {/* Transaction History */}
         <div className="space-y-2">
-          <h3 className="text-xl font-semibold text-textPrimary">Recent Transactions</h3>
-          <div className="bg-primary p-4 rounded-lg">
-            <div className="text-textPrimary">
-              {/* Mock transaction history (replace with real data) */}
-              <p>+ $20.00 (USDC) - 2023-10-01</p>
-              <p>+ $50.00 (SOL) - 2023-09-25</p>
-              <p>+ $10.00 (CRAFT) - 2023-09-20</p>
-            </div>
+          <div className="flex justify-between items-center">
+            <h3 className="text-xl font-semibold text-textPrimary">Transaction History</h3>
+            <button
+              onClick={() => setIsTransactionHistoryExpanded(!isTransactionHistoryExpanded)}
+              className="text-accent hover:text-accent/80 transition-all"
+            >
+              {isTransactionHistoryExpanded ? 'Collapse' : 'Expand'}
+            </button>
           </div>
+          {isTransactionHistoryExpanded && (
+            <div className="bg-primary p-4 rounded-lg">
+              {transactionHistory.map((transaction, index) => (
+                <div key={index} className="border-b border-accent/20 pb-4 last:border-b-0">
+                  <div className="flex justify-between items-center">
+                    <span className="text-textPrimary">{transaction.type}</span>
+                    <span className="text-textPrimary font-bold">
+                      + {transaction.amount} {transaction.currency}
+                    </span>
+                  </div>
+                  <div className="text-textPrimary text-sm mt-1">{transaction.date}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Purchase History */}
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <h3 className="text-xl font-semibold text-textPrimary">Purchase History</h3>
+            <button
+              onClick={() => setIsPurchaseHistoryExpanded(!isPurchaseHistoryExpanded)}
+              className="text-accent hover:text-accent/80 transition-all"
+            >
+              {isPurchaseHistoryExpanded ? 'Collapse' : 'Expand'}
+            </button>
+          </div>
+          {isPurchaseHistoryExpanded && (
+            <div className="bg-primary p-4 rounded-lg">
+              {purchaseHistory.map((purchase, index) => (
+                <div key={index} className="border-b border-accent/20 pb-4 last:border-b-0">
+                  <div className="flex justify-between items-center">
+                    <span className="text-textPrimary">{purchase.description}</span>
+                    <span className="text-textPrimary font-bold">
+                      - {purchase.cost} {purchase.currency}
+                    </span>
+                  </div>
+                  <div className="text-textPrimary text-sm mt-1">{purchase.date}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
