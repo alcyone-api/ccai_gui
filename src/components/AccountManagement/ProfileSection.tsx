@@ -1,80 +1,117 @@
-// components/AccountManagement/ProfileSection.tsx
 import React, { useState } from 'react';
 
-// Mock technology options with icons (replace with actual icons or images)
-const techOptions = [
-  { name: 'React', icon: 'https://cdn.worldvectorlogo.com/logos/react-2.svg' },
-  { name: 'Node.js', icon: 'https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg' },
-  { name: 'Python', icon: 'https://cdn.worldvectorlogo.com/logos/python-5.svg' },
-  { name: 'JavaScript', icon: 'https://cdn.worldvectorlogo.com/logos/javascript-1.svg' },
-  { name: 'TypeScript', icon: 'https://cdn.worldvectorlogo.com/logos/typescript-2.svg' },
-  { name: 'Tailwind CSS', icon: 'https://cdn.worldvectorlogo.com/logos/tailwindcss.svg' },
-  { name: 'Docker', icon: 'https://cdn.worldvectorlogo.com/logos/docker.svg' },
-  { name: 'Kubernetes', icon: 'https://cdn.worldvectorlogo.com/logos/kubernetes.svg' },
+// Avatar SVGs
+const avatars = [
+  {
+    id: 'analyzer',
+    name: 'The Analyzer',
+    svg: (
+      <svg viewBox="0 0 100 100" className="w-20 h-20">
+        <circle cx="50" cy="50" r="45" fill="#4F46E5" />
+        <rect x="30" y="40" width="40" height="20" fill="#FFFFFF" />
+        <circle cx="40" cy="50" r="5" fill="#4F46E5" />
+        <circle cx="60" cy="50" r="5" fill="#4F46E5" />
+      </svg>
+    ),
+  },
+  {
+    id: 'warrior',
+    name: 'The Warrior',
+    svg: (
+      <svg viewBox="0 0 100 100" className="w-20 h-20">
+        <circle cx="50" cy="50" r="45" fill="#EF4444" />
+        <path d="M30,70 L50,30 L70,70 Z" fill="#FFFFFF" />
+        <rect x="45" y="60" width="10" height="20" fill="#FFFFFF" />
+      </svg>
+    ),
+  },
+  {
+    id: 'cryptic',
+    name: 'The Cryptic',
+    svg: (
+      <svg viewBox="0 0 100 100" className="w-20 h-20">
+        <circle cx="50" cy="50" r="45" fill="#6B7280" />
+        <circle cx="50" cy="50" r="30" fill="#FFFFFF" />
+        <path d="M40,40 L60,60 M60,40 L40,60" stroke="#6B7280" strokeWidth="5" />
+      </svg>
+    ),
+  },
+  {
+    id: 'rogue',
+    name: 'The Rogue',
+    svg: (
+      <svg viewBox="0 0 100 100" className="w-20 h-20">
+        <circle cx="50" cy="50" r="45" fill="#10B981" />
+        <rect x="30" y="40" width="40" height="20" fill="#FFFFFF" />
+        <path d="M40,50 L60,50 M50,40 L50,60" stroke="#10B981" strokeWidth="5" />
+      </svg>
+    ),
+  },
+  {
+    id: 'wizard',
+    name: 'The Wizard',
+    svg: (
+      <svg viewBox="0 0 100 100" className="w-20 h-20">
+        <circle cx="50" cy="50" r="45" fill="#F59E0B" />
+        <path d="M50,30 L70,70 L30,70 Z" fill="#FFFFFF" />
+        <circle cx="50" cy="50" r="10" fill="#F59E0B" />
+      </svg>
+    ),
+  },
 ];
 
-const ProfileSection = () => {
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+interface ProfileSectionProps {
+  onSaveProfile: (avatar: string, username: string) => void;
+}
+
+const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
+  const [selectedAvatar, setSelectedAvatar] = useState<string>('analyzer');
   const [username, setUsername] = useState<string>('');
-  const [bio, setBio] = useState<string>('');
-  const [skillLevel, setSkillLevel] = useState<string>('');
-  const [techStack, setTechStack] = useState<{ name: string; icon: string }[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [showAvatarMenu, setShowAvatarMenu] = useState<boolean>(true);
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfilePicture(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleAvatarSelect = (avatarId: string) => {
+    setSelectedAvatar(avatarId);
+    setShowAvatarMenu(false); // Hide the avatar selection menu
   };
 
-  const handleAddTech = (tech: { name: string; icon: string }) => {
-    if (!techStack.some((t) => t.name === tech.name)) {
-      setTechStack([...techStack, tech]);
-    }
+  const handleSaveProfile = () => {
+    onSaveProfile(selectedAvatar, username); // Pass data to parent
   };
-
-  const handleRemoveTech = (techName: string) => {
-    setTechStack(techStack.filter((tech) => tech.name !== techName));
-  };
-
-  const filteredTechOptions = techOptions.filter((tech) =>
-    tech.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
-    <div className="bg-secondary p-8 rounded-2xl shadow-card relative z-20 max-w-2xl mx-auto mt-10"> {/* Added z-20 and mt-10 */}
-      <h2 className="text-2xl font-bold text-textPrimary mb-6 font-tomorrow">Developer Profile</h2>
+    <div className="bg-secondary p-8 rounded-2xl shadow-card relative z-10">
+      <h2 className="text-2xl font-bold text-accent mb-6 font-tomorrow">Developer Profile</h2>
       <div className="space-y-6">
-        {/* Profile Picture */}
-        <div className="flex items-center space-x-6">
-          <div className="w-20 h-20 rounded-full overflow-hidden">
-            {profilePicture ? (
-              <img src={profilePicture} alt="Profile" className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full bg-primary flex items-center justify-center text-textPrimary">
-                <span className="text-sm">No Image</span>
-              </div>
-            )}
+        {/* Avatar Selection */}
+        {showAvatarMenu ? (
+          <div className="space-y-2">
+            <h3 className="text-xl font-semibold text-textPrimary">Choose Your Avatar</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+              {avatars.map((avatar) => (
+                <button
+                  key={avatar.id}
+                  onClick={() => handleAvatarSelect(avatar.id)}
+                  className={`p-2 rounded-lg transition-all duration-300 ${
+                    selectedAvatar === avatar.id
+                      ? 'bg-accent/20 border-2 border-accent'
+                      : 'bg-primary hover:bg-accent/10'
+                  }`}
+                >
+                  {avatar.svg}
+                  <p className="text-textPrimary text-sm mt-2">{avatar.name}</p>
+                </button>
+              ))}
+            </div>
           </div>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileUpload}
-            className="hidden"
-            id="profile-upload"
-          />
-          <label
-            htmlFor="profile-upload"
-            className="px-6 py-2 bg-accent text-textPrimary rounded-lg cursor-pointer hover:bg-opacity-90 transition-all font-tomorrow"
-          >
-            Upload Picture
-          </label>
-        </div>
+        ) : (
+          <div className="flex items-center space-x-4">
+            {/* Display Selected Avatar */}
+            <div className="w-16 h-16 rounded-full overflow-hidden">
+              {avatars.find((avatar) => avatar.id === selectedAvatar)?.svg}
+            </div>
+            <span className="text-textPrimary text-xl font-bold">{username}</span>
+          </div>
+        )}
 
         {/* Username */}
         <div className="space-y-2">
@@ -91,95 +128,10 @@ const ProfileSection = () => {
           />
         </div>
 
-        {/* Bio */}
-        <div className="space-y-2">
-          <label htmlFor="bio" className="text-textPrimary font-medium font-tomorrow">
-            Bio
-          </label>
-          <textarea
-            id="bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
-            placeholder="Tell us about yourself"
-            rows={4}
-          />
-        </div>
-
-        {/* Skill Level */}
-        <div className="space-y-2">
-          <label htmlFor="skill-level" className="text-textPrimary font-medium font-tomorrow">
-            Skill Level
-          </label>
-          <select
-            id="skill-level"
-            value={skillLevel}
-            onChange={(e) => setSkillLevel(e.target.value)}
-            className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
-          >
-            <option value="">Select your skill level</option>
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advanced">Advanced</option>
-            <option value="Expert">Expert</option>
-          </select>
-        </div>
-
-        {/* Technology Stack */}
-        <div className="space-y-2">
-          <label htmlFor="tech-stack" className="text-textPrimary font-medium font-tomorrow">
-            Technology Stack
-          </label>
-          {/* Selected Technologies */}
-          <div className="flex flex-wrap gap-2">
-            {techStack.map((tech) => (
-              <div
-                key={tech.name}
-                className="flex items-center bg-primary px-3 py-1 rounded-lg"
-              >
-                <img src={tech.icon} alt={tech.name} className="w-5 h-5 mr-2" />
-                <span className="text-textPrimary text-sm">{tech.name}</span>
-                <button
-                  onClick={() => handleRemoveTech(tech.name)}
-                  className="ml-2 text-textPrimary hover:text-accent transition-all"
-                >
-                  &times;
-                </button>
-              </div>
-            ))}
-          </div>
-          {/* Search and Add Technology */}
-          <div className="relative">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
-              placeholder="Search for a technology"
-            />
-            {searchQuery && (
-              <div className="absolute mt-2 w-full bg-secondary rounded-lg shadow-lg z-30">
-                {filteredTechOptions.map((tech) => (
-                  <div
-                    key={tech.name}
-                    onClick={() => handleAddTech(tech)}
-                    className="flex items-center p-2 hover:bg-primary cursor-pointer"
-                  >
-                    <img src={tech.icon} alt={tech.name} className="w-5 h-5 mr-2" />
-                    <span className="text-textPrimary">{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
         {/* Save Button */}
         <button
           className="px-8 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all font-tomorrow"
-          onClick={() => {
-            console.log('Profile saved:', { username, bio, skillLevel, techStack, profilePicture });
-          }}
+          onClick={handleSaveProfile}
         >
           Save Changes
         </button>

@@ -1,19 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaBars, FaTimes, FaSave, FaCheck, FaWallet } from 'react-icons/fa';
+import { FaBars, FaTimes, FaWallet, FaGithub, FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ccaiLogo from '../../../assets/ccai_logo.svg';
 
-const gh = 'https://static.cdnlogo.com/logos/g/69/github-icon.svg';
-
 interface NavbarProps {
   onGitHubLogin: (isLoggedIn: boolean) => void;
+  profilePicture?: string | null; // Avatar SVG or URL
+  username?: string; // Username
+  balance?: { usd: number; craft: number }; // Balance
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
+const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin, profilePicture, username, balance }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isGitHubLoggedIn, setIsGitHubLoggedIn] = useState(false);
-  const [showWalletDropdown, setShowWalletDropdown] = useState(false);
+  const [showAccountDropdown, setShowAccountDropdown] = useState(false);
 
   // Create a ref for the dropdown
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -22,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowWalletDropdown(false); // Close the dropdown
+        setShowAccountDropdown(false); // Close the dropdown
       }
     };
 
@@ -36,32 +37,12 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
   }, []);
 
   const handleConnectWallet = () => {
-    if (!isWalletConnected) {
-      setIsWalletConnected(true);
-    } else {
-      setShowWalletDropdown(!showWalletDropdown); // Toggle dropdown
-    }
+    setIsWalletConnected(!isWalletConnected);
   };
 
   const handleGitHubLogin = () => {
-    if (!isGitHubLoggedIn) {
-      setIsGitHubLoggedIn(true);
-      onGitHubLogin(true); // Notify the parent component
-    } else {
-      setIsGitHubLoggedIn(false);
-      onGitHubLogin(false); // Notify the parent component
-    }
-  };
-
-  interface WalletActionProps {
-    action: 'Disconnect Wallet' | 'Change Wallet' | 'Copy Address';
-  }
-
-  const handleWalletAction = ({ action }: WalletActionProps) => {
-    if (action === 'Disconnect Wallet') {
-      setIsWalletConnected(false);
-    }
-    setShowWalletDropdown(false); // Close the dropdown after an action
+    setIsGitHubLoggedIn(!isGitHubLoggedIn);
+    onGitHubLogin(!isGitHubLoggedIn); // Notify the parent component
   };
 
   return (
@@ -88,7 +69,6 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
             <Link to="/docs" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
               Docs
             </Link>
-            
             <Link to="/faq" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
               FAQ
             </Link>
@@ -98,62 +78,80 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
           </div>
         </div>
         <div className="hidden md:flex items-center space-x-4 ml-auto mr-4">
-          {/* Wallet Dropdown */}
+          {/* Account Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
-              onClick={handleConnectWallet}
-              className={`${
-                isWalletConnected
-                  ? 'bg-green-500/10 border-green-500 text-green-500'
-                  : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
-              } px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center justify-center space-x-2`}
+              onClick={() => setShowAccountDropdown(!showAccountDropdown)}
+              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-secondary/80 transition-all"
             >
-              <FaWallet className="w-4 h-4" />
-              <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
-              {isWalletConnected && <FaCheck className="w-4 h-4 text-green-500" />}
+              {profilePicture ? (
+                <div className="w-8 h-8 rounded-full overflow-hidden">
+                  {profilePicture} {/* Render the avatar SVG or image */}
+                </div>
+              ) : (
+                <FaUserCircle className="w-8 h-8 text-textPrimary" />
+              )}
+              {username && <span className="text-textPrimary">{username}</span>}
             </button>
-            {showWalletDropdown && (
-              <div className="absolute right-0 mt-2 w-48 bg-primary rounded-xl border border-accent/30 shadow-lg shadow-accent/20 z-50">
-                <div className="py-2">
-                  <button
-                    onClick={() => handleWalletAction({ action: 'Disconnect Wallet' })}
-                    className="block w-full px-4 py-2 text-sm text-textPrimary/80 hover:bg-accent/10 transition-colors"
-                  >
-                    Disconnect Wallet
-                  </button>
-                  <button
-                    onClick={() => handleWalletAction({ action: 'Change Wallet' })}
-                    className="block w-full px-4 py-2 text-sm text-textPrimary/80 hover:bg-accent/10 transition-colors"
-                  >
-                    Change Wallet
-                  </button>
-                  <button
-                    onClick={() => handleWalletAction({ action: 'Copy Address' })}
-                    className="block w-full px-4 py-2 text-sm text-textPrimary/80 hover:bg-accent/10 transition-colors"
-                  >
-                    Copy Address
-                  </button>
+            {showAccountDropdown && (
+              <div className="absolute right-0 mt-2 w-64 bg-primary rounded-xl border border-accent/30 shadow-lg shadow-accent/20 z-50">
+                <div className="p-4">
+                  {/* Wallet and GitHub Buttons */}
+                  <div className="space-y-2">
+                    <button
+                      onClick={handleConnectWallet}
+                      className={`${
+                        isWalletConnected
+                          ? 'bg-green-500/10 border-green-500 text-green-500'
+                          : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
+                      } w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2`}
+                    >
+                      <FaWallet className="w-4 h-4" />
+                      <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
+                    </button>
+                    <button
+                      onClick={handleGitHubLogin}
+                      className={`${
+                        isGitHubLoggedIn
+                          ? 'bg-green-500/10 border-green-500 text-green-500'
+                          : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
+                      } w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2`}
+                    >
+                      <FaGithub className="w-4 h-4" />
+                      <span>{isGitHubLoggedIn ? 'Connected' : 'Connect GitHub'}</span>
+                    </button>
+                  </div>
+                  {/* Manage Account Button (Conditional) */}
+                  {isWalletConnected && (
+                    <div className="my-4">
+                      <Link
+                        to="/account"
+                        onClick={() => setShowAccountDropdown(false)}
+                        className="w-full px-4 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all flex items-center justify-center space-x-2"
+                      >
+                        <FaUserCircle className="w-5 h-5" />
+                        <span className="font-semibold">Manage Account</span>
+                      </Link>
+                    </div>
+                  )}
+                  {/* Balances (Conditional) */}
+                  {isWalletConnected && (
+                    <div className="space-y-2">
+                      <h3 className="text-textPrimary font-bold">Balances</h3>
+                      <div className="flex justify-between">
+                        <span className="text-textPrimary">USD:</span>
+                        <span className="text-textPrimary font-bold">${balance?.usd || 0}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-textPrimary">CRAFT:</span>
+                        <span className="text-textPrimary font-bold">{balance?.craft || 0}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
           </div>
-          {/* GitHub Button */}
-          <button
-            onClick={handleGitHubLogin}
-            className={`${
-              isGitHubLoggedIn
-                ? 'bg-green-500/10 border-green-500 text-green-500'
-                : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
-            } px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center justify-center space-x-2`}
-          >
-            <img
-              src={gh}
-              alt="GitHub"
-              className="w-4 h-4 filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
-            />
-            <span>{isGitHubLoggedIn ? 'Connected' : 'Connect GitHub'}</span>
-            {isGitHubLoggedIn && <FaCheck className="w-4 h-4 text-green-500" />}
-          </button>
         </div>
         {/* Mobile Menu */}
         <div className="md:hidden">
@@ -205,62 +203,80 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
           >
             FAQ
           </Link>
-          {/* Wallet Button for Mobile */}
+          {/* Account Dropdown for Mobile */}
           <div className="relative" ref={dropdownRef}>
             <button
-              onClick={handleConnectWallet}
-              className={`${
-                isWalletConnected
-                  ? 'bg-green-500/10 border-green-500 text-green-500'
-                  : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
-              } px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center justify-center space-x-2 w-full`}
+              onClick={() => setShowAccountDropdown(!showAccountDropdown)}
+              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-secondary/80 transition-all w-full"
             >
-              <FaWallet className="w-4 h-4" />
-              <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
-              {isWalletConnected && <FaCheck className="w-4 h-4 text-green-500" />}
+              {profilePicture ? (
+                <div className="w-8 h-8 rounded-full overflow-hidden">
+                  {profilePicture} {/* Render the avatar SVG or image */}
+                </div>
+              ) : (
+                <FaUserCircle className="w-8 h-8 text-textPrimary" />
+              )}
+              {username && <span className="text-textPrimary">Account</span>}
             </button>
-            {showWalletDropdown && (
+            {showAccountDropdown && (
               <div className="mt-2 w-full bg-primary rounded-xl border border-accent/30 shadow-lg shadow-accent/20 z-50">
-                <div className="py-2">
-                  <button
-                    onClick={() => handleWalletAction({ action: 'Disconnect Wallet' })}
-                    className="block w-full px-4 py-2 text-sm text-textPrimary/80 hover:bg-accent/10 transition-colors"
-                  >
-                    Disconnect Wallet
-                  </button>
-                  <button
-                    onClick={() => handleWalletAction({ action: 'Change Wallet' })}
-                    className="block w-full px-4 py-2 text-sm text-textPrimary/80 hover:bg-accent/10 transition-colors"
-                  >
-                    Change Wallet
-                  </button>
-                  <button
-                    onClick={() => handleWalletAction({ action: 'Copy Address' })}
-                    className="block w-full px-4 py-2 text-sm text-textPrimary/80 hover:bg-accent/10 transition-colors"
-                  >
-                    Copy Address
-                  </button>
+                <div className="p-4">
+                  {/* Wallet and GitHub Buttons */}
+                  <div className="space-y-2">
+                    <button
+                      onClick={handleConnectWallet}
+                      className={`${
+                        isWalletConnected
+                          ? 'bg-green-500/10 border-green-500 text-green-500'
+                          : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
+                      } w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2`}
+                    >
+                      <FaWallet className="w-4 h-4" />
+                      <span>{isWalletConnected ? 'Connected' : 'Connect Wallet'}</span>
+                    </button>
+                    <button
+                      onClick={handleGitHubLogin}
+                      className={`${
+                        isGitHubLoggedIn
+                          ? 'bg-green-500/10 border-green-500 text-green-500'
+                          : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
+                      } w-full px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center justify-center space-x-2`}
+                    >
+                      <FaGithub className="w-4 h-4" />
+                      <span>{isGitHubLoggedIn ? 'Connected' : 'Connect GitHub'}</span>
+                    </button>
+                  </div>
+                  {/* Manage Account Button (Conditional) */}
+                  {isWalletConnected && (
+                    <div className="my-4">
+                      <Link
+                        to="/account"
+                        onClick={() => setShowAccountDropdown(false)}
+                        className="w-full px-4 py-3 bg-accent text-textPrimary rounded-lg hover:bg-opacity-90 transition-all flex items-center justify-center space-x-2"
+                      >
+                        <FaUserCircle className="w-5 h-5" />
+                        <span className="font-semibold">Manage Account</span>
+                      </Link>
+                    </div>
+                  )}
+                  {/* Balances (Conditional) */}
+                  {isWalletConnected && (
+                    <div className="space-y-2">
+                      <h3 className="text-textPrimary font-bold">Balances</h3>
+                      <div className="flex justify-between">
+                        <span className="text-textPrimary">USD:</span>
+                        <span className="text-textPrimary font-bold">${balance?.usd || 0}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-textPrimary">CRAFT:</span>
+                        <span className="text-textPrimary font-bold">{balance?.craft || 0}</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
           </div>
-          {/* GitHub Button for Mobile */}
-          <button
-            onClick={handleGitHubLogin}
-            className={`${
-              isGitHubLoggedIn
-                ? 'bg-green-500/10 border-green-500 text-green-500'
-                : 'bg-transparent border-2 border-accent text-accent hover:bg-accent/10'
-            } px-4 py-2 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-accent/20 flex items-center justify-center space-x-2 w-full`}
-          >
-            <img
-              src={gh}
-              alt="GitHub"
-              className="w-4 h-4 filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity duration-300"
-            />
-            <span>{isGitHubLoggedIn ? 'Connected' : 'Connect GitHub'}</span>
-            {isGitHubLoggedIn && <FaCheck className="w-4 h-4 text-green-500" />}
-          </button>
         </div>
       )}
     </nav>
