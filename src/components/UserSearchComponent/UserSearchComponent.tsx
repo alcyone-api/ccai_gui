@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import { Icon } from '@iconify/react'; // Import Iconify
 import { useGlobalState } from '../Context/GlobalStateContext'; // Import the global state hook
 
@@ -20,6 +21,7 @@ const UserSearchComponent: React.FC = () => {
   const [selectedSkillLevel, setSelectedSkillLevel] = useState<string>('');
   const [selectedTechnology, setSelectedTechnology] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('rating');
+  const navigate = useNavigate(); // Initialize useNavigate for navigation
 
   // Fetch users who have opted into the program (mock data for now)
   useEffect(() => {
@@ -77,6 +79,11 @@ const UserSearchComponent: React.FC = () => {
 
     setFilteredUsers(filtered);
   }, [searchQuery, selectedSkillLevel, selectedTechnology, sortBy, users]);
+
+  // Handle user card click to navigate to the user's profile
+  const handleUserClick = (userId: string) => {
+    navigate(`/user/${userId}`); // Navigate to the user's profile page
+  };
 
   return (
     <div className="relative min-h-screen bg-primary overflow-hidden">
@@ -138,7 +145,8 @@ const UserSearchComponent: React.FC = () => {
               {filteredUsers.map((user) => (
                 <div
                   key={user.id}
-                  className="flex flex-col p-6 bg-primary rounded-lg shadow-md space-y-4"
+                  className="flex flex-col p-6 bg-primary rounded-lg shadow-md space-y-4 cursor-pointer hover:bg-secondary transition-colors"
+                  onClick={() => handleUserClick(user.id)} // Navigate to user profile on click
                 >
                   {/* Top Row: Avatar, Username, Socials, and Rating */}
                   <div className="flex items-center justify-between">

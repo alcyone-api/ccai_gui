@@ -15,6 +15,7 @@ import ProjectPage from './components/Projects/ProjectPage/ProjectPage';
 import GitHubSuccessModal from './components/Primary/Navbar/GitHubSuccessModal';
 import AccountManagementPage from './components/AccountManagement/AccountManagement';
 import UserSearchComponent from './components/UserSearchComponent/UserSearchComponent'; // Import the UserSearchComponent
+import UserProfile from './components/UserSearchComponent/UserProfile';
 
 const App = () => {
   const [showGitHubModal, setShowGitHubModal] = useState(false);
@@ -75,6 +76,11 @@ const App = () => {
                 />
               }
             />
+            {/* Route for the UserSearchComponent (home page) */}
+            <Route path="/" element={<UserSearchComponent />} />
+
+            {/* Route for the UserProfile component (dynamic route based on userId) */}
+            <Route path="/user/:userId" element={<UserProfile />} />
           </Routes>
         </div>
         <Background />
