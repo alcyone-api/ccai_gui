@@ -9,22 +9,16 @@ interface User {
   bio: string;
   technologies: { name: string; icon: string; skillLevel: string }[];
   rating: number;
-  reviews: { reviewer: string; comment: string; rating: number }[];
-  tips: { tipper: string; amount: number; date: string }[];
+  reviews: { reviewer: string; comment: string; rating: number; tipAmount?: number }[];
   telegramHandle?: string;
   xAccountHandle?: string;
-}
-
-interface Tip {
-  tipper: string;
-  amount: number;
-  date: string;
 }
 
 interface Review {
   reviewer: string;
   comment: string;
   rating: number;
+  tipAmount?: number;
 }
 
 const UserProfile: React.FC = () => {
@@ -49,12 +43,8 @@ const UserProfile: React.FC = () => {
         ],
         rating: 4.5,
         reviews: [
-          { reviewer: 'Bob', comment: 'Alice is an excellent mentor!', rating: 5 },
-          { reviewer: 'Charlie', comment: 'Very knowledgeable and patient.', rating: 4 },
-        ],
-        tips: [
-          { tipper: 'Bob', amount: 50, date: '2023-10-01' },
-          { tipper: 'Charlie', amount: 30, date: '2023-10-05' },
+          { reviewer: 'Bob', comment: 'Alice is an excellent mentor!', rating: 5, tipAmount: 50 },
+          { reviewer: 'Charlie', comment: 'Very knowledgeable and patient.', rating: 4, tipAmount: 30 },
         ],
         telegramHandle: '@alice',
         xAccountHandle: '@alice_x',
@@ -76,19 +66,14 @@ const UserProfile: React.FC = () => {
     // Simulate a tip transaction (replace with actual wallet/blockchain integration)
     setTimeout(() => {
       if (user && tipAmount > 0) {
-        const newTip: Tip = {
-          tipper: 'Anonymous', // Replace with logged-in user's name
-          amount: tipAmount,
-          date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
-        };
         const newReview: Review = {
           reviewer: 'Anonymous', // Replace with logged-in user's name
           comment: reviewComment,
           rating: reviewRating,
+          tipAmount: tipAmount,
         };
         const updatedUser = {
           ...user,
-          tips: [...user.tips, newTip],
           reviews: [...user.reviews, newReview],
         };
         setUser(updatedUser);
@@ -106,49 +91,54 @@ const UserProfile: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-primary overflow-hidden">
-      <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
+      <div className="relative z-40 flex flex-col items-start px-8 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
         <div className="max-w-4xl w-full mx-auto font-tomorrow">
-          {/* Profile Header */}
-          <div className="flex flex-col items-center text-center animate-fade-in-up">
-            <div className="w-24 h-24 rounded-full overflow-hidden mb-4">
-              <img
-                src={user.avatar}
-                alt={user.username}
-                className="w-full h-full object-cover"
-                style={{ filter: 'brightness(0) invert(1)' }} // Convert black to white
-              />
+          {/* Profile Card */}
+          <div className="bg-secondary/80 p-6 rounded-lg backdrop-blur-md animate-fade-in-up">
+            <div className="flex items-center space-x-6">
+              {/* Avatar */}
+              <div className="w-20 h-20 rounded-full overflow-hidden">
+                <img
+                  src={user.avatar}
+                  alt={user.username}
+                  className="w-full h-full object-cover"
+                  style={{ filter: 'brightness(0) invert(1)' }} // Convert black to white
+                />
+              </div>
+              {/* Username and Social Media Links */}
+              <div className="flex-1">
+                <div className="flex items-center space-x-4">
+                  <h1 className="text-3xl font-bold text-textPrimary">{user.username}</h1>
+                  {user.telegramHandle && (
+                    <a
+                      href={`https://t.me/${user.telegramHandle.slice(1)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:opacity-80 transition-opacity"
+                    >
+                      <Icon icon="mingcute:telegram-fill" className="w-6 h-6 text-blue-500" />
+                    </a>
+                  )}
+                  {user.xAccountHandle && (
+                    <a
+                      href={`https://x.com/${user.xAccountHandle.slice(1)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:opacity-80 transition-opacity"
+                    >
+                      <Icon icon="ri:twitter-x-fill" className="w-6 h-6 text-textPrimary" />
+                    </a>
+                  )}
+                </div>
+                {/* Bio */}
+                <p className="text-textPrimary/80 mt-2 text-left">{user.bio}</p>
+              </div>
             </div>
-            <h1 className="text-3xl font-bold text-textPrimary">{user.username}</h1>
-            <p className="text-textPrimary/80 mt-2">{user.bio}</p>
 
-            {/* Social Media Links */}
-            <div className="flex gap-4 mt-4">
-              {user.telegramHandle && (
-                <a
-                  href={`https://t.me/${user.telegramHandle.slice(1)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-80 transition-opacity"
-                >
-                  <Icon icon="mingcute:telegram-fill" className="w-8 h-8 text-blue-500" />
-                </a>
-              )}
-              {user.xAccountHandle && (
-                <a
-                  href={`https://x.com/${user.xAccountHandle.slice(1)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-80 transition-opacity"
-                >
-                  <Icon icon="ri:twitter-x-fill" className="w-8 h-8 text-textPrimary" />
-                </a>
-              )}
-            </div>
-
-            {/* Send Tip and Write Review Button */}
+            {/* Send Tip & Write Review Button */}
             <button
               onClick={openTipReviewModal}
-              className="mt-6 bg-accent text-primary px-6 py-3 rounded-lg hover:bg-accent/90 transition-colors"
+              className="mt-6 bg-accent text-primary px-6 py-3 rounded-lg hover:bg-accent/90 transition-colors w-full"
             >
               Send Tip & Write Review
             </button>
@@ -161,7 +151,7 @@ const UserProfile: React.FC = () => {
               {user.technologies.map((tech, index) => (
                 <div
                   key={index}
-                  className="flex items-center space-x-2 bg-secondary p-3 rounded-lg"
+                  className="flex items-center space-x-2 bg-primary p-3 rounded-lg"
                 >
                   <Icon icon={tech.icon} className="w-6 h-6 text-textPrimary" />
                   <span className="text-textPrimary">{tech.name}</span>
@@ -171,34 +161,12 @@ const UserProfile: React.FC = () => {
             </div>
           </div>
 
-          {/* Tips History Section */}
+          {/* Combined Reviews and Tips Section */}
           <div className="mt-8 animate-fade-in-up">
-            <h2 className="text-2xl font-bold text-textPrimary mb-4">Tips History</h2>
-            <div className="space-y-4">
-              {user.tips.map((tip, index) => (
-                <div
-                  key={index}
-                  className="bg-secondary p-4 rounded-lg"
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="text-textPrimary font-medium">{tip.tipper}</span>
-                    <span className="text-textPrimary">{tip.amount} $CRAFT</span>
-                  </div>
-                  <p className="text-textPrimary/80 mt-2">Date: {tip.date}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Reviews Section */}
-          <div className="mt-8 animate-fade-in-up">
-            <h2 className="text-2xl font-bold text-textPrimary mb-4">Reviews</h2>
+            <h2 className="text-2xl font-bold text-textPrimary mb-4">Activity</h2>
             <div className="space-y-4">
               {user.reviews.map((review, index) => (
-                <div
-                  key={index}
-                  className="bg-secondary p-4 rounded-lg"
-                >
+                <div key={index} className="bg-secondary p-6 rounded-lg">
                   <div className="flex justify-between items-center">
                     <span className="text-textPrimary font-medium">{review.reviewer}</span>
                     <div className="flex items-center space-x-1">
@@ -208,6 +176,12 @@ const UserProfile: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-textPrimary/80 mt-2">{review.comment}</p>
+                  {review.tipAmount && (
+                    <p className="text-textPrimary/80 mt-2">
+                      <Icon icon="mdi:cash" className="w-5 h-5 inline-block mr-1" />
+                      Tipped: {review.tipAmount} $CRAFT
+                    </p>
+                  )}
                 </div>
               ))}
             </div>

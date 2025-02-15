@@ -91,8 +91,7 @@ const UserSearchComponent: React.FC = () => {
         <div className="max-w-4xl w-full mx-auto font-tomorrow">
           <h2 className="text-2xl font-bold text-accent mb-6 animate-fade-in-up">Find Mentors</h2>
           <p className="text-textPrimary mb-8 animate-fade-in-up">
-            Discover mentors who have opted into our tipping program. Show your appreciation for their help by sending
-            them tips directly through their socials! Click on the links below to connect with them on Telegram or X.
+          Get expert help setting up your CodeCraft app by connecting with experienced developers who can provide guidance, troubleshooting, and feedback in exchange for reasonable tips in $CRAFT. Browse developer profiles to see their skill sets, experience levels, and areas of expertise. Check reviews and ratings from other Crafters to find trusted experts. Whether you need help debugging, setting up features, or optimizing performance, skilled developers are available to assist. Show appreciation for their help by tipping in $CRAFT and supporting the community. Find the right expert, get the help you need, and keep your projects moving forward.
           </p>
           <div className="space-y-6 animate-fade-in-up">
             {/* Search Bar */}

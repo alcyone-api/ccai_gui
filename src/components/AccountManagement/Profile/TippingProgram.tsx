@@ -33,7 +33,7 @@ const TippingProgram: React.FC<TippingProgramProps> = ({ isProfileComplete }) =>
       <h3 className="text-xl font-semibold text-textPrimary mt-12 mb-6">$CRAFT Mentor Program</h3>
       <div className="space-y-4">
         <p className="text-textPrimary">
-          The $CRAFT Mentor Program allows CodeCraft users to find and contact mentors who will help them set up their projects, deploy them, and get up to speed. By opting in, you agree to provide guidance in exchange for $CRAFT tokens.
+        As a CodeCraft mentor, you can offer your expertise to help other developers set up their apps, troubleshoot issues, and optimize their projects in exchange for tips in $CRAFT. By opting in, your profile will be visible to Crafters looking for assistance, showcasing your skills, experience, and areas of expertise. You can set your availability, choose which requests to take, and receive feedback through ratings and reviews. If you no longer wish to participate, you can opt out at any time, making your profile invisible to new requests. Share your knowledge, earn $CRAFT, and contribute to the CodeCraft community on your terms.
         </p>
         <div className="flex items-center space-x-2">
           <input

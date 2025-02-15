@@ -9,7 +9,7 @@ interface ProfileSectionProps {
 const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
   const { selectedIconUrl, setSelectedIconUrl, username, setUsername } = useGlobalState();
   const [bio, setBio] = useState<string>('');
-  const [showAvatarMenu, setShowAvatarMenu] = useState<boolean>(true);
+  const [showAvatarMenu, setShowAvatarMenu] = useState<boolean>(!selectedIconUrl); // Show menu if no avatar is selected
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [iconResults, setIconResults] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(true);
@@ -30,11 +30,11 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
   const handleAvatarSelect = (icon: string) => {
     const iconUrl = `https://api.iconify.design/${icon}.svg`;
     setSelectedIconUrl(iconUrl);
-    setShowAvatarMenu(false);
+    setShowAvatarMenu(false); // Hide the avatar menu after selection
   };
 
   const handleEditAvatar = () => {
-    setShowAvatarMenu(true);
+    setShowAvatarMenu(true); // Show the avatar menu for editing
   };
 
   const searchIcons = async (query: string) => {
@@ -56,7 +56,6 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
       {/* Avatar Selection */}
       {isEditing ? (
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-textPrimary">Choose Your Avatar</h3>
           {/* Display Selected Avatar and Username at the Top */}
           {selectedIconUrl && (
             <div className="flex items-center space-x-4 mb-4">
@@ -69,34 +68,52 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
                 />
               </div>
               <span className="text-textPrimary text-lg font-bold">{username || 'Your Username'}</span>
+              <button
+                onClick={handleEditAvatar}
+                className="text-textPrimary hover:text-accent transition-colors duration-300"
+              >
+                Edit Avatar
+              </button>
             </div>
           )}
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              searchIcons(e.target.value);
-            }}
-            className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
-            placeholder="Search for icons..."
-          />
-          {searchQuery && (
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-4">
-              {iconResults.map((icon, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAvatarSelect(icon)}
-                  className="p-2 rounded-lg bg-primary hover:bg-accent/10 transition-all duration-300"
-                >
-                  <Icon
-                    icon={icon}
-                    className="w-12 h-12 text-textPrimary"
-                    style={{ filter: 'brightness(0) invert(1)' }} // Ensure icons are white
-                  />
-                </button>
-              ))}
-            </div>
+          {/* Avatar Search Menu */}
+          {showAvatarMenu && (
+            <>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  searchIcons(e.target.value);
+                }}
+                className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
+                placeholder="Search for icons..."
+              />
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-4 place-items-center">
+                {iconResults.map((icon, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAvatarSelect(icon)}
+                    className="p-2 rounded-lg bg-primary hover:bg-accent/10 transition-all duration-300"
+                  >
+                    <Icon
+                      icon={icon}
+                      className="w-12 h-12 text-textPrimary"
+                      style={{ filter: 'brightness(0) invert(1)' }} // Ensure icons are white
+                    />
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+          {/* Show avatar search by default if no avatar is selected */}
+          {!selectedIconUrl && !showAvatarMenu && (
+            <button
+              onClick={() => setShowAvatarMenu(true)}
+              className="text-textPrimary hover:text-accent transition-colors duration-300"
+            >
+              Select Avatar
+            </button>
           )}
         </div>
       ) : (

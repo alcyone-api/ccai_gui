@@ -15,8 +15,6 @@ const AccountManagementPage: React.FC<AccountManagementPageProps> = ({ }) => {
       <div className="z-70 max-w-4xl mx-auto space-y-6 z-10">
         {/* Profile Section Card */}
           <ProfileWrapper />
-        {/* Balance Section Card */}
-          <Balance />
         {/* Subscription Section Card */}
           <SubscriptionSection />
       </div>
