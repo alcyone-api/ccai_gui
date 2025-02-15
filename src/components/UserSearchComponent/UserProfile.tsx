@@ -10,8 +10,15 @@ interface User {
   technologies: { name: string; icon: string; skillLevel: string }[];
   rating: number;
   reviews: { reviewer: string; comment: string; rating: number }[];
+  tips: { tipper: string; amount: number; date: string }[];
   telegramHandle?: string;
   xAccountHandle?: string;
+}
+
+interface Tip {
+  tipper: string;
+  amount: number;
+  date: string;
 }
 
 interface Review {
@@ -23,12 +30,10 @@ interface Review {
 const UserProfile: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const [user, setUser] = useState<User | null>(null);
-  const [newReview, setNewReview] = useState<Review>({
-    reviewer: 'Anonymous', // Default reviewer name (can be dynamic based on logged-in user)
-    comment: '',
-    rating: 0,
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [tipAmount, setTipAmount] = useState<number>(0);
+  const [reviewComment, setReviewComment] = useState<string>('');
+  const [reviewRating, setReviewRating] = useState<number>(0);
+  const [isTipReviewModalOpen, setIsTipReviewModalOpen] = useState(false);
 
   // Mock fetch for user data (replace with actual API call)
   useEffect(() => {
@@ -47,57 +52,51 @@ const UserProfile: React.FC = () => {
           { reviewer: 'Bob', comment: 'Alice is an excellent mentor!', rating: 5 },
           { reviewer: 'Charlie', comment: 'Very knowledgeable and patient.', rating: 4 },
         ],
+        tips: [
+          { tipper: 'Bob', amount: 50, date: '2023-10-01' },
+          { tipper: 'Charlie', amount: 30, date: '2023-10-05' },
+        ],
         telegramHandle: '@alice',
         xAccountHandle: '@alice_x',
-      },
-      {
-        id: '2',
-        username: 'Bob',
-        avatar: 'https://api.iconify.design/mdi:user.svg',
-        bio: 'Backend developer specializing in Python, Django, and REST APIs. Loves solving complex problems.',
-        technologies: [
-          { name: 'Python', icon: 'logos:python', skillLevel: 'professional' },
-          { name: 'Django', icon: 'logos:django-icon', skillLevel: 'advanced' },
-        ],
-        rating: 4.0,
-        reviews: [
-          { reviewer: 'Alice', comment: 'Bob is a great teacher!', rating: 4 },
-          { reviewer: 'Charlie', comment: 'Helped me understand complex concepts easily.', rating: 5 },
-        ],
-        telegramHandle: '@bob',
-        xAccountHandle: '@bob_x',
       },
     ];
     const foundUser = mockUsers.find((u) => u.id === userId);
     setUser(foundUser || null);
   }, [userId]);
 
-  // Handle review input changes
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setNewReview((prev) => ({ ...prev, [name]: value }));
+  // Open the tip/review modal
+  const openTipReviewModal = () => {
+    setIsTipReviewModalOpen(true);
   };
 
-  // Handle rating change
-  const handleRatingChange = (rating: number) => {
-    setNewReview((prev) => ({ ...prev, rating }));
-  };
-
-  // Handle review submission
-  const handleSubmit = (e: React.FormEvent) => {
+  // Handle tip and review submission
+  const handleTipAndReview = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    // Simulate saving the review (replace with actual API call)
+    // Simulate a tip transaction (replace with actual wallet/blockchain integration)
     setTimeout(() => {
-      if (user) {
-        const updatedUser = { ...user, reviews: [...user.reviews, newReview] };
+      if (user && tipAmount > 0) {
+        const newTip: Tip = {
+          tipper: 'Anonymous', // Replace with logged-in user's name
+          amount: tipAmount,
+          date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
+        };
+        const newReview: Review = {
+          reviewer: 'Anonymous', // Replace with logged-in user's name
+          comment: reviewComment,
+          rating: reviewRating,
+        };
+        const updatedUser = {
+          ...user,
+          tips: [...user.tips, newTip],
+          reviews: [...user.reviews, newReview],
+        };
         setUser(updatedUser);
-        setNewReview({ reviewer: 'Anonymous', comment: '', rating: 0 });
+        setTipAmount(0);
+        setReviewComment('');
+        setReviewRating(0);
+        setIsTipReviewModalOpen(false);
       }
-      setIsSubmitting(false);
     }, 1000);
   };
 
@@ -121,6 +120,38 @@ const UserProfile: React.FC = () => {
             </div>
             <h1 className="text-3xl font-bold text-textPrimary">{user.username}</h1>
             <p className="text-textPrimary/80 mt-2">{user.bio}</p>
+
+            {/* Social Media Links */}
+            <div className="flex gap-4 mt-4">
+              {user.telegramHandle && (
+                <a
+                  href={`https://t.me/${user.telegramHandle.slice(1)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:opacity-80 transition-opacity"
+                >
+                  <Icon icon="mingcute:telegram-fill" className="w-8 h-8 text-blue-500" />
+                </a>
+              )}
+              {user.xAccountHandle && (
+                <a
+                  href={`https://x.com/${user.xAccountHandle.slice(1)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:opacity-80 transition-opacity"
+                >
+                  <Icon icon="ri:twitter-x-fill" className="w-8 h-8 text-textPrimary" />
+                </a>
+              )}
+            </div>
+
+            {/* Send Tip and Write Review Button */}
+            <button
+              onClick={openTipReviewModal}
+              className="mt-6 bg-accent text-primary px-6 py-3 rounded-lg hover:bg-accent/90 transition-colors"
+            >
+              Send Tip & Write Review
+            </button>
           </div>
 
           {/* Skills Section */}
@@ -135,6 +166,25 @@ const UserProfile: React.FC = () => {
                   <Icon icon={tech.icon} className="w-6 h-6 text-textPrimary" />
                   <span className="text-textPrimary">{tech.name}</span>
                   <span className="text-textPrimary text-sm">({tech.skillLevel})</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Tips History Section */}
+          <div className="mt-8 animate-fade-in-up">
+            <h2 className="text-2xl font-bold text-textPrimary mb-4">Tips History</h2>
+            <div className="space-y-4">
+              {user.tips.map((tip, index) => (
+                <div
+                  key={index}
+                  className="bg-secondary p-4 rounded-lg"
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="text-textPrimary font-medium">{tip.tipper}</span>
+                    <span className="text-textPrimary">{tip.amount} $CRAFT</span>
+                  </div>
+                  <p className="text-textPrimary/80 mt-2">Date: {tip.date}</p>
                 </div>
               ))}
             </div>
@@ -162,50 +212,71 @@ const UserProfile: React.FC = () => {
               ))}
             </div>
           </div>
-
-          {/* Write a Review Section */}
-          <div className="mt-8 animate-fade-in-up">
-            <h2 className="text-2xl font-bold text-textPrimary mb-4">Write a Review</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Rating Input */}
-              <div className="flex items-center space-x-2">
-                <span className="text-textPrimary">Rating:</span>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type="button"
-                    onClick={() => handleRatingChange(star)}
-                    className={`w-6 h-6 ${
-                      newReview.rating >= star ? 'text-yellow-500' : 'text-textPrimary/50'
-                    }`}
-                  >
-                    <Icon icon="mdi:star" className="w-full h-full" />
-                  </button>
-                ))}
-              </div>
-
-              {/* Comment Input */}
-              <textarea
-                name="comment"
-                value={newReview.comment}
-                onChange={handleInputChange}
-                placeholder="Write your review..."
-                className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
-                rows={4}
-                required
-              />
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-accent text-primary p-3 rounded-lg hover:bg-accent/90 transition-colors disabled:opacity-50"
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit Review'}
-              </button>
-            </form>
-          </div>
         </div>
+
+        {/* Tip and Review Modal */}
+        {isTipReviewModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black/50 animate-fade-in">
+            <div className="bg-primary p-8 rounded-lg w-96 animate-fade-in-up">
+              <h2 className="text-2xl font-bold text-textPrimary mb-6">Send Tip & Write Review</h2>
+              <form onSubmit={handleTipAndReview} className="space-y-4">
+                {/* Tip Amount Input */}
+                <input
+                  type="number"
+                  value={tipAmount}
+                  onChange={(e) => setTipAmount(Number(e.target.value))}
+                  placeholder="Enter $CRAFT amount"
+                  className="w-full p-3 bg-secondary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                  min="1"
+                  required
+                />
+
+                {/* Review Rating Input */}
+                <div className="flex items-center space-x-2">
+                  <span className="text-textPrimary">Rating:</span>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setReviewRating(star)}
+                      className={`w-6 h-6 ${
+                        reviewRating >= star ? 'text-yellow-500' : 'text-textPrimary/50'
+                      }`}
+                    >
+                      <Icon icon="mdi:star" className="w-full h-full" />
+                    </button>
+                  ))}
+                </div>
+
+                {/* Review Comment Input */}
+                <textarea
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                  placeholder="Write your review..."
+                  className="w-full p-3 bg-secondary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                  rows={4}
+                  required
+                />
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full bg-accent text-primary p-3 rounded-lg hover:bg-accent/90 transition-colors"
+                >
+                  Submit Tip & Review
+                </button>
+              </form>
+
+              {/* Close Modal Button */}
+              <button
+                onClick={() => setIsTipReviewModalOpen(false)}
+                className="absolute top-4 right-4 text-textPrimary hover:text-accent transition-colors"
+              >
+                <Icon icon="mdi:close" className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
