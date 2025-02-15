@@ -14,6 +14,7 @@ import GenerationResult from './components/PromptingInterface/GenerationResult/G
 import ProjectPage from './components/Projects/ProjectPage/ProjectPage';
 import GitHubSuccessModal from './components/Primary/Navbar/GitHubSuccessModal';
 import AccountManagementPage from './components/AccountManagement/AccountManagement';
+import UserSearchComponent from './components/UserSearchComponent/UserSearchComponent'; // Import the UserSearchComponent
 
 const App = () => {
   const [showGitHubModal, setShowGitHubModal] = useState(false);
@@ -57,12 +58,23 @@ const App = () => {
             <Route path="/projects" element={<ProjectsList />} />
             <Route path="/projects/:id" element={<ProjectPage />} />
             <Route path="/generation-result" element={<GenerationResult />} />
-            <Route path="/account" element={
-              <AccountManagementPage
-                balance={balance}
-                onAddFunds={handleAddFunds}
-              />
-            } />
+            <Route
+              path="/users"
+              element={
+                <div className="">
+                  <UserSearchComponent />
+                </div>
+              }
+            />
+            <Route
+              path="/account"
+              element={
+                <AccountManagementPage
+                  balance={balance}
+                  onAddFunds={handleAddFunds}
+                />
+              }
+            />
           </Routes>
         </div>
         <Background />

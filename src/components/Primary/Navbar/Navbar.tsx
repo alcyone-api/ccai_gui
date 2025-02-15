@@ -118,6 +118,14 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
             <Link to="/education" className="font-tomorrow text-textPrimary/70 hover:text-textPrimary transition-colors text-sm font-semibold">
               Prompting 101
             </Link>
+                               {/* Get Help Button */}
+          <Link
+            to="/users"
+            className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all font-semibold flex items-center space-x-2"
+          >
+            <span>Get Help</span>
+          </Link>
+
           </div>
         </div>
 
@@ -310,6 +318,14 @@ const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
             className="block w-full font-tomorrow text-textPrimary/70 hover:text-textPrimary text-sm font-semibold px-4 py-2"
           >
             FAQ
+          </Link>
+           {/* Get Help Button for Mobile */}
+           <Link
+            to="/users"
+            onClick={() => setIsMenuOpen(false)}
+            className="block w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all font-semibold text-center"
+          >
+            Get Help
           </Link>
           {/* Account Dropdown for Mobile */}
           <div className="relative" ref={dropdownRef}>
