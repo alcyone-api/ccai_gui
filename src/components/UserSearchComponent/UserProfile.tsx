@@ -97,7 +97,7 @@ const UserProfile: React.FC = () => {
       <div className="relative z-40 flex flex-col items-start px-8 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
         <div className="max-w-4xl w-full mx-auto font-tomorrow">
           {/* Profile Card */}
-          <div className="bg-secondary/80 p-6 rounded-lg backdrop-blur-md animate-fade-in-up">
+          <div className="bg-secondary/40 p-6 rounded-lg backdrop-blur-md animate-fade-in-up">
             <div className="flex items-center space-x-6">
               {/* Avatar */}
               <div className="w-20 h-20 rounded-full overflow-hidden">
@@ -172,7 +172,7 @@ const UserProfile: React.FC = () => {
             <h2 className="text-2xl font-bold text-textPrimary mb-4">Activity</h2>
             <div className="space-y-4">
               {user.reviews.map((review, index) => (
-                <div key={index} className="bg-secondary p-6 rounded-lg">
+                <div key={index} className="bg-secondary/60 p-6 rounded-lg">
                   <div className="flex justify-between items-center">
                     <span className="text-textPrimary font-medium">{review.reviewer}</span>
                     <div className="flex items-center space-x-1">
@@ -206,14 +206,14 @@ const UserProfile: React.FC = () => {
                   value={tipAmount}
                   onChange={(e) => setTipAmount(Number(e.target.value))}
                   placeholder="Enter $CRAFT amount"
-                  className="w-full p-3 bg-secondary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full p-3 bg-secondary/40 text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                   min="1"
                   required
                 />
 
                 {/* Review Rating Input */}
                 <div className="flex items-center space-x-2">
-                  <span className="极text-textPrimary">Rating:</span>
+                  <span className="text-textPrimary">Rating</span>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
@@ -233,7 +233,7 @@ const UserProfile: React.FC = () => {
                   value={reviewComment}
                   onChange={(e) => setReviewComment(e.target.value)}
                   placeholder="Write your review..."
-                  className="w-full p-极3 bg-secondary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full p-3 bg-secondary/40 text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                   rows={4}
                   required
                 />

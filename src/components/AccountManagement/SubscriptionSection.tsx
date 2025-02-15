@@ -120,7 +120,7 @@ const SubscriptionSection = () => {
   };
 
   return (
-    <div className="font-tomorrow bg-secondary p-8 rounded-2xl shadow-card relative z-10">
+    <div className="font-tomorrow p-8 rounded-2xl shadow-card relative z-10">
       <h2 className="text-2xl font-bold text-accent mb-8">Subscription Management</h2>
       <div className="space-y-8">
         {/* Subscription Details Card */}

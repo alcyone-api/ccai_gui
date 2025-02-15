@@ -144,7 +144,7 @@ const UserSearchComponent: React.FC = () => {
               {filteredUsers.map((user) => (
                 <div
                   key={user.id}
-                  className="flex flex-col p-6 bg-primary rounded-lg shadow-md space-y-4 cursor-pointer hover:bg-secondary transition-colors"
+                  className="flex flex-col p-6 bg-primary/40 rounded-lg shadow-md space-y-4 cursor-pointer hover:bg-secondary transition-colors"
                   onClick={() => handleUserClick(user.id)} // Navigate to user profile on click
                 >
                   {/* Top Row: Avatar, Username, Socials, and Rating */}
@@ -196,7 +196,7 @@ const UserSearchComponent: React.FC = () => {
                     {user.technologies.map((tech, index) => (
                       <div
                         key={index}
-                        className="flex items-center space-x-2 bg-secondary rounded-lg p-2"
+                        className="flex items-center space-x-2 rounded-lg p-2"
                       >
                         <Icon icon={tech.icon} className="w-6 h-6 text-textPrimary" />
                         <span className="text-sm text-textPrimary">{tech.name}</span>
