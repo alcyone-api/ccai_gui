@@ -65,9 +65,8 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
   const [techSearchResults, setTechSearchResults] = useState<{ name: string; icon: string }[]>([]);
 
   // New state for validation and confirmation messages
-  const [saveProfileSuccess, setSaveProfileSuccess] = useState<boolean>(false);
+  const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
   const [optInSuccess, setOptInSuccess] = useState<boolean>(false);
-  const [optOutSuccess, setOptOutSuccess] = useState<boolean>(false);
 
   // Track changes to username or avatar
   useEffect(() => {
@@ -131,15 +130,20 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
 
     // Save the profile
     onSaveProfile(selectedIconUrl, username);
-    setSaveProfileSuccess(true); // Show success message
-    setTimeout(() => setSaveProfileSuccess(false), 3000); // Hide message after 3 seconds
+    setSaveSuccess(true); // Show success message
+    setOptInSuccess(false); // Reset opt-in success message
+
+    // If opted in, show additional confirmation
+    if (optInProgram && (telegramHandle.trim() || xAccountHandle.trim())) {
+      setOptInSuccess(true);
+    }
+
     console.log('Profile saved:', { selectedIconUrl, username });
+    console.log('Program details:', { optInProgram, telegramHandle, xAccountHandle });
   };
 
   const handleSaveProgram = () => {
     // Save the program details
-    setOptInSuccess(true); // Show opt-in success message
-    setTimeout(() => setOptInSuccess(false), 3000); // Hide message after 3 seconds
     console.log('Program details saved:', { optInProgram, telegramHandle, xAccountHandle });
   };
 
@@ -147,8 +151,6 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
     setOptInProgram(false);
     setTelegramHandle('');
     setXAccountHandle('');
-    setOptOutSuccess(true); // Show opt-out success message
-    setTimeout(() => setOptOutSuccess(false), 3000); // Hide message after 3 seconds
     console.log('Opted out of the program');
   };
 
@@ -259,30 +261,65 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
           />
         </div>
 
-        {/* Save Profile Button */}
-        <div className="flex items-center justify-start space-x-4">
-          <button
-            onClick={handleSaveProfile}
-            disabled={!isDirty}
-            className={`px-6 py-2 rounded-lg transition-all font-tomorrow ${
-              isDirty
-                ? 'bg-accent text-textPrimary hover:bg-opacity-90'
-                : 'bg-gray-400 text-gray-700 cursor-not-allowed'
-            }`}
-          >
-            Save Profile
-          </button>
-        </div>
+        {/* Technologies/Skills Section */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold text-textPrimary">Technologies & Skills</h3>
 
-        {/* Save Profile Success Message */}
-        {saveProfileSuccess && (
-          <div className="text-green-500 font-medium">
-            Profile saved successfully!
+          {/* Search Bar for Technologies */}
+          <input
+            type="text"
+            value={techSearchQuery}
+            onChange={(e) => setTechSearchQuery(e.target.value)}
+            className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
+            placeholder="Search for technologies..."
+          />
+
+          {/* Display Search Results */}
+          {techSearchQuery && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
+              {techSearchResults.map((tech, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAddTechnology(tech)}
+                  className="p-2 rounded-lg bg-primary hover:bg-accent/10 transition-all duration-300 flex items-center space-x-2"
+                >
+                  <Icon icon={tech.icon} className="w-6 h-6 text-textPrimary" />
+                  <span className="text-textPrimary">{tech.name}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Display Selected Technologies with Skill Levels */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {selectedTechnologies.map((tech, index) => (
+              <div
+                key={index}
+                className="flex items-center space-x-2 bg-primary rounded-lg p-2"
+              >
+                <Icon icon={tech.icon} className="w-6 h-6 text-textPrimary" />
+                <span className="text-textPrimary">{tech.name}</span>
+                <select
+                  value={tech.skillLevel}
+                  onChange={(e) => handleSkillLevelChange(tech.name, e.target.value)}
+                  className="bg-primary text-textPrimary rounded-lg p-1 focus:outline-none"
+                >
+                  {skillLevels.map((level) => (
+                    <option key={level.value} value={level.value}>
+                      {level.level}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={() => handleRemoveTechnology(tech.name)}
+                  className="text-red-500 hover:text-red-600"
+                >
+                  <Icon icon="mdi:close" className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
           </div>
-        )}
-
-        {/* Divider */}
-        <hr className="border-t border-primary my-6" />
+        </div>
 
         {/* $CRAFT Tipping Program Section */}
         <div className="space-y-4">
@@ -332,54 +369,71 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
               </div>
             </div>
           )}
+        </div>
 
-          {/* Program Action Buttons */}
-          <div className="flex items-center justify-start space-x-4">
-            {optInProgram ? (
-              <>
-                <button
-                  onClick={handleSaveProgram}
-                  disabled={!isProgramDirty}
-                  className={`px-6 py-2 rounded-lg transition-all font-tomorrow ${
-                    isProgramDirty
-                      ? 'bg-accent text-textPrimary hover:bg-opacity-90'
-                      : 'bg-gray-400 text-gray-700 cursor-not-allowed'
-                  }`}
-                >
-                  Save Program Details
-                </button>
-                <button
-                  onClick={handleOptOut}
-                  className="px-6 py-2 rounded-lg bg-red-500 text-textPrimary hover:bg-red-600 transition-all font-tomorrow"
-                >
-                  Opt Out
-                </button>
-              </>
-            ) : (
-              <button
-                onClick={handleSaveProgram}
-                disabled={!isProfileComplete}
-                className={`px-6 py-2 rounded-lg transition-all font-tomorrow ${
-                  isProfileComplete
-                    ? 'bg-accent text-textPrimary hover:bg-opacity-90'
-                    : 'bg-gray-400 text-gray-700 cursor-not-allowed'
-                }`}
-              >
-                Opt In
-              </button>
+        {/* Save Success Messages */}
+        {saveSuccess && (
+          <div className="text-green-500 font-medium">
+            Profile saved successfully!
+            {optInSuccess && (
+              <span className="block text-green-500">
+                You have successfully opted into the $CRAFT tipping program.
+              </span>
             )}
           </div>
+        )}
 
-          {/* Program Success Messages */}
-          {optInSuccess && (
-            <div className="text-green-500 font-medium">
-              Successfully opted into the $CRAFT tipping program!
-            </div>
+        {/* Action Buttons */}
+        <div className="flex items-center justify-start space-x-4">
+          {/* Edit Button */}
+          <button
+            onClick={handleEditAvatar}
+            disabled={!isDirty}
+            className={`px-6 py-2 rounded-lg transition-all font-tomorrow ${
+              isDirty
+                ? 'bg-accent text-textPrimary hover:bg-opacity-90'
+                : 'bg-gray-400 text-gray-700 cursor-not-allowed'
+            }`}
+          >
+            Edit Avatar
+          </button>
+
+          {/* Save Changes Button */}
+          <button
+            onClick={handleSaveProfile}
+            disabled={!isDirty}
+            className={`px-6 py-2 rounded-lg transition-all font-tomorrow ${
+              isDirty
+                ? 'bg-accent text-textPrimary hover:bg-opacity-90'
+                : 'bg-gray-400 text-gray-700 cursor-not-allowed'
+            }`}
+          >
+            Save Changes
+          </button>
+
+          {/* Save Program Details Button */}
+          {optInProgram && (
+            <button
+              onClick={handleSaveProgram}
+              disabled={!isProgramDirty}
+              className={`px-6 py-2 rounded-lg transition-all font-tomorrow ${
+                isProgramDirty
+                  ? 'bg-accent text-textPrimary hover:bg-opacity-90'
+                  : 'bg-gray-400 text-gray-700 cursor-not-allowed'
+              }`}
+            >
+              Save Program Details
+            </button>
           )}
-          {optOutSuccess && (
-            <div className="text-green-500 font-medium">
-              Successfully opted out of the $CRAFT tipping program.
-            </div>
+
+          {/* Opt Out Button */}
+          {optInProgram && (
+            <button
+              onClick={handleOptOut}
+              className="px-6 py-2 rounded-lg bg-red-500 text-textPrimary hover:bg-red-600 transition-all font-tomorrow"
+            >
+              Opt Out
+            </button>
           )}
         </div>
       </div>
