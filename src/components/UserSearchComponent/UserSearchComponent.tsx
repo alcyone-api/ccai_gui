@@ -8,6 +8,7 @@ interface User {
   avatar: string;
   telegramHandle: string;
   xAccountHandle: string;
+  bio: string; // Added bio field
   technologies: { name: string; icon: string; skillLevel: string }[];
   rating: number;
 }
@@ -29,6 +30,7 @@ const UserSearchComponent: React.FC = () => {
         avatar: 'https://api.iconify.design/mdi:user.svg',
         telegramHandle: '@alice',
         xAccountHandle: '@alice_x',
+        bio: 'Senior frontend developer with 5+ years of experience in React and JavaScript. Passionate about teaching and mentoring.',
         technologies: [
           { name: 'React', icon: 'logos:react', skillLevel: 'advanced' },
           { name: 'Node.js', icon: 'logos:nodejs-icon', skillLevel: 'intermediate' },
@@ -41,6 +43,7 @@ const UserSearchComponent: React.FC = () => {
         avatar: 'https://api.iconify.design/mdi:user.svg',
         telegramHandle: '@bob',
         xAccountHandle: '@bob_x',
+        bio: 'Backend developer specializing in Python, Django, and REST APIs. Loves solving complex problems.',
         technologies: [
           { name: 'Python', icon: 'logos:python', skillLevel: 'professional' },
           { name: 'Django', icon: 'logos:django-icon', skillLevel: 'advanced' },
@@ -76,104 +79,128 @@ const UserSearchComponent: React.FC = () => {
   }, [searchQuery, selectedSkillLevel, selectedTechnology, sortBy, users]);
 
   return (
-    <div className="mt-32 font-tomorrow bg-secondary p-8 rounded-2xl shadow-card relative z-30">
-      <h2 className="text-2xl font-bold text-accent mb-6 font-tomorrow">Find Mentors</h2>
-      <div className="space-y-6">
-        {/* Search Bar */}
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
-          placeholder="Search by username..."
-        />
+    <div className="relative min-h-screen bg-primary overflow-hidden">
+      <div className="relative z-40 flex flex-col items-center justify-center px-4 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
+        <div className="max-w-4xl w-full mx-auto font-tomorrow">
+          <h2 className="text-2xl font-bold text-accent mb-6 animate-fade-in-up">Find Mentors</h2>
+          <p className="text-textPrimary mb-8 animate-fade-in-up">
+            Discover mentors who have opted into our tipping program. Show your appreciation for their help by sending
+            them tips directly through their socials! Click on the links below to connect with them on Telegram or X.
+          </p>
+          <div className="space-y-6 animate-fade-in-up">
+            {/* Search Bar */}
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+              placeholder="Search by username..."
+            />
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-4">
-          <select
-            value={selectedSkillLevel}
-            onChange={(e) => setSelectedSkillLevel(e.target.value)}
-            className="p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
-          >
-            <option value="">All Skill Levels</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-            <option value="professional">Professional</option>
-          </select>
+            {/* Filters */}
+            <div className="flex flex-wrap gap-4">
+              <select
+                value={selectedSkillLevel}
+                onChange={(e) => setSelectedSkillLevel(e.target.value)}
+                className="p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent flex-grow"
+              >
+                <option value="">All Skill Levels</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+                <option value="professional">Professional</option>
+              </select>
 
-          <select
-            value={selectedTechnology}
-            onChange={(e) => setSelectedTechnology(e.target.value)}
-            className="p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
-          >
-            <option value="">All Technologies</option>
-            <option value="React">React</option>
-            <option value="Python">Python</option>
-            <option value="Node.js">Node.js</option>
-            <option value="Django">Django</option>
-          </select>
+              <select
+                value={selectedTechnology}
+                onChange={(e) => setSelectedTechnology(e.target.value)}
+                className="p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent flex-grow"
+              >
+                <option value="">All Technologies</option>
+                <option value="React">React</option>
+                <option value="Python">Python</option>
+                <option value="Node.js">Node.js</option>
+                <option value="Django">Django</option>
+              </select>
 
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
-          >
-            <option value="rating">Sort by Rating</option>
-            <option value="username">Sort by Username</option>
-          </select>
-        </div>
-
-        {/* User List */}
-        <div className="space-y-4">
-          {filteredUsers.map((user) => (
-            <div
-              key={user.id}
-              className="flex items-center justify-between p-4 bg-primary rounded-lg"
-            >
-              <div className="flex items-center space-x-4">
-                {/* Avatar */}
-                <div className="w-12 h-12 rounded-full overflow-hidden">
-                  <img
-                    src={user.avatar}
-                    alt={user.username}
-                    className="w-full h-full object-cover"
-                    style={{
-                      filter: 'brightness(0) invert(1)', // Convert black to white
-                    }}
-                  />
-                </div>
-
-                {/* Username and Social Handles */}
-                <div>
-                  <h3 className="text-xl font-bold text-textPrimary">{user.username}</h3>
-                  <p className="text-textPrimary">
-                    Telegram: {user.telegramHandle} | X: {user.xAccountHandle}
-                  </p>
-                </div>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2">
-                  {user.technologies.map((tech, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center space-x-2 bg-secondary rounded-lg p-2"
-                    >
-                      <Icon icon={tech.icon} className="w-6 h-6 text-textPrimary" />
-                      <span className="text-textPrimary">{tech.name}</span>
-                      <span className="text-textPrimary">({tech.skillLevel})</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Rating */}
-              <div className="flex items-center space-x-2">
-                <Icon icon="mdi:star" className="w-6 h-6 text-yellow-500" />
-                <span className="text-textPrimary">{user.rating.toFixed(1)}</span>
-              </div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent flex-grow"
+              >
+                <option value="rating">Sort by Rating</option>
+                <option value="username">Sort by Username</option>
+              </select>
             </div>
-          ))}
+
+            {/* User List */}
+            <div className="space-y-6">
+              {filteredUsers.map((user) => (
+                <div
+                  key={user.id}
+                  className="flex flex-col p-6 bg-primary rounded-lg shadow-md space-y-4"
+                >
+                  {/* Top Row: Avatar, Username, Socials, and Rating */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-14 h-14 rounded-full overflow-hidden">
+                        <img
+                          src={user.avatar}
+                          alt={user.username}
+                          className="w-full h-full object-cover"
+                          style={{
+                            filter: 'brightness(0) invert(1)', // Convert black to white
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-textPrimary">{user.username}</h3>
+                        <div className="flex space-x-3 mt-1">
+                          <a
+                            href={`https://t.me/${user.telegramHandle.slice(1)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:opacity-80 transition-opacity"
+                          >
+                            <Icon icon="mingcute:telegram-fill" className="w-6 h-6 text-blue-500" />
+                          </a>
+                          <a
+                            href={`https://x.com/${user.xAccountHandle.slice(1)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:opacity-80 transition-opacity"
+                          >
+                            <Icon icon="ri:twitter-x-fill" className="w-6 h-6 text-textPrimary" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Icon icon="mdi:star" className="w-6 h-6 text-yellow-500" />
+                      <span className="text-textPrimary">{user.rating.toFixed(1)}</span>
+                    </div>
+                  </div>
+
+                  {/* Middle Row: Bio */}
+                  <p className="text-textPrimary/80 text-sm">{user.bio}</p>
+
+                  {/* Bottom Row: Technologies */}
+                  <div className="flex flex-wrap gap-2">
+                    {user.technologies.map((tech, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center space-x-2 bg-secondary rounded-lg p-2"
+                      >
+                        <Icon icon={tech.icon} className="w-6 h-6 text-textPrimary" />
+                        <span className="text-sm text-textPrimary">{tech.name}</span>
+                        <span className="text-sm text-textPrimary">({tech.skillLevel})</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
