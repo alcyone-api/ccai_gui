@@ -30,10 +30,10 @@ const TippingProgram: React.FC<TippingProgramProps> = ({ isProfileComplete }) =>
 
   return (
     <div className="mt-8">
-      <h3 className="text-xl font-semibold text-textPrimary mb-6">$CRAFT Tipping Program</h3>
+      <h3 className="text-xl font-semibold text-textPrimary mt-12 mb-6">$CRAFT Mentor Program</h3>
       <div className="space-y-4">
         <p className="text-textPrimary">
-          The $CRAFT Tipping Program allows CodeCraft users to find and contact mentors who will help them set up their projects, deploy them, and get up to speed. By opting in, you agree to provide guidance in exchange for $CRAFT tokens.
+          The $CRAFT Mentor Program allows CodeCraft users to find and contact mentors who will help them set up their projects, deploy them, and get up to speed. By opting in, you agree to provide guidance in exchange for $CRAFT tokens.
         </p>
         <div className="flex items-center space-x-2">
           <input
@@ -45,7 +45,7 @@ const TippingProgram: React.FC<TippingProgramProps> = ({ isProfileComplete }) =>
             className="w-4 h-4 text-accent rounded focus:ring-accent"
           />
           <label htmlFor="optInProgram" className="text-textPrimary font-medium">
-            I want to opt in to the $CRAFT Tipping Program
+            I want to opt in to the $CRAFT Mentor Program
           </label>
         </div>
 
@@ -96,7 +96,7 @@ const TippingProgram: React.FC<TippingProgramProps> = ({ isProfileComplete }) =>
             {optInSuccess && (
               <div className="text-green-500 font-medium flex items-center space-x-2 mt-4">
                 <Icon icon="mdi:check-circle" className="w-5 h-5" />
-                <span>Opted in to tipping program</span>
+                <span>Opted in to $CRAFT Mentor Program</span>
               </div>
             )}
 

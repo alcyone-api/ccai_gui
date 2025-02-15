@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Icon } from '@iconify/react'; // Import Iconify for icons
+import { Icon } from '@iconify/react';
 
 interface User {
   id: string;
@@ -14,9 +14,21 @@ interface User {
   xAccountHandle?: string;
 }
 
+interface Review {
+  reviewer: string;
+  comment: string;
+  rating: number;
+}
+
 const UserProfile: React.FC = () => {
-  const { userId } = useParams<{ userId: string }>(); // Extract userId from the URL
+  const { userId } = useParams<{ userId: string }>();
   const [user, setUser] = useState<User | null>(null);
+  const [newReview, setNewReview] = useState<Review>({
+    reviewer: 'Anonymous', // Default reviewer name (can be dynamic based on logged-in user)
+    comment: '',
+    rating: 0,
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Mock fetch for user data (replace with actual API call)
   useEffect(() => {
@@ -59,6 +71,35 @@ const UserProfile: React.FC = () => {
     const foundUser = mockUsers.find((u) => u.id === userId);
     setUser(foundUser || null);
   }, [userId]);
+
+  // Handle review input changes
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setNewReview((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle rating change
+  const handleRatingChange = (rating: number) => {
+    setNewReview((prev) => ({ ...prev, rating }));
+  };
+
+  // Handle review submission
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate saving the review (replace with actual API call)
+    setTimeout(() => {
+      if (user) {
+        const updatedUser = { ...user, reviews: [...user.reviews, newReview] };
+        setUser(updatedUser);
+        setNewReview({ reviewer: 'Anonymous', comment: '', rating: 0 });
+      }
+      setIsSubmitting(false);
+    }, 1000);
+  };
 
   if (!user) {
     return <div className="p-8 text-textPrimary">User not found</div>;
@@ -122,31 +163,47 @@ const UserProfile: React.FC = () => {
             </div>
           </div>
 
-          {/* Social Links (if available) */}
+          {/* Write a Review Section */}
           <div className="mt-8 animate-fade-in-up">
-            <h2 className="text-2xl font-bold text-textPrimary mb-4">Connect</h2>
-            <div className="flex gap-4">
-              {user.telegramHandle && (
-                <a
-                  href={`https://t.me/${user.telegramHandle.slice(1)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-80 transition-opacity"
-                >
-                  <Icon icon="mingcute:telegram-fill" className="w-8 h-8 text-blue-500" />
-                </a>
-              )}
-              {user.xAccountHandle && (
-                <a
-                  href={`https://x.com/${user.xAccountHandle.slice(1)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-80 transition-opacity"
-                >
-                  <Icon icon="ri:twitter-x-fill" className="w-8 h-8 text-textPrimary" />
-                </a>
-              )}
-            </div>
+            <h2 className="text-2xl font-bold text-textPrimary mb-4">Write a Review</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Rating Input */}
+              <div className="flex items-center space-x-2">
+                <span className="text-textPrimary">Rating:</span>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => handleRatingChange(star)}
+                    className={`w-6 h-6 ${
+                      newReview.rating >= star ? 'text-yellow-500' : 'text-textPrimary/50'
+                    }`}
+                  >
+                    <Icon icon="mdi:star" className="w-full h-full" />
+                  </button>
+                ))}
+              </div>
+
+              {/* Comment Input */}
+              <textarea
+                name="comment"
+                value={newReview.comment}
+                onChange={handleInputChange}
+                placeholder="Write your review..."
+                className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                rows={4}
+                required
+              />
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-accent text-primary p-3 rounded-lg hover:bg-accent/90 transition-colors disabled:opacity-50"
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit Review'}
+              </button>
+            </form>
           </div>
         </div>
       </div>

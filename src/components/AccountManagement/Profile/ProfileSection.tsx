@@ -52,7 +52,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="mb-12 space-y-8">
       {/* Avatar Selection */}
       {isEditing ? (
         <div className="space-y-4">
