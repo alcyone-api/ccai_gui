@@ -79,16 +79,21 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onSaveProfile }) => {
           {/* Avatar Search Menu */}
           {showAvatarMenu && (
             <>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  searchIcons(e.target.value);
-                }}
-                className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
-                placeholder="Search for icons..."
-              />
+              <div className="space-y-2">
+                <label htmlFor="username" className="text-textPrimary font-medium font-tomorrow">
+                  Avatar
+                </label>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    searchIcons(e.target.value);
+                  }}
+                  className="w-full p-3 bg-primary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent font-tomorrow"
+                  placeholder="Search for icons..."
+                />
+              </div>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-4 place-items-center">
                 {iconResults.map((icon, index) => (
                   <button

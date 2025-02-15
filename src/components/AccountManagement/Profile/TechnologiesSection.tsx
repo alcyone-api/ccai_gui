@@ -135,14 +135,14 @@ const TechnologiesSection: React.FC = () => {
       {isEditing ? (
           <button
             onClick={handleSaveSkills}
-            className="px-8 py-2 rounded-lg bg-accent text-textPrimary hover:bg-opacity-90 transition-all font-tomorrow"
+            className="px-9 py-2 rounded-lg bg-accent text-textPrimary hover:bg-opacity-90 transition-all font-tomorrow"
           >
             Save Skills
           </button>
         ) : (
           <button
             onClick={handleEditSkills}
-            className="px-8 py-2 rounded-lg bg-accent text-textPrimary hover:bg-opacity-90 transition-all font-tomorrow"
+            className="px-9 py-2 rounded-lg bg-accent text-textPrimary hover:bg-opacity-90 transition-all font-tomorrow"
           >
             Edit Skills
           </button>
