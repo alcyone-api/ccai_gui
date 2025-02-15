@@ -43,8 +43,8 @@ const UserProfile: React.FC = () => {
         ],
         rating: 4.5,
         reviews: [
-          { reviewer: 'Bob', comment: 'Alice is an excellent mentor!', rating: 5, tipAmount: 50 },
-          { reviewer: 'Charlie', comment: 'Very knowledgeable and patient.', rating: 4, tipAmount: 30 },
+          { reviewer: 'Bob', comment: 'Alice is an excellent mentor!', rating: 5, tipAmount: 50000 },
+          { reviewer: 'Charlie', comment: 'Very knowledgeable and patient.', rating: 4, tipAmount: 30000 },
         ],
         telegramHandle: '@alice',
         xAccountHandle: '@alice_x',
@@ -89,6 +89,9 @@ const UserProfile: React.FC = () => {
     return <div className="p-8 text-textPrimary">User not found</div>;
   }
 
+  // Calculate aggregate review score
+  const aggregateReviewScore = (user.reviews.reduce((acc, review) => acc + review.rating, 0) / user.reviews.length).toFixed(1);
+
   return (
     <div className="relative min-h-screen bg-primary overflow-hidden">
       <div className="relative z-40 flex flex-col items-start px-8 pt-16 mt-24 md:pt-24 pb-24 md:pb-32 mb-24">
@@ -105,10 +108,14 @@ const UserProfile: React.FC = () => {
                   style={{ filter: 'brightness(0) invert(1)' }} // Convert black to white
                 />
               </div>
-              {/* Username and Social Media Links */}
+              {/* Username, Aggregate Score, and Social Media Links */}
               <div className="flex-1">
                 <div className="flex items-center space-x-4">
                   <h1 className="text-3xl font-bold text-textPrimary">{user.username}</h1>
+                  <div className="flex items-center bg-primary px-3 py-1 rounded-full">
+                    <Icon icon="mdi:star" className="w-5 h-5 text-yellow-500 mr-1" />
+                    <span className="text-textPrimary">{aggregateReviewScore}</span>
+                  </div>
                   {user.telegramHandle && (
                     <a
                       href={`https://t.me/${user.telegramHandle.slice(1)}`}
@@ -132,6 +139,22 @@ const UserProfile: React.FC = () => {
                 </div>
                 {/* Bio */}
                 <p className="text-textPrimary/80 mt-2 text-left">{user.bio}</p>
+                {/* Skills Section */}
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold text-textPrimary mb-2">Skills</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {user.technologies.map((tech, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center space-x-2 bg-primary p-2 rounded-lg"
+                      >
+                        <Icon icon={tech.icon} className="w-5 h-5 text-textPrimary" />
+                        <span className="text-textPrimary">{tech.name}</span>
+                        <span className="text-textPrimary text-sm">({tech.skillLevel})</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -144,24 +167,7 @@ const UserProfile: React.FC = () => {
             </button>
           </div>
 
-          {/* Skills Section */}
-          <div className="mt-8 animate-fade-in-up">
-            <h2 className="text-2xl font-bold text-textPrimary mb-4">Skills</h2>
-            <div className="flex flex-wrap gap-3">
-              {user.technologies.map((tech, index) => (
-                <div
-                  key={index}
-                  className="flex items-center space-x-2 bg-primary p-3 rounded-lg"
-                >
-                  <Icon icon={tech.icon} className="w-6 h-6 text-textPrimary" />
-                  <span className="text-textPrimary">{tech.name}</span>
-                  <span className="text-textPrimary text-sm">({tech.skillLevel})</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Combined Reviews and Tips Section */}
+          {/* Reviews Section */}
           <div className="mt-8 animate-fade-in-up">
             <h2 className="text-2xl font-bold text-textPrimary mb-4">Activity</h2>
             <div className="space-y-4">
@@ -177,10 +183,10 @@ const UserProfile: React.FC = () => {
                   </div>
                   <p className="text-textPrimary/80 mt-2">{review.comment}</p>
                   {review.tipAmount && (
-                    <p className="text-textPrimary/80 mt-2">
-                      <Icon icon="mdi:cash" className="w-5 h-5 inline-block mr-1" />
-                      Tipped: {review.tipAmount} $CRAFT
-                    </p>
+                    <div className="flex items-center mt-2 space-x-2">
+                      <Icon icon="mdi:cash" className="w-5 h-5 text-green-500" />
+                      <span className="text-textPrimary/80">Tipped {review.tipAmount} <span className="text-accent">$CRAFT</span></span>
+                    </div>
                   )}
                 </div>
               ))}
@@ -207,7 +213,7 @@ const UserProfile: React.FC = () => {
 
                 {/* Review Rating Input */}
                 <div className="flex items-center space-x-2">
-                  <span className="text-textPrimary">Rating:</span>
+                  <span className="极text-textPrimary">Rating:</span>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
@@ -227,7 +233,7 @@ const UserProfile: React.FC = () => {
                   value={reviewComment}
                   onChange={(e) => setReviewComment(e.target.value)}
                   placeholder="Write your review..."
-                  className="w-full p-3 bg-secondary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full p-极3 bg-secondary text-textPrimary rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                   rows={4}
                   required
                 />

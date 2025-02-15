@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../../assets/ccai_logo.svg';
+import logo from '../../assets/ccai_logo_lt.svg';
 
 const SubscriptionSection = () => {
   const [isCancelling, setIsCancelling] = useState<boolean>(false);
@@ -11,12 +11,10 @@ const SubscriptionSection = () => {
     price: number;
     tokens: string;
   } | null>(null);
-  const [acceptTerms, setAcceptTerms] = useState<boolean>(false); // Checkbox for recurring charges
+  const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
 
-  // Mock wallet balance
-  const [walletBalance, setWalletBalance] = useState<number>(250000); // Example balance in CRAFT
+  const [walletBalance, setWalletBalance] = useState<number>(250000);
 
-  // State for subscription history
   const [subscriptionHistory, setSubscriptionHistory] = useState<
     Array<{
       plan: string;
@@ -28,12 +26,16 @@ const SubscriptionSection = () => {
     }>
   >([]);
 
-  // Exchange rates
-  const usdcRate = 100; // 100,000 CRAFT = $100 USDC
-  const solRate = 0.5; // 100,000 CRAFT = 0.5 SOL
-  const subscriptionCostCraft = 20000; // $20 USDC = 20,000 CRAFT (based on 100,000 CRAFT = $100 USDC)
-  const subscriptionCostSol = (subscriptionCostCraft / 100000) * solRate; // Convert to SOL
-  const subscriptionCostUsdc = 20; // $20 USDC
+  const [transactionHistory, setTransactionHistory] = useState<
+    Array<{
+      amount: number;
+      date: string;
+      plan: string;
+    }>
+  >([]);
+
+  const subscriptionCostCraft = 20000;
+  const subscriptionCostUsdc = 20;
 
   const handleCancelSubscription = () => {
     setIsCancelling(true);
@@ -41,22 +43,21 @@ const SubscriptionSection = () => {
 
   const handleConfirmCancellation = () => {
     if (currentSubscription) {
-      // Add the current subscription to history before cancelling
       setSubscriptionHistory((prevHistory) => [
         ...prevHistory,
         {
           plan: currentSubscription.plan,
-          startDate: new Date().toISOString().split('T')[0], // Today's date
-          endDate: new Date().toISOString().split('T')[0], // Cancelled today
+          startDate: new Date().toISOString().split('T')[0],
+          endDate: new Date().toISOString().split('T')[0],
           status: 'Cancelled',
           price: currentSubscription.price,
           tokens: currentSubscription.tokens,
         },
       ]);
+      setIsCancelling(false);
+      setCurrentSubscription(null);
+      console.log('Subscription cancelled.');
     }
-    setIsCancelling(false);
-    setCurrentSubscription(null); // Clear current subscription
-    console.log('Subscription cancelled.');
   };
 
   const handleEnroll = () => {
@@ -64,41 +65,58 @@ const SubscriptionSection = () => {
   };
 
   const handleConfirmEnrollment = () => {
-    if (walletBalance >= subscriptionCostCraft && acceptTerms) {
-      const newSubscription = {
-        status: 'Active',
+    if (!acceptTerms) {
+      alert('Please confirm that you understand the recurring charges.');
+      return;
+    }
+
+    const isAlreadySubscribed = currentSubscription !== null;
+    const renewalDate = isAlreadySubscribed
+      ? new Date(currentSubscription.renewalDate) // Use existing renewal date if already subscribed
+      : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Set new renewal date if not subscribed
+
+    const newSubscription = {
+      status: 'Active',
+      plan: 'Unlimited Plan',
+      renewalDate: renewalDate.toISOString().split('T')[0],
+      price: subscriptionCostUsdc,
+      tokens: 'Unlimited',
+    };
+
+    if (!isAlreadySubscribed) {
+      // Only charge and update wallet balance if this is a new subscription
+      if (walletBalance >= subscriptionCostCraft) {
+        setWalletBalance(walletBalance - subscriptionCostCraft);
+        setTransactionHistory((prevTransactions) => [
+          ...prevTransactions,
+          {
+            amount: subscriptionCostUsdc,
+            date: new Date().toISOString().split('T')[0],
+            plan: 'Unlimited Plan',
+          },
+        ]);
+      } else {
+        alert('Insufficient CRAFT balance.');
+        return;
+      }
+    }
+
+    setCurrentSubscription(newSubscription);
+    setSubscriptionHistory((prevHistory) => [
+      ...prevHistory,
+      {
         plan: 'Unlimited Plan',
-        renewalDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 30 days from now
+        startDate: new Date().toISOString().split('T')[0],
+        endDate: '',
+        status: 'Active',
         price: subscriptionCostUsdc,
         tokens: 'Unlimited',
-      };
-      setCurrentSubscription(newSubscription);
+      },
+    ]);
 
-      // Add the new subscription to history
-      setSubscriptionHistory((prevHistory) => [
-        ...prevHistory,
-        {
-          plan: 'Unlimited Plan',
-          startDate: new Date().toISOString().split('T')[0], // Today's date
-          endDate: '', // No end date yet
-          status: 'Active',
-          price: subscriptionCostUsdc,
-          tokens: 'Unlimited',
-        },
-      ]);
-
-      // Update wallet balance
-      const newBalance = walletBalance - subscriptionCostCraft;
-      setWalletBalance(newBalance);
-
-      setIsEnrolling(false);
-      setAcceptTerms(false); // Reset checkbox
-      console.log('Enrolled in Unlimited plan.');
-    } else if (!acceptTerms) {
-      alert('Please confirm that you understand the recurring charges.');
-    } else {
-      alert('Insufficient CRAFT balance.');
-    }
+    setIsEnrolling(false);
+    setAcceptTerms(false);
+    console.log('Enrolled in Unlimited plan.');
   };
 
   return (
@@ -115,7 +133,6 @@ const SubscriptionSection = () => {
               <p className="text-textPrimary text-xs opacity-80 mt-1">*Payments are made in CRAFT</p>
             </div>
           </div>
-          {/* Price Breakdown */}
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-primary p-4 rounded-lg border border-accent/10">
               <p className="text-textPrimary text-sm">Monthly Cost</p>
@@ -127,10 +144,9 @@ const SubscriptionSection = () => {
             </div>
             <div className="bg-primary p-4 rounded-lg border border-accent/10">
               <p className="text-textPrimary text-sm">Equivalent in SOL</p>
-              <p className="text-accent font-bold text-xl">{subscriptionCostSol.toFixed(4)} SOL</p>
+              <p className="text-accent font-bold text-xl">{(subscriptionCostCraft * 0.005).toFixed(4)} SOL</p>
             </div>
           </div>
-          {/* Enroll Button */}
           <div className="mt-6">
             <button
               onClick={handleEnroll}
@@ -142,14 +158,12 @@ const SubscriptionSection = () => {
               {currentSubscription ? 'Already Enrolled' : 'Enroll Now'}
             </button>
           </div>
-        </div>
-
-        {/* Wallet Balance Card */}
-        <div className="bg-gradient-to-br from-primary to-secondary p-6 rounded-2xl shadow-lg border border-accent/10">
-          <h3 className="text-xl font-bold text-accent mb-4">Wallet Balance</h3>
-          <p className="text-textPrimary text-lg">
-            You have <span className="text-accent font-bold">{walletBalance.toLocaleString()} CRAFT</span> available.
-          </p>
+          {/* Subtle Wallet Balance Display */}
+          <div className="mt-6 text-center">
+            <p className="text-textPrimary">
+              Wallet Balance <span className="text-accent font-bold">{walletBalance.toLocaleString()} CRAFT</span>
+            </p>
+          </div>
         </div>
 
         {/* Enrollment Validation Steps */}
@@ -165,7 +179,6 @@ const SubscriptionSection = () => {
                 After this transaction, your new balance will be{' '}
                 <span className="text-accent font-bold">{(walletBalance - subscriptionCostCraft).toLocaleString()} CRAFT</span>.
               </p>
-              {/* Checkbox for Recurring Charges */}
               <div className="flex items-center space-x-3">
                 <input
                   type="checkbox"
@@ -179,7 +192,6 @@ const SubscriptionSection = () => {
                   <span className="text-accent font-bold">{subscriptionCostCraft} CRAFT</span> monthly until I cancel.
                 </label>
               </div>
-              {/* Confirm or Go Back */}
               <div className="flex space-x-4 mt-6">
                 <button
                   onClick={handleConfirmEnrollment}
@@ -223,7 +235,6 @@ const SubscriptionSection = () => {
                 <p className="text-textPrimary">Tokens</p>
                 <p className="text-accent font-bold">{currentSubscription.tokens}</p>
               </div>
-              {/* Cancel Subscription Button */}
               {!isCancelling ? (
                 <div className="mt-6">
                   <button
@@ -243,56 +254,83 @@ const SubscriptionSection = () => {
                     <button
                       onClick={handleConfirmCancellation}
                       className="px-6 py-2 bg-red-500 text-textPrimary rounded-lg hover:bg-red-600 transition-all"
-                    >
-                      Confirm Cancellation
-                    </button>
-                    <button
-                      onClick={() => setIsCancelling(false)}
-                      className="px-6 py-2 bg-secondary text-textPrimary rounded-lg hover:bg-opacity-90 transition-all"
-                    >
-                      Go Back
-                    </button>
-                  </div>
-                </div>
-              )}
+                >
+                  Confirm Cancellation
+                </button>
+                <button
+                  onClick={() => setIsCancelling(false)}
+                  className="px-6 py-2 bg-secondary text-textPrimary rounded-lg hover:bg-opacity-90 transition-all"
+                >
+                  Go Back
+                </button>
+              </div>
             </div>
-          ) : (
-            <p className="text-textPrimary">No active subscription.</p>
           )}
         </div>
-
-        {/* Subscription History Card */}
-        <div className="bg-gradient-to-br from-primary to-secondary p-6 rounded-2xl shadow-lg border border-accent/10">
-          <h3 className="text-xl font-bold text-accent mb-4">Subscription History</h3>
-          {subscriptionHistory.length > 0 ? (
-            <div className="space-y-4">
-              {subscriptionHistory.map((history, index) => (
-                <div key={index} className="border-b border-accent/20 pb-4 last:border-b-0">
-                  <div className="flex justify-between items-center">
-                    <p className="text-textPrimary">Plan</p>
-                    <p className="text-accent font-bold">{history.plan}</p>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <p className="text-textPrimary">Start Date</p>
-                    <p className="text-accent font-bold">{history.startDate}</p>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <p className="text-textPrimary">End Date</p>
-                    <p className="text-accent font-bold">{history.endDate || 'Active'}</p>
-                  </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <p className="text-textPrimary">Status</p>
-                    <p className="text-accent font-bold">{history.status}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-textPrimary">No subscription history available.</p>
-          )}
-        </div>
-      </div>
+      ) : (
+        <p className="text-textPrimary">No active subscription.</p>
+      )}
     </div>
+
+    {/* Subscription History Card */}
+    <div className="bg-gradient-to-br from-primary to-secondary p-6 rounded-2xl shadow-lg border border-accent/10">
+      <h3 className="text-xl font-bold text-accent mb-4">Subscription History</h3>
+      {subscriptionHistory.length > 0 ? (
+        <div className="space-y-4">
+          {subscriptionHistory.map((history, index) => (
+            <div key={index} className="border-b border-accent/20 pb-4 last:border-b-0">
+              <div className="flex justify-between items-center">
+                <p className="text-textPrimary">Plan</p>
+                <p className="text-accent font-bold">{history.plan}</p>
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-textPrimary">Start Date</p>
+                <p className="text-accent font-bold">{history.startDate}</p>
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-textPrimary">End Date</p>
+                <p className="text-accent font-bold">{history.endDate || 'Active'}</p>
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-textPrimary">Status</p>
+                <p className="text-accent font-bold">{history.status}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-textPrimary">No subscription history available.</p>
+      )}
+    </div>
+
+    {/* Transaction History Card */}
+    <div className="bg-gradient-to-br from-primary to-secondary p-6 rounded-2xl shadow-lg border border-accent/10">
+      <h3 className="text-xl font-bold text-accent mb-4">Transaction History</h3>
+      {transactionHistory.length > 0 ? (
+        <div className="space-y-4">
+          {transactionHistory.map((transaction, index) => (
+            <div key={index} className="border-b border-accent/20 pb-4 last:border-b-0">
+              <div className="flex justify-between items-center">
+                <p className="text-textPrimary">Amount Paid</p>
+                <p className="text-accent font-bold">${transaction.amount}</p>
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-textPrimary">Date</p>
+                <p className="text-accent font-bold">{transaction.date}</p>
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-textPrimary">Plan</p>
+                <p className="text-accent font-bold">{transaction.plan}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-textPrimary">No transaction history available.</p>
+      )}
+    </div>
+  </div>
+</div>
   );
 };
 
