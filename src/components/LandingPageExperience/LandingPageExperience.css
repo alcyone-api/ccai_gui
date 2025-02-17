@@ -1,0 +1,39 @@
+.scroll-down-prompt {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    font-size: 1.2rem;
+    z-index: 1;
+    animation: fadeIn 2s ease-in-out infinite;
+  }
+  
+  .scroll-down-prompt .arrow {
+    width: 24px;
+    height: 24px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: rotate(45deg);
+    margin: 10px auto 0;
+    animation: bounce 2s infinite;
+  }
+  
+  @keyframes fadeIn {
+    0%, 100% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: rotate(45deg) translateY(0);
+    }
+    50% {
+      transform: rotate(45deg) translateY(10px);
+    }
+  }

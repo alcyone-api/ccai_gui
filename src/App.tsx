@@ -14,10 +14,13 @@ import GenerationResult from './components/PromptingInterface/GenerationResult/G
 import ProjectPage from './components/Projects/ProjectPage/ProjectPage';
 import GitHubSuccessModal from './components/Primary/Navbar/GitHubSuccessModal';
 import AccountManagementPage from './components/AccountManagement/AccountManagement';
-import UserSearchComponent from './components/UserSearchComponent/UserSearchComponent'; // Import the UserSearchComponent
+import UserSearchComponent from './components/UserSearchComponent/UserSearchComponent';
 import UserProfile from './components/UserSearchComponent/UserProfile';
+import LandingPageExperience from './components/LandingPageExperience/LandingPageExperience';
 
 const App = () => {
+  // State to control the landing page visibility
+  const [showLandingPage, setShowLandingPage] = useState(true);
   const [showGitHubModal, setShowGitHubModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [balance, setBalance] = useState<{ usd: number; craft: number }>({ usd: 100, craft: 500 }); // Example balance
@@ -45,51 +48,47 @@ const App = () => {
   return (
     <GlobalStateProvider>
       <Router>
-        <Navbar
-          onGitHubLogin={handleGitHubLogin}
-          balance={balance}
-        />
         <div className="flex flex-col min-h-screen">
-          <Routes>
-            <Route path="/" element={<HeroSection />} />
-            <Route path="/prompt" element={<PromptingInterface />} />
-            <Route path="/docs" element={<Docs />} />
-            <Route path="/education" element={<EducationContent />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/projects" element={<ProjectsList />} />
-            <Route path="/projects/:id" element={<ProjectPage />} />
-            <Route path="/generation-result" element={<GenerationResult />} />
-            <Route
-              path="/users"
-              element={
-                <div className="">
-                  <UserSearchComponent />
-                </div>
-              }
-            />
-            <Route
-              path="/account"
-              element={
-                <AccountManagementPage
-                  balance={balance}
-                  onAddFunds={handleAddFunds}
+          {/* Show LandingPageExperience or Main Application */}
+          {showLandingPage ? (
+            <LandingPageExperience onClose={() => setShowLandingPage(false)} />
+          ) : (
+            <>
+              {/* Navbar */}
+              <Navbar onGitHubLogin={handleGitHubLogin} balance={balance} />
+              <Routes>
+                <Route path="/home" element={<HeroSection />} />
+                <Route path="/prompt" element={<PromptingInterface />} />
+                <Route path="/docs" element={<Docs />} />
+                <Route path="/education" element={<EducationContent />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/projects" element={<ProjectsList />} />
+                <Route path="/projects/:id" element={<ProjectPage />} />
+                <Route path="/generation-result" element={<GenerationResult />} />
+                <Route
+                  path="/users"
+                  element={
+                    <div className="">
+                      <UserSearchComponent />
+                    </div>
+                  }
                 />
-              }
-            />
-            {/* Route for the UserSearchComponent (home page) */}
-            <Route path="/" element={<UserSearchComponent />} />
-
-            {/* Route for the UserProfile component (dynamic route based on userId) */}
-            <Route path="/user/:userId" element={<UserProfile />} />
-          </Routes>
+                <Route
+                  path="/account"
+                  element={
+                    <AccountManagementPage balance={balance} onAddFunds={handleAddFunds} />
+                  }
+                />
+                <Route path="/user/:userId" element={<UserProfile />} />
+              </Routes>
+              {/* Background and Footer */}
+              <Background />
+              <Footer />
+            </>
+          )}
+          {/* GitHub Success Modal */}
+          <GitHubSuccessModal isOpen={showGitHubModal} message={modalMessage} onClose={closeModal} />
         </div>
-        <Background />
-        <Footer />
-        <GitHubSuccessModal
-          isOpen={showGitHubModal}
-          message={modalMessage}
-          onClose={closeModal}
-        />
       </Router>
     </GlobalStateProvider>
   );

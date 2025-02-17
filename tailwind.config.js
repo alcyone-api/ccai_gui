@@ -98,5 +98,6 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+  ],
 };

@@ -1,4 +1,4 @@
-
+/* Existing styles */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -9,10 +9,9 @@
   color: var(--textPrimary);
 }
 
-
 footer {
-  background-color: inherit; 
-  color: inherit; 
+  background-color: inherit;
+  color: inherit;
 }
 
 .logo {
@@ -23,7 +22,7 @@ footer {
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em rgba(254, 129, 39, 0.6)); 
+  filter: drop-shadow(0 0 2em rgba(254, 129, 39, 0.6));
 }
 
 @keyframes logo-spin {
@@ -47,4 +46,36 @@ footer {
 
 .read-the-docs {
   color: var(--textAccent);
+}
+
+/* New styles for the carousel */
+.carousel-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--primary);
+}
+
+.carousel-slide {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carousel-dots li button::before {
+  color: var(--textPrimary) !important;
+  font-size: 0.75rem !important;
+}
+
+.carousel-dots li.slick-active button::before {
+  color: var(--accent) !important;
 }
