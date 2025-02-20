@@ -1,0 +1,68 @@
+/* Fade-in animation for HeroSection content */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .hero-content {
+    opacity: 0;
+  }
+  
+  .hero-content.fade-in {
+    animation: fadeIn 3s ease-in-out forwards; /* 2-second fade-in */
+  }
+
+  .hero-content {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .fade-out {
+    opacity: 0;
+  }
+  
+/* Fade-in Animation */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Glowing Effect */
+  .animate-glow {
+    animation: glow 3s ease-in-out infinite;
+  }
+  
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 10px rgba(254, 129, 39, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(254, 129, 39, 1);
+    }
+  }
+  
+  /* Very Slow Rotation */
+  .animate-rotate-very-slow {
+    animation: rotate-very-slow 60s linear infinite;
+  }
+  
+  @keyframes rotate-very-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

@@ -16,11 +16,8 @@ import GitHubSuccessModal from './components/Primary/Navbar/GitHubSuccessModal';
 import AccountManagementPage from './components/AccountManagement/AccountManagement';
 import UserSearchComponent from './components/UserSearchComponent/UserSearchComponent';
 import UserProfile from './components/UserSearchComponent/UserProfile';
-import LandingPageExperience from './components/LandingPageExperience/LandingPageExperience';
 
 const App = () => {
-  // State to control the landing page visibility
-  const [showLandingPage, setShowLandingPage] = useState(true);
   const [showGitHubModal, setShowGitHubModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [balance, setBalance] = useState<{ usd: number; craft: number }>({ usd: 100, craft: 500 }); // Example balance
@@ -49,14 +46,11 @@ const App = () => {
     <GlobalStateProvider>
       <Router>
         <div className="flex flex-col min-h-screen">
-          {/* Show LandingPageExperience or Main Application */}
-          {showLandingPage ? (
-            <LandingPageExperience onClose={() => setShowLandingPage(false)} />
-          ) : (
             <>
               {/* Navbar */}
-              <Navbar onGitHubLogin={handleGitHubLogin} balance={balance} />
+              <Navbar onGitHubLogin={handleGitHubLogin} balance={balance}/>
               <Routes>
+                <Route path="/" element={<HeroSection />} />
                 <Route path="/home" element={<HeroSection />} />
                 <Route path="/prompt" element={<PromptingInterface />} />
                 <Route path="/docs" element={<Docs />} />
@@ -85,7 +79,6 @@ const App = () => {
               <Background />
               <Footer />
             </>
-          )}
           {/* GitHub Success Modal */}
           <GitHubSuccessModal isOpen={showGitHubModal} message={modalMessage} onClose={closeModal} />
         </div>

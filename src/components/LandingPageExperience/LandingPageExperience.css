@@ -1,39 +1,85 @@
-.scroll-down-prompt {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    color: white;
-    font-size: 1.2rem;
-    z-index: 1;
-    animation: fadeIn 2s ease-in-out infinite;
+/* Animations */
+@keyframes fadeIn {
+  0%, 100% {
+    opacity: 0.8;
   }
-  
-  .scroll-down-prompt .arrow {
-    width: 24px;
-    height: 24px;
-    border-left: 2px solid white;
-    border-bottom: 2px solid white;
-    transform: rotate(45deg);
-    margin: 10px auto 0;
-    animation: bounce 2s infinite;
+  50% {
+    opacity: 1;
   }
-  
-  @keyframes fadeIn {
-    0%, 100% {
-      opacity: 0.8;
-    }
-    50% {
-      opacity: 1;
-    }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: rotate(45deg) translateY(0);
   }
-  
-  @keyframes bounce {
-    0%, 100% {
-      transform: rotate(45deg) translateY(0);
-    }
-    50% {
-      transform: rotate(45deg) translateY(10px);
-    }
+  50% {
+    transform: rotate(45deg) translateY(10px);
   }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes rotateLogo {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Main container */
+.landing-experience {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  opacity: 1;
+  overflow: hidden; /* Added to prevent overflow issues */
+}
+
+.landing-experience.fade-out {
+  animation: fadeOut 2s ease-in-out forwards; /* 2-second fade-out */
+}
+
+/* Logo and rotating logo styles */
+.logo-svg,
+.rotating-logo-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Default rotating logo size for desktop */
+.rotating-logo-svg {
+  width: 400px;
+  animation: rotateLogo 10s linear infinite; /* Rotate animation */
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .rotating-logo-svg {
+    width: 200px; /* Smaller size for mobile */
+  }
+}
+
+/* Orange glow effect */
+.glow {
+  filter: drop-shadow(0 0 10px #fe8127) drop-shadow(0 0 20px #fe8127) drop-shadow(0 0 30px #fe8127);
+}
+
+/* Faster rotate logo animation (for optional use) */
+.rotating-logo-svg.fast-rotate {
+  animation: rotateLogo 5s linear infinite;
+}

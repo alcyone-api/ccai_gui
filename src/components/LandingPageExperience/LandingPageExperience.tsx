@@ -1,23 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // To handle navigation
 import * as THREE from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import newLogo from '../../assets/ccai_logo_long.svg';
+import './LandingPageExperience.css'; // Import CSS for fade-out and SVG positioning
+import rotatingLogo from '../../assets/ccai_logo_lt.svg'; // Import the rotating logo SVG
 
-interface LandingPageExperienceProps {
-  onClose: () => void; // Callback to unmount this component
-}
-
-const LandingPageExperience: React.FC<LandingPageExperienceProps> = ({ onClose }) => {
+const LandingPageExperience: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
-  const celestialGroupRef = useRef<THREE.Group | null>(null);
-  const newLogoRef = useRef<THREE.Mesh | null>(null);
-
-  const [scrollOpacity, setScrollOpacity] = useState(1); // Scroll-driven fade-out animation
-  const [isFading, setIsFading] = useState(false); // Controls fade-to-black animation
-  const navigate = useNavigate(); // React Router navigation API
+  const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -28,119 +16,106 @@ const LandingPageExperience: React.FC<LandingPageExperienceProps> = ({ onClose }
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
 
-    camera.position.z = 4;
+    camera.position.z = 5;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 1); // Black background color
+    renderer.setClearColor(0x000000, 1); // Black background
     mount.appendChild(renderer.domElement);
 
-    // Postprocessing
-    const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(window.innerWidth, window.innerHeight),
-      1.5,
-      0.4,
-      0.85
-    );
-    bloomPass.threshold = 0.2;
-    bloomPass.strength = 1.5;
-    composer.addPass(bloomPass);
+    // Supernova Explosion Particles (Implosion Effect)
+    const explosionParticleGeometry = new THREE.BufferGeometry();
+    const explosionParticleCount = 75000; // More particles for organic feel
+    const explosionParticlePositions = new Float32Array(explosionParticleCount * 3);
+    const explosionParticleSpeeds = new Float32Array(explosionParticleCount);
+    const explosionParticleColors = new Float32Array(explosionParticleCount * 3);
 
-    // Add Decorative Gradient Background
-    const gradientTexture = new THREE.TextureLoader().load('path/to/your/gradient-image.jpg'); // Replace as needed
-    const gradientMaterial = new THREE.MeshBasicMaterial({ map: gradientTexture, side: THREE.DoubleSide });
-    const gradientPlane = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), gradientMaterial);
-    gradientPlane.position.z = -10;
-    scene.add(gradientPlane);
+    // Gradient colors for supernova effect
+    const gradientColors = [
+      new THREE.Color(0xfe8127), // Orange
+      new THREE.Color(0xffa64d), // Lighter orange
+      new THREE.Color(0xff6600), // Darker orange
+      new THREE.Color(0x000000), // Black for depth
+    ];
 
-    // Particle Effects
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particleCount = 1000;
-    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < explosionParticleCount; i++) {
+      // Randomize positions in a sphere
+      const angle = Math.random() * Math.PI * 2;
+      const radius = Math.random() * 10; // Initial radius
+      explosionParticlePositions[i * 3] = Math.cos(angle) * radius; // X
+      explosionParticlePositions[i * 3 + 1] = Math.sin(angle) * radius; // Y
+      explosionParticlePositions[i * 3 + 2] = (Math.random() - 0.5) * radius * 2; // Z
 
-    for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 20;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+      // Assign random speeds for implosion
+      explosionParticleSpeeds[i] = Math.random() * 0.0005 + 0.0001;
+
+      // Randomize colors for gradient effect
+      const colorIndex = Math.floor(Math.random() * gradientColors.length);
+      const color = gradientColors[colorIndex];
+      explosionParticleColors[i * 3] = color.r;
+      explosionParticleColors[i * 3 + 1] = color.g;
+      explosionParticleColors[i * 3 + 2] = color.b;
     }
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    const particlesMaterial = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.05,
+    explosionParticleGeometry.setAttribute('position', new THREE.BufferAttribute(explosionParticlePositions, 3));
+    explosionParticleGeometry.setAttribute('color', new THREE.BufferAttribute(explosionParticleColors, 3));
+
+    const explosionParticleMaterial = new THREE.PointsMaterial({
+      size: 0.02, // Smaller particles for granularity
+      vertexColors: true, // Enable vertex coloring
       transparent: true,
+      opacity: 0.8,
       blending: THREE.AdditiveBlending,
     });
 
-    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particles);
+    const explosionParticles = new THREE.Points(explosionParticleGeometry, explosionParticleMaterial);
+    scene.add(explosionParticles);
 
-    // Celestial Animation Group
-    const celestialGroup = new THREE.Group();
-    celestialGroupRef.current = celestialGroup;
-    scene.add(celestialGroup);
-
-    const electronCount = 25;
-    const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
-
-    for (let i = 0; i < electronCount; i++) {
-      const electronGeometry = new THREE.SphereGeometry(0.1, 16, 16);
-      const electronMaterial = new THREE.MeshStandardMaterial({
-        color: 0xfe8127,
-        emissive: 0xfe8127,
-      });
-      const electron = new THREE.Mesh(electronGeometry, electronMaterial);
-
-      const angle = randomInRange(0, Math.PI * 2);
-      const radius = randomInRange(2, 4);
-      const speed = randomInRange(0.0001, 0.002);
-      const tilt = randomInRange(-Math.PI / 4, Math.PI / 4);
-      electron.userData = { angle, radius, speed, tilt };
-
-      celestialGroup.add(electron);
-    }
-
-    // Logo Animation
+    // Add an intense aura around the logo using a Sprite
     const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(newLogo, (logoTexture) => {
-      const logoMaterial = new THREE.MeshBasicMaterial({
-        map: logoTexture,
-        transparent: true,
-        alphaMap: logoTexture,
-      });
-      const aspectRatio = logoTexture.image.width / logoTexture.image.height;
-      const logoGeometry = new THREE.PlaneGeometry(5, 5 / aspectRatio);
-      const newLogoMesh = new THREE.Mesh(logoGeometry, logoMaterial);
-
-      newLogoMesh.position.set(0, 1, 1);
-      scene.add(newLogoMesh);
-      newLogoRef.current = newLogoMesh;
+    const auraTexture = textureLoader.load('/path/to/glow_texture.png'); // Use a glow texture
+    const auraMaterial = new THREE.SpriteMaterial({
+      map: auraTexture,
+      color: 0xfe8127, // Orange
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      opacity: 0.8,
     });
+    const auraSprite = new THREE.Sprite(auraMaterial);
+    auraSprite.scale.set(2, 2, 1); // Set the size of the aura (increase as needed)
+    auraSprite.position.set(0, 0, -1); // Position slightly behind the logo
+    scene.add(auraSprite);
 
-    // Animation Loop
+    // Add a PointLight for additional glow
+    const auraLight = new THREE.PointLight(0xfe8127, 5, 10); // Stronger light
+    auraLight.position.set(0, 0, -1); // Position slightly behind the logo
+    scene.add(auraLight);
+
+    // New Rotating Logo SVG (Directly in the DOM)
+    const rotatingLogoImg = document.createElement('img');
+    rotatingLogoImg.src = rotatingLogo; // Use the imported rotating logo SVG
+    rotatingLogoImg.className = 'rotating-logo-svg glow'; // Add glow effect
+    mount.appendChild(rotatingLogoImg);
+
+    // Handle mobile vs desktop logo size
+    const updateLogoSize = () => {
+      const isMobile = window.innerWidth < 768;
+      rotatingLogoImg.style.width = isMobile ? '50px' : '100px'; // Smaller rotating logo
+    };
+    updateLogoSize();
+
     const animate = () => {
       requestAnimationFrame(animate);
-
-      if (celestialGroupRef.current) {
-        celestialGroupRef.current.children.forEach((child) => {
-          if (child instanceof THREE.Mesh) {
-            const { angle, radius, speed, tilt } = child.userData;
-            child.userData.angle += speed;
-            child.position.set(
-              radius * Math.cos(angle),
-              radius * Math.sin(angle) * Math.sin(tilt),
-              radius * Math.sin(angle)
-            );
-          }
-        });
+      // Supernova Implosion Effect
+      const explosionPositions = explosionParticles.geometry.attributes.position.array;
+      for (let i = 0; i < explosionParticleCount; i++) {
+        const speed = explosionParticleSpeeds[i];
+        explosionPositions[i * 3] *= 1 - speed; // Implode toward center on X
+        explosionPositions[i * 3 + 1] *= 1 - speed; // Implode toward center on Y
+        explosionPositions[i * 3 + 2] *= 1 - speed; // Implode toward center on Z
       }
+      explosionParticles.geometry.attributes.position.needsUpdate = true;
 
-      if (newLogoRef.current) {
-        const time = performance.now() / 1000;
-        newLogoRef.current.position.y = 0 + Math.sin(time) * 0.5;
-      }
-
-      composer.render();
+      // Render the scene
+      renderer.render(scene, camera);
     };
     animate();
 
@@ -149,59 +124,38 @@ const LandingPageExperience: React.FC<LandingPageExperienceProps> = ({ onClose }
       const width = window.innerWidth;
       const height = window.innerHeight;
       renderer.setSize(width, height);
-      composer.setSize(width, height);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
+      updateLogoSize(); // Update logo size on resize
     };
     window.addEventListener('resize', handleResize);
 
-    const handleScrollOpacity = () => {
-      const scrollY = window.scrollY;
-      const maxScroll = window.innerHeight;
-      const opacity = Math.max(1 - scrollY / maxScroll, 0);
-      setScrollOpacity(opacity);
-    };
-    window.addEventListener('scroll', handleScrollOpacity);
-
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', handleScrollOpacity);
-      if (mount && renderer.domElement) {
+      if (mount) {
         mount.removeChild(renderer.domElement);
+        const logo = mount.querySelector('.logo-svg');
+        if (logo) mount.removeChild(logo);
+        const rotatingLogoImg = mount.querySelector('.rotating-logo-svg');
+        if (rotatingLogoImg) mount.removeChild(rotatingLogoImg);
       }
       renderer.dispose();
-      composer.dispose();
     };
   }, []);
 
-  // Automatically trigger fade-to-black and redirect after animation
+  // Automatically trigger fade-out
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setIsFading(true); // Trigger the fade-to-black effect
-      setTimeout(() => {
-        navigate('/home'); // Redirect to /home
-        onClose(); // Tell the parent to unmount this component
-      }, 1000); // Allow 1 second for the fade animation
-    }, 5000); // Wait for 5 seconds before starting
+      setIsFading(true); // Trigger the fade-out effect
+    }, 3000); // Wait for 3 seconds before starting
 
     return () => clearTimeout(timeout);
-  }, [navigate, onClose]);
+  }, []);
 
   return (
     <div
       ref={mountRef}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        zIndex: 100,
-        backgroundColor: isFading ? 'black' : 'transparent', // Fade to black smoothly
-        opacity: isFading ? 1 : scrollOpacity, // Adjust fading
-        pointerEvents: scrollOpacity === 0 ? 'none' : 'auto',
-        transition: 'opacity 0.5s ease-in-out, background-color 1s ease-in-out',
-      }}
+      className={`landing-experience ${isFading ? 'fade-out' : ''}`}
     />
   );
 };

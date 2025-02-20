@@ -9,6 +9,7 @@ interface NavbarProps {
   balance: { usd: number; craft: number };
 }
 
+
 const Navbar: React.FC<NavbarProps> = ({ onGitHubLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
