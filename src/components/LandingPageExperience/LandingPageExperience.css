@@ -1,39 +1,39 @@
 /* Animations */
 @keyframes fadeIn {
-  0%, 100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
 }
 
 @keyframes bounce {
-  0%, 100% {
-    transform: rotate(45deg) translateY(0);
-  }
-  50% {
-    transform: rotate(45deg) translateY(10px);
-  }
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50% { transform: rotate(45deg) translateY(10px); }
 }
 
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 @keyframes rotateLogo {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(-50%) perspective(1000px) rotateX(20deg) translateY(850%); /* Start higher (80% instead of 100%) */
+    opacity: 1;
   }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
+  50% {
+    transform: translateX(-50%) perspective(1000px) rotateX(20deg) translateY(0%); /* Move to the center */
+    opacity: 1; /* Fully visible */
+  }
+  100% {
+    transform: translateX(-50%) perspective(1000px) rotateX(20deg) translateY(-200%); /* Move up and fade into distance */
+    opacity: 0; /* Fade out */
   }
 }
+
 
 /* Main container */
 .landing-experience {
@@ -44,7 +44,7 @@
   height: 100vh;
   z-index: 100;
   opacity: 1;
-  overflow: hidden; /* Added to prevent overflow issues */
+  overflow: hidden; /* Prevent overflow issues */
 }
 
 .landing-experience.fade-out {
@@ -79,7 +79,58 @@
   filter: drop-shadow(0 0 10px #fe8127) drop-shadow(0 0 20px #fe8127) drop-shadow(0 0 30px #fe8127);
 }
 
-/* Faster rotate logo animation (for optional use) */
+/* Faster rotate logo animation (optional) */
 .rotating-logo-svg.fast-rotate {
   animation: rotateLogo 5s linear infinite;
 }
+
+.skip-button {
+  position: absolute;
+  bottom: 50px; /* Position at the bottom */
+  right: 100px; /* Position at the right */
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid #fff;
+  color: #fff;
+  font-size: 1.2em;
+  cursor: pointer;
+  z-index: 1000; /* Ensure it's above other elements */
+  border-radius: 5px; /* Rounded corners */
+  transition: all 0.3s ease; /* Smooth transitions */
+  /* Glow effect */
+  box-shadow: 0 0 10px #fe8127, 0 0 20px #fe8127, 0 0 30px #fe8127;
+}
+
+/* Hover effect (glow and bounce) */
+.skip-button:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Slightly brighter background */
+  box-shadow: 0 0 15px #fe8127, 0 0 30px #fe8127, 0 0 45px #fe8127; /* Stronger glow */
+  animation: bounce 0.5s ease infinite; /* Bounce animation */
+}
+
+.scrolling-text {
+  position: absolute; /* Required for overlaying the Three.js scene */
+  top: 0; /* Start at the top of the viewport */
+  left: 50%; /* Center horizontally */
+  width: 60%; /* Narrower width (adjust as needed) */
+  height: 100vh; /* Cover the entire viewport height */
+  color: #fff;
+  font-size: 4.5em; /* Equivalent to ~pt48 (16px * 3) */
+  text-align: center; /* Justify text for better readability */
+  animation: scrollText 130s linear forwards; /* Slower scroll (increased from 30s to 40s) */
+  z-index: 1000; /* Ensure text is above the Three.js canvas */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Align text to the bottom */
+  align-items: center; /* Center the text horizontally */
+  transform: translateX(-50%) perspective(1000px) rotateX(20deg); /* Center and tilt */
+  transform-origin: bottom center; /* Ensure tilt starts from the bottom */
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+  pointer-events: none; /* Disable interaction */
+  display: none; /* Remove from layout */
+}
+

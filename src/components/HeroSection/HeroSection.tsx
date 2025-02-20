@@ -43,7 +43,7 @@ const HeroSection: React.FC = () => {
     const landingTimeout = setTimeout(() => {
       setShowLanding(false); // Fade out LandingPageExperience
       setFadeInHero(true); // Fade in HeroSection carousel
-    }, 5000); // Wait for 5 seconds before starting
+    }, 5000000); // Wait for 5 seconds before starting
 
     const carouselInterval = setInterval(() => {
       setIsAnimating(true); // Start animation
@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
         setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
         setIsAnimating(false); // End animation
       }, 750); // Animation duration
-    }, 5000); // Auto-switch every 5 seconds
+    }, 5000000); // Auto-switch every 5 seconds
 
     return () => {
       clearTimeout(landingTimeout);

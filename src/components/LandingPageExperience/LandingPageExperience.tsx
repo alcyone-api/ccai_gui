@@ -143,20 +143,63 @@ const LandingPageExperience: React.FC = () => {
     };
   }, []);
 
-  // Automatically trigger fade-out
+  // Automatically trigger fade-out after a longer duration (e.g., 20 seconds)
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsFading(true); // Trigger the fade-out effect
-    }, 3000); // Wait for 3 seconds before starting
+    }, 1000000); // Wait for 20 seconds before starting
 
     return () => clearTimeout(timeout);
   }, []);
+
+  // Handle skip button click
+  const handleSkip = () => {
+    setIsFading(true);
+  };
 
   return (
     <div
       ref={mountRef}
       className={`landing-experience ${isFading ? 'fade-out' : ''}`}
-    />
+    >
+      <button className="skip-button" onClick={handleSkip}>
+        Skip
+      </button>
+      <div className="scrolling-text">
+      <div className="font-tomorrow">
+  
+        <p className="mb-32">A long time ago, in a galaxy of tangled code far, far away…</p>
+
+        <p className="mt-32 mb-32">The galaxy lies in the cold grip of the TYRANNICAL TECH EMPIRE, a sprawling dictatorship built on outdated frameworks, bloated software, and endless debugging nightmares. Developers suffer under the crushing rule of legacy systems and corporate bureaucracy, where progress is slow and innovation is buried beneath an avalanche of meetings.</p>
+
+        <p className="mb-32">For years, coding was a painful, solitary journey—until a new force emerged from the digital void.</p>
+
+        <p className="mb-32">In the outer reaches of the Web3 system, four legendary builders from Europe and a front-end warrior from the United States united to forge a powerful AI. Their creation, CodeCraft AI, is a fully autonomous generative coding engine capable of conquering the most complex software challenges with ease.</p>
+
+        <p className="mb-32">CodeCraft AI is no mere assistant—it is an agentic AI orchestration system. It thinks. It strategizes. It writes and refactors entire codebases at hyperspeed, seamlessly deploying them to your GitHub repository. Code that once took months to build now materializes in moments.</p>
+
+        <p className="mb-32">For those brave enough to wield this power, access is unlimited. A single monthly subscription grants complete control over the AI’s limitless potential.</p>
+
+        <p className="mb-32">But the path of the coder is not meant to be walked alone.</p>
+
+        <p className="mb-32">Within the halls of the CodeCraft Rebellion, developers can train under elite mentors, earning $CRAFT tips for their wisdom. Those who seek knowledge can learn from the best, unlocking the true potential of their code.</p>
+
+        <p className="mb-32">Collaboration is the ultimate weapon. Developers across the galaxy unite to build projects together, refine ideas, and push the limits of what’s possible. With every new line of code, the Rebellion grows stronger.</p>
+
+        <p className="mb-32">Yet the Empire has taken notice.</p>
+
+        <p className="mb-32">In a desperate bid to stop the revolution, the Tech Lords have unleashed a new horror: the Bureaucracy Core, a self-replicating fortress of corporate red tape designed to slow innovation to a crawl. If it is not stopped, software development will be locked in an endless loop of approval chains and outdated compliance checks.</p>
+
+        <p className="mb-32">The battle has begun.</p>
+
+        <p className="mb-32">Will you rise as a CodeCraft Rebel and forge the future of software?</p>
+
+        <p className="mb-6">May the code be with you.</p>
+
+      </div>
+
+      </div>
+    </div>
   );
 };
 
